@@ -1,0 +1,10 @@
+{
+  "login": {
+    "pageTitle": "Quản lý nghỉ phép v1.0",
+    "usernameTxtPlaceholder": "Tên truy cập",
+    "passwordTxtPlaceholder": "Mật khẩu",
+    "displayPageIn": "Hiển thị trang này với:",
+    "loginButtonCaption": "Đăng nhập",
+    "accountRecoveryLink": "Quên tài khoản / mật khẩu?"
+  }
+}

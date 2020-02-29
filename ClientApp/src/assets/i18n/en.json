@@ -1,0 +1,10 @@
+{
+  "login": {
+    "pageTitle": "Leave Management System v1.0",
+    "usernameTxtPlaceholder": "Username",
+    "passwordTxtPlaceholder": "Password",
+    "displayPageIn": "Display this page in:",
+    "loginButtonCaption": "Login",
+    "accountRecoveryLink": "Forget username / password?"
+  }
+}

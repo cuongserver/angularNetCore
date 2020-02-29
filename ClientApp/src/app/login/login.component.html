@@ -1,0 +1,53 @@
+
+  <div class="login-container p-b-30 p-t-30 p-l-15 p-r-15">
+    <div class="login-backdrop"></div>
+
+    <div class="login-form-outer p-b-30 p-t-30">
+      <form class="login-form-inner">
+        <span class="login-form-title p-b-30">
+          {{'login.pageTitle' | translate}}
+        </span>
+
+        <div class="login-form-input-outer m-b-10" data-validate="">
+          <input class="login-form-textbox" type="text" name="userID" placeholder="{{'login.usernameTxtPlaceholder' | translate}}">
+          <span class="login-form-decor01"></span>
+          <span class="login-form-decor02">
+            <i class="fas fa-user"></i>
+          </span>
+        </div>
+
+        <div class="login-form-input-outer m-b-10" data-validate="">
+          <input class="login-form-textbox" type="password" name="userPassword" placeholder="{{'login.passwordTxtPlaceholder' | translate}}">
+          <span class="login-form-decor01"></span>
+          <span class="login-form-decor02">
+            <i class="fas fa-lock"></i>
+          </span>
+        </div>
+
+        <div class="login-form-btn-outer p-t-10">
+          <button class="login-form-btn" type="submit">
+            {{'login.loginButtonCaption' | translate}}
+          </button>
+        </div>
+
+        <div class="login-form-link-outer p-t-25">
+          <a href="#" class="login-form-link">
+            {{'login.accountRecoveryLink' | translate}}
+          </a>
+        </div>
+      </form>
+    </div>
+    <div class="login-form-footer login-form-link-outer">
+      <span class="login-form-link">
+        {{'login.displayPageIn' | translate}}
+        <a class="login-form-link" (click)="switchToLanguage('vi')">
+          Tiếng Việt
+        </a>
+        |
+        <a class="login-form-link" (click)="switchToLanguage('en')">
+          English
+        </a>
+      </span>
+    </div>
+  </div>
+

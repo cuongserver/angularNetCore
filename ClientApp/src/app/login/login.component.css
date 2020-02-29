@@ -1,0 +1,229 @@
+
+.login-container {
+  background-image: url('../../image/img-01.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  min-height: 100vh;
+  position:relative;
+  min-width: 390px;
+  width: 100vw;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-backdrop {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #03c42b;
+  background: -webkit-linear-gradient(to top, #03c42b, #000);
+  background: -o-linear-gradient(to top, #03c42b, #000);
+  background: -moz-linear-gradient(to top, #03c42b, #000);
+  background: linear-gradient(to top, #03c42b, #000);
+  opacity: 0.8;
+}
+
+.login-form-outer {
+  align-self: flex-end;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 390px;
+  background: transparent;
+  z-index:2;
+}
+
+.login-form-inner {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.login-form-title {
+  font-family: Montserrat-ExtraBold, sans-serif;
+  font-size: 1.25rem;
+  color: #fff;
+  line-height: 1.2;
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+.login-form-input-outer {
+  width: 100%;
+  z-index: 2;
+  position: relative;
+}
+
+.login-form-textbox {
+  font-family: Montserrat-Bold;
+  font-size: 1.07rem;
+  line-height: 1.2;
+  color: #333333;
+  display: block;
+  width: 100%;
+  background: #fff;
+  height: 50px;
+  border-radius: 25px;
+  padding: 0 30px 0 53px;
+  border-style:none;
+}
+
+.login-form-decor01 {
+  display: block;
+  position: absolute;
+  border-radius: 25px;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 0px 0px 0px;
+  color: rgba(0,91,234, 0.6);
+}
+.login-form-decor02 {
+  font-size: 1.07rem;
+  color: #999999;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  border-radius: 25px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-left: 30px;
+  pointer-events: none;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.login-form-textbox:focus + .login-form-decor01 {
+  -webkit-animation: anim-shadow 0.5s ease-in-out forwards;
+  animation: anim-shadow 0.5s ease-in-out forwards;
+}
+
+.login-form-textbox:focus + .login-form-decor01 + .login-form-decor02 {
+    color: #03c42b;
+    padding-left: 23px;
+}
+
+
+@-webkit-keyframes anim-shadow {
+  to {
+    box-shadow: 0px 0px 80px 30px;
+    opacity: 0;
+  }
+}
+
+@keyframes anim-shadow {
+  to {
+    box-shadow: 0px 0px 80px 30px;
+    opacity: 0;
+  }
+}
+
+.login-form-btn-outer {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.login-form-btn {
+  font-family: Montserrat-Bold;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #e0e0e0;
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  background: #333333;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+  position: relative;
+  z-index: 1;
+  border-style: none;
+}
+
+.login-form-btn::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    top: 0;
+    left: 0;
+    background: none;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    opacity: 0;
+}
+.login-form-btn:hover {
+    background-color: black;
+    color: #03c42b;
+}
+
+.login-form-btn:hover:before {
+    opacity: 1;
+}
+
+.login-form-link-outer {
+  width:100%;
+  text-align: center !important;
+}
+
+.login-form-link {
+  font-family: Montserrat-Regular;
+  font-size: 1.14rem;
+  color: #cccccc;
+  line-height: 1.4;
+}
+
+
+a.login-form-link:hover {
+  text-decoration: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.login-form-footer{
+    align-self:flex-end;
+    z-index: 2;
+}
+
+/*responsive*/
+@media (max-width: 400px){
+  .login-form-link{
+      font-size: 1.05rem;
+  }
+}
