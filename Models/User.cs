@@ -9,7 +9,7 @@ namespace AngularNETcore.Models
     {
         public string userName { get; set; }
         public string userPass { get; set; }
-        public string userFullName{get; set;}
+        public string userFullNamexx {get; set;}
     }
 
     public class LoginValidationStatus
