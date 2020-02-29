@@ -9,7 +9,6 @@ namespace AngularNETcore
 {
     public class Startup
     {
-        public static string ConnectionString { get; private set; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -21,14 +20,13 @@ namespace AngularNETcore
         public void ConfigureServices(IServiceCollection services)
         {
             //var connection = Configuration.GetSection("ConnectionStrings");
-            //services.Configure<ConnectionStrings>(connection);
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("Db1").Value;
+            services.AddSingleton<IConfiguration>(Configuration);
         }
 
 

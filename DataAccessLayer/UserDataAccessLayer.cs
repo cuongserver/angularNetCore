@@ -11,7 +11,12 @@ namespace AngularNETcore.DataAccessLayer
 {
     public class UserDataAccessLayer: DataAccessLayerBase
     {
-        public static LoginValidationStatus loginStatus( User model)
+
+        public UserDataAccessLayer(string _connString)
+        {
+            _connectionString = _connString;
+        }
+        public LoginValidationStatus loginStatus( User model)
         {
             LoginValidationStatus _status = new LoginValidationStatus();
             using (SqlConnection con = SqlCon())

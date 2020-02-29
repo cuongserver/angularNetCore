@@ -13,12 +13,13 @@ namespace AngularNETcore.DataAccessLayer
 
     public class DataAccessLayerBase
     {
-        protected static string ConnectionString = Startup.ConnectionString;
-        protected static SqlConnection SqlCon()
+        //protected static string ConnectionString = Startup.ConnectionString;
+        protected string _connectionString;
+        protected SqlConnection SqlCon()
         {
-            return new SqlConnection(ConnectionString);
+            return new SqlConnection(_connectionString);
         }
-        protected static SqlCommand SqlCmd(SqlConnection connnection)
+        protected SqlCommand SqlCmd(SqlConnection connnection)
         {
             return new SqlCommand
             {
