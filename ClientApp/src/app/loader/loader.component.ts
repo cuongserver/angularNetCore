@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { LoaderService } from './loader.service';
+import { LoaderState } from './loader';
 
 @Component({
     selector: 'app-loader',
@@ -6,17 +9,20 @@ import { Component } from '@angular/core';
     styleUrls: ['./loader.component.css']
 })
 /** loader component*/
-export class LoaderComponent {
-  private loaderActive: boolean = false;
-  constructor() {
+
+export class LoaderComponent implements OnInit, OnDestroy {
+  show = false;
+  private subscription: Subscription;
+  constructor(private loaderService: LoaderService) {
 
   }
 
-  public Activate() {
-    this.loaderActive = true;
-  }
-
-  public DeActivate() {
-    this.loaderActive = false;
+  ngOnInit() {
+    this.subscription = this.loaderService.loaderState
+      .subscribe((state: LoaderState) => {
+        this.show = state.show;
+      });
+  } ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

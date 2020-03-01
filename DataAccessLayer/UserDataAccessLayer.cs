@@ -48,7 +48,7 @@ namespace AngularNETcore.DataAccessLayer
                 catch (SqlException ex)
                 {
                     _status.validateResult = ex.Number.ToString();
-                    _status.validateMessage = "-001";
+                    _status.validateMessage = ex.Message;
                 }
                 finally
                 {

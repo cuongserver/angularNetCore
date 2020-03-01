@@ -17,6 +17,7 @@ import { CookieService } from 'ngx-cookie-service';
   ]
 })
 /** login component*/
+
 export class LoginComponent extends AppComponent implements OnInit {
   userName: string;
   userPass: string;
@@ -38,12 +39,16 @@ export class LoginComponent extends AppComponent implements OnInit {
 
   }
   login() {
-    let formData: FormData = new FormData();
-    formData.append("userName", this.thisForm.get('userName').value);
-    formData.append("userPass", this.thisForm.get('userPass').value);
-    this.http.post('/User', JSON.stringify(formData), this.httpOptions).subscribe(
+    let obj = {};
+    obj['userName'] = this.thisForm.get('userName').value;
+    obj['userPass'] = this.thisForm.get('userPass').value;
+    let data = JSON.stringify(obj);
+
+
+    this.http.post('/User', data, this.httpOptions).subscribe(
       (response) => alert(JSON.stringify(response)),
       (error) => alert(JSON.stringify(error))
     );
   }
 }
+

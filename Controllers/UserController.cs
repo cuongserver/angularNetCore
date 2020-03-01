@@ -24,7 +24,7 @@ namespace AngularNETcore.Controllers
         }
 
         [HttpPost]
-        public LoginValidationStatus Login(User model)
+        public LoginValidationStatus Login([FromBody] User model)
         {
             UserDataAccessLayer dal = new UserDataAccessLayer(ConnectionString);
             LoginValidationStatus _status = dal.loginStatus(model);

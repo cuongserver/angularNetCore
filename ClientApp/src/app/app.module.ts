@@ -15,6 +15,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CookieService } from 'ngx-cookie-service';
 import { LoaderComponent } from './loader/loader.component';
+import { LoaderInterceptorService } from './loader/loaderinterceptor.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +50,14 @@ import { LoaderComponent } from './loader/loader.component';
     //  { path: 'fetch-data', component: FetchDataComponent },
     //])
   ],
-  providers: [CookieService ],
+  providers: [
+    CookieService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
