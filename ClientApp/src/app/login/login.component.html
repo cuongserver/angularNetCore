@@ -3,13 +3,13 @@
     <div class="login-backdrop"></div>
 
     <div class="login-form-outer p-b-30 p-t-30">
-      <form class="login-form-inner">
+      <form class="login-form-inner" [formGroup] ="thisForm" (ngSubmit)="login()">
         <span class="login-form-title p-b-30">
           {{'login.pageTitle' | translate}}
         </span>
 
         <div class="login-form-input-outer m-b-10" data-validate="">
-          <input class="login-form-textbox" type="text" name="userID" placeholder="{{'login.usernameTxtPlaceholder' | translate}}">
+          <input class="login-form-textbox" type="text" formControlName="userName" placeholder="{{'login.usernameTxtPlaceholder' | translate}}">
           <span class="login-form-decor01"></span>
           <span class="login-form-decor02">
             <i class="fas fa-user"></i>
@@ -17,7 +17,7 @@
         </div>
 
         <div class="login-form-input-outer m-b-10" data-validate="">
-          <input class="login-form-textbox" type="password" name="userPassword" placeholder="{{'login.passwordTxtPlaceholder' | translate}}">
+          <input class="login-form-textbox" type="password" formControlName="userPass" placeholder="{{'login.passwordTxtPlaceholder' | translate}}">
           <span class="login-form-decor01"></span>
           <span class="login-form-decor02">
             <i class="fas fa-lock"></i>

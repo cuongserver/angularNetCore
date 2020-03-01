@@ -26,7 +26,6 @@ namespace AngularNETcore
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            services.AddSingleton<IConfiguration>(Configuration);
         }
 
 

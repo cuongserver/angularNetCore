@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -23,12 +23,12 @@ import { LoaderComponent } from './loader/loader.component';
     //CounterComponent,
     //FetchDataComponent,
     LoginComponent,
-    LoaderComponent
+    LoaderComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    FormsModule,
+    FormsModule, ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: LoginComponent, pathMatch: 'full' }
       //{ path: 'counter', component: CounterComponent },

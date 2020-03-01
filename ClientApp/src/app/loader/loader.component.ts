@@ -7,8 +7,16 @@ import { Component } from '@angular/core';
 })
 /** loader component*/
 export class LoaderComponent {
-  public showOverlay = false;
-    constructor() {
+  private loaderActive: boolean = false;
+  constructor() {
 
-    }
+  }
+
+  public Activate() {
+    this.loaderActive = true;
+  }
+
+  public DeActivate() {
+    this.loaderActive = false;
+  }
 }
