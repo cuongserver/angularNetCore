@@ -1,7 +1,4 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-//import { Router } from '@angular/router';
-//import { TranslateService } from '@ngx-translate/core';
-import { LoaderComponent } from 'src/app/loader/loader.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppComponent } from 'src/app/app.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -19,15 +16,12 @@ import { CookieService } from 'ngx-cookie-service';
 /** login component*/
 
 export class LoginComponent extends AppComponent implements OnInit {
-  userName: string;
-  userPass: string;
   thisForm: FormGroup;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
 
-  constructor(public formBuilder: FormBuilder, translate: TranslateService,
-           cookieService: CookieService,  http: HttpClient ) {
+  constructor(public formBuilder: FormBuilder, translate: TranslateService, cookieService: CookieService,  http: HttpClient ) {
     super(translate, cookieService, http);
     this.thisForm = this.formBuilder.group({
       userName: [''],
