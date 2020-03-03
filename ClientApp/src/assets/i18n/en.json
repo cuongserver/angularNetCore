@@ -6,5 +6,9 @@
     "displayPageIn": "Display this page in:",
     "loginButtonCaption": "Login",
     "accountRecoveryLink": "Forget username / password?"
+  },
+
+  "dashboard": {
+    "appName": "Leave Management System v1.0"
   }
 }

@@ -5,7 +5,11 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css', '../util.css'],
+  styleUrls: [
+    './app.component.css',
+    '../util.css',
+    '../font/fontawesome-free-5.12.1-web/css/all.css',
+    '../font/montserrat/montserrat.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {

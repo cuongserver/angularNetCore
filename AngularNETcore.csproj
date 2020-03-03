@@ -27,8 +27,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\loader\loader.service.ts" />
+    <None Remove="ClientApp\src\app\loader\loaderinterceptor.service.ts" />
+    <None Remove="ClientApp\src\app\_common\dialog-service\message-box.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Common\" />
     <Folder Include="Test\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\_common\dialog-service\message-box.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

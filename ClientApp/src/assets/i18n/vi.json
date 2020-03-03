@@ -6,5 +6,9 @@
     "displayPageIn": "Hiển thị trang này với:",
     "loginButtonCaption": "Đăng nhập",
     "accountRecoveryLink": "Quên tài khoản / mật khẩu?"
+  },
+
+  "dashboard": {
+    "appName": "Quản lý nghỉ phép v1.0"
   }
 }

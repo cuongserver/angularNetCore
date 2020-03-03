@@ -3,6 +3,20 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+//dialog
+
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatIconModule } from "@angular/material/icon";
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatToolbarModule } from "@angular/material/toolbar";
+
+//
 
 import { AppComponent } from './app.component';
 //import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -10,12 +24,18 @@ import { AppComponent } from './app.component';
 //import { CounterComponent } from './counter/counter.component';
 //import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DialogComponent } from "./dialog/dialog.component";
+import { MessageService } from "./_common/dialog-service/message.service";
+
 import { HttpClient} from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CookieService } from 'ngx-cookie-service';
 import { LoaderComponent } from './loader/loader.component';
-import { LoaderInterceptorService } from './loader/loaderinterceptor.service';
+import { LoaderInterceptorService } from './_common/loader-service/loaderinterceptor.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,14 +45,16 @@ import { LoaderInterceptorService } from './loader/loaderinterceptor.service';
     //FetchDataComponent,
     LoginComponent,
     LoaderComponent,
+    DashboardComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule, ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: LoginComponent, pathMatch: 'full' }
-      //{ path: 'counter', component: CounterComponent },
+      { path: '', component: LoginComponent, pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent }
       //{ path: 'fetch-data', component: FetchDataComponent },
       //{ path: 'login', component: LoginComponent }
     ]),
@@ -43,12 +65,20 @@ import { LoaderInterceptorService } from './loader/loaderinterceptor.service';
         useFactory: httpTranslateLoader,
         deps: [HttpClient]
       }
-    })
-    //RouterModule.forRoot([
-    //  { path: '', component: CounterComponent, pathMatch: 'full' },
-    //  { path: 'home', component: HomeComponent },
-    //  { path: 'fetch-data', component: FetchDataComponent },
-    //])
+    }),
+
+    BrowserAnimationsModule,
+    FormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatDialogModule,
+    MatRadioModule,
+    MatToolbarModule
   ],
   providers: [
     CookieService,
@@ -56,7 +86,11 @@ import { LoaderInterceptorService } from './loader/loaderinterceptor.service';
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptorService,
       multi: true
-    }
+    },
+    {
+      provide: MAT_DIALOG_DATA, useValue: {}
+    },
+    MessageService
   ],
   bootstrap: [AppComponent]
 })
