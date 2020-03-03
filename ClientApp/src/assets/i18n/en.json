@@ -5,7 +5,10 @@
     "passwordTxtPlaceholder": "Password",
     "displayPageIn": "Display this page in:",
     "loginButtonCaption": "Login",
-    "accountRecoveryLink": "Forget username / password?"
+    "accountRecoveryLink": "Forget username / password?",
+    "001": "Account is locked due to exceeding failed login",
+    "002": "Account is disabled or doesn't exist",
+    "003": "Wrong password, {{message}} attempt(s) left"
   },
 
   "dashboard": {

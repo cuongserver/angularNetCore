@@ -37,7 +37,8 @@ export class LoginComponent extends AppComponent implements OnInit {
       userPass: ['']
     });
     this.subscriber = this.messageService.getMessage().subscribe(message => {
-      MessageBox.show(this.dialog, message.text,'','',MessageBoxButton.OkCancel,false,MessageBoxStyle.Simple);
+      MessageBox.show(this.dialog, message.text, message.extraInfo, '', '', MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
+        .subscribe(x => this.dialog.closeAll());
     });
   }
 
@@ -55,8 +56,13 @@ export class LoginComponent extends AppComponent implements OnInit {
     this.http.post('/User', data, this.httpOptions).subscribe(
       (response) => {
         result = JSON.parse(JSON.stringify(response));
-        if (result['validateResult'] === '000') this.router.navigate(['./dashboard']);
-        if (result['validateResult'] != '000') this.messageService.sendMessage(result['validateResult']);
+        if (result['validateResult'] === '000') {
+          this.router.navigate(['./dashboard']);
+        };
+
+        if (result['validateResult'] != '000') {
+          this.messageService.sendMessage(result['validateResult'], result['validateMessage'])
+        };
       },
 
       (error) => alert(JSON.stringify(error))

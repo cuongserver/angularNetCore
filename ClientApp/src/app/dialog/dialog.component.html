@@ -2,9 +2,14 @@
   <mat-toolbar *ngIf="style==1" color="primary" class="mat-elevation-z2">
     <mat-card-header>{{title}}</mat-card-header>
   </mat-toolbar>
-  <div class="message">
+  <div class="message" *ngIf="message=='001'|| message=='002'">
     <div>
-      {{message}}
+      {{'login.' + message | translate}}
+    </div>
+  </div>
+  <div class="message" *ngIf="message=='003'">
+    <div>
+      {{'login.' + message | translate: {message: extraInfo} }}
     </div>
   </div>
   <div class="info" *ngIf="information !== ''">

@@ -5,7 +5,10 @@
     "passwordTxtPlaceholder": "Mật khẩu",
     "displayPageIn": "Hiển thị trang này với:",
     "loginButtonCaption": "Đăng nhập",
-    "accountRecoveryLink": "Quên tài khoản / mật khẩu?"
+    "accountRecoveryLink": "Quên tài khoản / mật khẩu?",
+    "001": "TK bị khóa vì đăng nhập sai quá giới hạn",
+    "002": "TK bị vô hiệu hoặc không tồn tại",
+    "003": "Sai mật khẩu, còn {{message}} lần thử lại"
   },
 
   "dashboard": {

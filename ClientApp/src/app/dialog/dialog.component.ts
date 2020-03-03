@@ -12,6 +12,7 @@ export class DialogComponent {
   style: number;
   title: string;
   message: string;
+  extraInfo: string;
   information: string;
   button: number;
   allow_outside_click: boolean;
@@ -23,10 +24,10 @@ export class DialogComponent {
     this.style = data.style || 0;
     this.title = data.title;
     this.message = data.message;
+    this.extraInfo = data.extraInfo;
     this.information = data.information;
     this.button = data.button;
     this.dialogRef.disableClose = !data.allow_outside_click || false;
-
   }
   onOk() {
     this.dialogRef.close({ result: "ok" });

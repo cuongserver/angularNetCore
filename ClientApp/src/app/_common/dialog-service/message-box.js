@@ -4,7 +4,7 @@ var dialog_component_1 = require("../../dialog/dialog.component");
 var MessageBox = /** @class */ (function () {
     function MessageBox() {
     }
-    MessageBox.show = function (dialog, message, title, information, button, allow_outside_click, style, width) {
+    MessageBox.show = function (dialog, message, extraInfo, title, information, button, allow_outside_click, style, width) {
         if (title === void 0) { title = "Alert"; }
         if (information === void 0) { information = ""; }
         if (button === void 0) { button = 0; }
@@ -15,6 +15,7 @@ var MessageBox = /** @class */ (function () {
             data: {
                 title: title || "Alert",
                 message: message,
+                extraInfo: extraInfo,
                 information: information,
                 button: button || 0,
                 style: style || 0,
