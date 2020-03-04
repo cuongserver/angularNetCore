@@ -6,9 +6,11 @@
     "displayPageIn": "Hiển thị trang này với:",
     "loginButtonCaption": "Đăng nhập",
     "accountRecoveryLink": "Quên tài khoản / mật khẩu?",
-    "001": "TK bị khóa vì đăng nhập sai quá giới hạn",
-    "002": "TK bị vô hiệu hoặc không tồn tại",
-    "003": "Sai mật khẩu, còn {{message}} lần thử lại"
+    "001": "Tài khoản bị khóa vì đăng nhập sai quá giới hạn",
+    "002": "Tài khoản bị vô hiệu hoặc không tồn tại",
+    "003": "Sai mật khẩu, còn {{message}} lần thử lại",
+    "serverError": "Lỗi máy chủ ({{message}})"
+
   },
 
   "dashboard": {

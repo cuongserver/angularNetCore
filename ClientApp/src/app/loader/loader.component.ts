@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LoaderService } from '../_common/loader-service/loader.service';
 import { LoaderState } from './loader';
@@ -9,7 +9,9 @@ import { LoaderState } from './loader';
     styleUrls: ['./loader.component.css']
 })
 /** loader component*/
-
+@Injectable({
+    providedIn: 'root'
+})
 export class LoaderComponent implements OnInit, OnDestroy {
   show = false;
   private subscription: Subscription;

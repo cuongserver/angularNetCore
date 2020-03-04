@@ -10,6 +10,8 @@ import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { DialogComponent } from "../dialog/dialog.component";
 import { MessageBox, MessageBoxButton, MessageBoxStyle } from "../_common/dialog-service/message-box";
 import { MessageService } from "../_common/dialog-service/message.service";
+//import { LoaderState } from '../loader/loader';
+//import { LoaderComponent } from '../loader/loader.component';
 
 @Component({
   selector: 'app-login',
@@ -36,9 +38,11 @@ export class LoginComponent extends AppComponent implements OnInit {
       userName: [''],
       userPass: ['']
     });
+
+
     this.subscriber = this.messageService.getMessage().subscribe(message => {
       MessageBox.show(this.dialog, message.text, message.extraInfo, '', '', MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
-        .subscribe(x => this.dialog.closeAll());
+            .subscribe(x => this.dialog.closeAll());
     });
   }
 
@@ -51,18 +55,26 @@ export class LoginComponent extends AppComponent implements OnInit {
     obj['userPass'] = this.thisForm.get('userPass').value;
     let data = JSON.stringify(obj);
 
-    var result;
+    var result, message1, message2;
 
     this.http.post('/User', data, this.httpOptions).subscribe(
       (response) => {
-        result = JSON.parse(JSON.stringify(response));
-        if (result['validateResult'] === '000') {
-          this.router.navigate(['./dashboard']);
-        };
+        setTimeout(() => {
+          result = JSON.parse(JSON.stringify(response));
+          message1 = result['validateResult'];
+          message2 = result['validateMessage'];
+          if (message1 === '000') {
+            this.router.navigate(['./dashboard']);
+          };
 
-        if (result['validateResult'] != '000') {
-          this.messageService.sendMessage(result['validateResult'], result['validateMessage'])
-        };
+          if (message1 === '001' || message1 === '002' || message1 === '003') {
+            this.messageService.sendMessage(message1, message2)
+          };
+
+          if (['000', '001', '002', '003'].indexOf(message1) < 0) {
+            this.messageService.sendMessage('serverError', message1)
+          };
+        }, 750);
       },
 
       (error) => alert(JSON.stringify(error))

@@ -20,7 +20,7 @@ namespace AngularNETcore.Controllers
 
         public UserController(IConfiguration _config)
         {
-            ConnectionString = _config.GetSection("ConnectionStrings").GetSection("Db2").Value;
+            ConnectionString = _config.GetSection("ConnectionStrings").GetSection("Db1").Value;
         }
 
         [HttpPost]

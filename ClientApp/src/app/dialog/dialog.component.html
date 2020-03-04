@@ -12,6 +12,11 @@
       {{'login.' + message | translate: {message: extraInfo} }}
     </div>
   </div>
+  <div class="message" *ngIf="message=='serverError'">
+    <div>
+      {{'login.serverError' | translate: {message: extraInfo} }}
+    </div>
+  </div>
   <div class="info" *ngIf="information !== ''">
     <p>{{information}}</p>
   </div>

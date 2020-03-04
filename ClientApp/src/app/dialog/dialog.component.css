@@ -8,7 +8,7 @@ div.message {
   flex-direction:column;
   align-items: center;
   justify-content: center;
-  text-align:center;
+  text-align: center;
 }
 
 div.info {
@@ -33,9 +33,8 @@ div.info {
   font-family: Montserrat-Regular;
   font-size: 0.8rem;
   padding: 3px;
-  width: 250px;
 }
-.custom-dialog-ovelay .button-section-container>div{
+.custom-dialog-ovelay .button-section-container > div {
     display: flex;
     flex-direction: row;
     align-items: center;

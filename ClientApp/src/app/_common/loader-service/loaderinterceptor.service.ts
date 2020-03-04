@@ -22,7 +22,9 @@ export class LoaderInterceptorService implements HttpInterceptor {
       }));
   }
   private onEnd(): void {
+    setTimeout(() => {
       this.hideLoader();
+    }, 750 );
   }
   private showLoader(): void {
     this.loaderService.show();
