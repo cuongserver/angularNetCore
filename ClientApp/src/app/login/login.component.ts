@@ -1,17 +1,15 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppComponent } from 'src/app/app.component';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { Subscription } from "rxjs";
-import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { DialogComponent } from "../dialog/dialog.component";
+import { MatDialog } from "@angular/material/dialog";
 import { MessageBox, MessageBoxButton, MessageBoxStyle } from "../_common/dialog-service/message-box";
 import { MessageService } from "../_common/dialog-service/message.service";
-//import { LoaderState } from '../loader/loader';
-//import { LoaderComponent } from '../loader/loader.component';
+
 
 @Component({
   selector: 'app-login',
@@ -23,11 +21,18 @@ import { MessageService } from "../_common/dialog-service/message.service";
 /** login component*/
 
 export class LoginComponent extends AppComponent implements OnInit {
-  thisForm: FormGroup;
-  httpOptions = {
+  private thisForm: FormGroup;
+  private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
-  subscriber: Subscription;
+  private KVpair: { [key: string]: any } = {
+    userNameValidator : [Validators.required],
+    userPassValidator: [Validators.required],
+    userNameSubmitted: false,
+    userPassSubmitted: false
+  };
+  private subscriber: Subscription;
+
   constructor(public formBuilder: FormBuilder, translate: TranslateService,
     cookieService: CookieService, http: HttpClient,
     private router: Router,
@@ -35,8 +40,8 @@ export class LoginComponent extends AppComponent implements OnInit {
     private dialog: MatDialog) {
     super(translate, cookieService, http);
     this.thisForm = this.formBuilder.group({
-      userName: [''],
-      userPass: ['']
+      userName: ['', this.KVpair['userNameValidator']],
+      userPass: ['', this.KVpair['userPassValidator']]
     });
 
 
@@ -49,7 +54,20 @@ export class LoginComponent extends AppComponent implements OnInit {
   ngOnInit() {
 
   }
+
+  get f() {
+    return this.thisForm.controls;
+  }
+
+  clearAllValidationError(key:string) {
+    this.KVpair[key + 'Submitted'] = false;
+  }
+
   login() {
+    this.KVpair['userNameSubmitted'] = true;
+    this.KVpair['userPassSubmitted'] = true;
+    console.log(this.KVpair['userNameSubmitted']);
+    if (this.thisForm.invalid) return;
     let obj = {};
     obj['userName'] = this.thisForm.get('userName').value;
     obj['userPass'] = this.thisForm.get('userPass').value;
@@ -76,11 +94,18 @@ export class LoginComponent extends AppComponent implements OnInit {
           };
         }, 750);
       },
-
-      (error) => alert(JSON.stringify(error))
+      (error) => {
+        console.log(JSON.stringify(error));
+        setTimeout(() => {
+          this.messageService.sendMessage('serverError', '');
+        }, 750);
+      }
     );
-
-
   }
 }
-
+export function regExpValidator01(pattern: RegExp): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const forbidden = pattern.test(control.value);
+    return forbidden ? { 'forbiddenName': { value: control.value } } : null;
+  };
+}

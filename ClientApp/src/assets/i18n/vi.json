@@ -9,8 +9,9 @@
     "001": "Tài khoản bị khóa vì đăng nhập sai quá giới hạn",
     "002": "Tài khoản bị vô hiệu hoặc không tồn tại",
     "003": "Sai mật khẩu, còn {{message}} lần thử lại",
-    "serverError": "Lỗi máy chủ ({{message}})"
-
+    "serverError": "Lỗi máy chủ ({{message}})",
+    "userNameBlankValidation": "Tài khoản không được để trống",
+    "userPassBlankValidation": "Mật khẩu không được để trống"
   },
 
   "dashboard": {

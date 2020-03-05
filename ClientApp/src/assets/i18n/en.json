@@ -9,7 +9,9 @@
     "001": "Account is locked due to exceeding failed login",
     "002": "Account is disabled or doesn't exist",
     "003": "Wrong password, {{message}} attempt(s) left",
-    "serverError": "Error on server ({{message}})"
+    "serverError": "Error on server ({{message}})",
+    "userNameBlankValidation": "Username must not be blank",
+    "userPassBlankValidation": "Password must not be blank"
   },
 
   "dashboard": {

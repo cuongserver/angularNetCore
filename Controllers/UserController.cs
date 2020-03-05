@@ -10,17 +10,19 @@ using System.Net.Http;
 using AngularNETcore;
 using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
+
 namespace AngularNETcore.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+
     public class UserController : ControllerBase
     {
         private readonly string ConnectionString;
 
         public UserController(IConfiguration _config)
         {
-            ConnectionString = _config.GetSection("ConnectionStrings").GetSection("Db1").Value;
+            ConnectionString = _config.GetSection("ConnectionStrings").GetSection(Connection.ConnectionName).Value;
         }
 
         [HttpPost]
@@ -31,5 +33,9 @@ namespace AngularNETcore.Controllers
             return _status;
         }
 
+    }
+    public static class Connection
+    {
+        public static string ConnectionName = "Db2";
     }
 }

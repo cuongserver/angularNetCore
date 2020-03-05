@@ -48,7 +48,11 @@
 @keyframes lds-facebook {
   0% {
     height: 64px;
-    background-color: darkgreen;
+    background-color: #20ff00;
+    box-shadow:   5px 5px 15px 15px #20ff00,
+                  -5px -5px 15px 15px #20ff00,
+                  -5px 5px 15px 15px #20ff00,
+                  5px -5px 15px 15px #20ff00;
   }
 
   50%, 100% {

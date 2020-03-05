@@ -220,6 +220,24 @@ a.login-form-link:hover {
     align-self:flex-end;
     z-index: 2;
 }
+.login-error {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  font-family: Montserrat-Bold;
+  align-items: center;
+  justify-content: right;
+  font-size: 0.7rem;
+  z-index: 4;
+}
+.login-error > div {
+  border: 1px solid red;
+  background-color: white;
+  color: red;
+  border-radius: 9999px;
+}
+
 
 /*responsive*/
 @media (max-width: 400px){
