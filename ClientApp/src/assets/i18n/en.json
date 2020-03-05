@@ -11,7 +11,9 @@
     "003": "Wrong password, {{message}} attempt(s) left",
     "serverError": "Error on server ({{message}})",
     "userNameBlankValidation": "Username must not be blank",
-    "userPassBlankValidation": "Password must not be blank"
+    "userPassBlankValidation": "Password must not be blank",
+    "userNameRegexValidation": "Username consists letters and digits only, with length from {{minlength}} to {{maxlength}} characters",
+    "userPassRegexValidation": "Password consists letters and digits only, maximum length is {{maxlength}} characters"
   },
 
   "dashboard": {

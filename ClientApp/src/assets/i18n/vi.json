@@ -11,7 +11,10 @@
     "003": "Sai mật khẩu, còn {{message}} lần thử lại",
     "serverError": "Lỗi máy chủ ({{message}})",
     "userNameBlankValidation": "Tài khoản không được để trống",
-    "userPassBlankValidation": "Mật khẩu không được để trống"
+    "userPassBlankValidation": "Mật khẩu không được để trống",
+    "userNameRegexValidation": "Tên tài khoản chỉ bao gồm số và chữ số, độ dài từ {{minlength}} đến {{maxlength}} kí tự",
+    "userPassRegexValidation": "Mật khẩu chỉ bao gồm số và chữ số, độ dài tối đa {{maxlength}} kí tự"
+
   },
 
   "dashboard": {

@@ -9,6 +9,7 @@ import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import { MessageBox, MessageBoxButton, MessageBoxStyle } from "../_common/dialog-service/message-box";
 import { MessageService } from "../_common/dialog-service/message.service";
+import { OAuthService } from 'angular-oauth2-oidc';
 
 
 @Component({
@@ -26,10 +27,10 @@ export class LoginComponent extends AppComponent implements OnInit {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
   private KVpair: { [key: string]: any } = {
-    userNameValidator : [Validators.required],
-    userPassValidator: [Validators.required],
-    userNameSubmitted: false,
-    userPassSubmitted: false
+    userNameValidator: [Validators.required, Validators.pattern(/^[a-zA-Z0-9]{6,20}$/i)],
+    userPassValidator: [Validators.required, Validators.pattern(/^[a-zA-Z0-9]{1,20}$/i)],
+    userNameSubmitted : false,
+    userPassSubmitted : false
   };
   private subscriber: Subscription;
 
@@ -66,7 +67,6 @@ export class LoginComponent extends AppComponent implements OnInit {
   login() {
     this.KVpair['userNameSubmitted'] = true;
     this.KVpair['userPassSubmitted'] = true;
-    console.log(this.KVpair['userNameSubmitted']);
     if (this.thisForm.invalid) return;
     let obj = {};
     obj['userName'] = this.thisForm.get('userName').value;
@@ -103,9 +103,9 @@ export class LoginComponent extends AppComponent implements OnInit {
     );
   }
 }
-export function regExpValidator01(pattern: RegExp): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-    const forbidden = pattern.test(control.value);
-    return forbidden ? { 'forbiddenName': { value: control.value } } : null;
-  };
-}
+//export function RegExpConstraint01(pattern: RegExp): ValidatorFn {
+//  return (control: AbstractControl): { [key: string]: any } | null => {
+//    const ismatched = pattern.test(control.value);
+//    return !ismatched ? { 'regexpconstrain01': { value: control.value } } : null;
+//  };
+//}

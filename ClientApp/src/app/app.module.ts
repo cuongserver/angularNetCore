@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { OAuthModule } from 'angular-oauth2-oidc';
 //dialog
 
 import { MatInputModule } from "@angular/material/input";
@@ -35,6 +36,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { LoaderComponent } from './loader/loader.component';
 import { LoaderInterceptorService } from './_common/loader-service/loaderinterceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthGuard } from './authguard';
 
 @NgModule({
   declarations: [
@@ -52,9 +54,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule, ReactiveFormsModule,
+    //OAuthModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: LoginComponent, pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent }
+      { path: 'dashboard', component: DashboardComponent}
       //{ path: 'fetch-data', component: FetchDataComponent },
       //{ path: 'login', component: LoginComponent }
     ]),

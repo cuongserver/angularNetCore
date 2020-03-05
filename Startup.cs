@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using IdentityServer4.AccessTokenValidation;
 //using AngularNETcore.Common;
 namespace AngularNETcore
 {
@@ -43,6 +44,14 @@ namespace AngularNETcore
             //    };
             //});
             // In production, the Angular files will be served from this directory
+            //services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            //   .AddIdentityServerAuthentication(options =>
+            //   {
+            //       options.Authority = "https://localhost:44300";
+            //       options.RequireHttpsMetadata = true;
+
+            //       options.ApiName = "api";
+            //   });
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -72,12 +81,13 @@ namespace AngularNETcore
             }
 
             app.UseRouting();
-            //app.UseAuthentication();
+            //app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                //endpoints.MapFallbackToController("Login", "User");
             });
 
 

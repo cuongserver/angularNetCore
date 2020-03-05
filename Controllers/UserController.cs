@@ -10,6 +10,8 @@ using System.Net.Http;
 using AngularNETcore;
 using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AngularNETcore.Controllers
 {
@@ -33,9 +35,16 @@ namespace AngularNETcore.Controllers
             return _status;
         }
 
+        //[HttpGet]
+        ////[Authorize]
+        //public void Login()
+        //{
+
+        //}
+
     }
     public static class Connection
     {
-        public static string ConnectionName = "Db2";
+        public static string ConnectionName = "Db1";
     }
 }

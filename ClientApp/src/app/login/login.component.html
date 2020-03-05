@@ -9,9 +9,12 @@
         </span>
 
         <div class="login-form-input-outer m-b-10" data-validate="">
-          <div *ngIf="f.userName.invalid && KVpair['userNameSubmitted']" class="login-error p-r-7" (click)="clearAllValidationError('userName')">
+          <div *ngIf="f.userName.invalid && KVpair['userNameSubmitted']" class="login-error p-l-7 p-r-7" (click)="clearAllValidationError('userName')">
             <div *ngIf="f.userName.errors.required" class="p-t-3 p-b-3 p-r-3 p-l-3">
               {{'login.userNameBlankValidation' | translate}}
+            </div>
+            <div *ngIf="f.userName.errors.pattern && !f.userName.errors.required" class="p-t-3 p-b-3 p-r-3 p-l-3">
+              {{'login.userNameRegexValidation' | translate: {minlength: '6', maxlength: '20'} }}
             </div>
           </div>
           <input autocomplete="off" class="login-form-textbox" type="text" formControlName="userName" placeholder="{{'login.usernameTxtPlaceholder' | translate}}">
@@ -22,9 +25,12 @@
         </div>
 
         <div class="login-form-input-outer m-b-10" data-validate="">
-          <div *ngIf="f.userPass.invalid && KVpair['userPassSubmitted']" class="login-error p-r-7" (click)="clearAllValidationError('userPass')">
+          <div *ngIf="f.userPass.invalid && KVpair['userPassSubmitted']" class="login-error p-l-7 p-r-7" (click)="clearAllValidationError('userPass')">
             <div *ngIf="f.userPass.errors.required" class="p-t-3 p-b-3 p-r-3 p-l-3">
               {{'login.userPassBlankValidation' | translate}}
+            </div>
+            <div *ngIf="f.userPass.errors.pattern && !f.userPass.errors.required" class="p-t-3 p-b-3 p-r-3 p-l-3">
+              {{'login.userPassRegexValidation' | translate: {maxlength: '20'} }}
             </div>
           </div>
           <input autocomplete="off" class="login-form-textbox" type="password" formControlName="userPass" placeholder="{{'login.passwordTxtPlaceholder' | translate}}">

@@ -171,6 +171,9 @@
   border-style: none;
 }
 
+.login-form-btn:focus{
+    outline:none;
+}
 .login-form-btn::before {
     content: "";
     display: block;
@@ -236,6 +239,7 @@ a.login-form-link:hover {
   background-color: white;
   color: red;
   border-radius: 9999px;
+  text-align: center;
 }
 
 
