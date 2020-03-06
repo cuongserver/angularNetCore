@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppComponent } from 'src/app/app.component';
-import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import { MessageBox, MessageBoxButton, MessageBoxStyle } from "../_common/dialog-service/message-box";
 import { MessageService } from "../_common/dialog-service/message.service";
-import { OAuthService } from 'angular-oauth2-oidc';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 @Component({
@@ -36,15 +36,14 @@ export class LoginComponent extends AppComponent implements OnInit {
 
   constructor(public formBuilder: FormBuilder, translate: TranslateService,
     cookieService: CookieService, http: HttpClient,
-    private router: Router,
+    private thisRouter: Router, jwtHelper: JwtHelperService,
     private messageService: MessageService,
     private dialog: MatDialog) {
-    super(translate, cookieService, http);
+    super(translate, cookieService, http, thisRouter, jwtHelper);
     this.thisForm = this.formBuilder.group({
       userName: ['', this.KVpair['userNameValidator']],
       userPass: ['', this.KVpair['userPassValidator']]
     });
-
 
     this.subscriber = this.messageService.getMessage().subscribe(message => {
       MessageBox.show(this.dialog, message.text, message.extraInfo, '', '', MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
@@ -75,14 +74,16 @@ export class LoginComponent extends AppComponent implements OnInit {
 
     var result, message1, message2;
 
-    this.http.post('/User', data, this.httpOptions).subscribe(
+    this.http.post('/User/Login', data, this.httpOptions).subscribe(
       (response) => {
         setTimeout(() => {
           result = JSON.parse(JSON.stringify(response));
           message1 = result['validateResult'];
           message2 = result['validateMessage'];
           if (message1 === '000') {
-            this.router.navigate(['./dashboard']);
+            let token = result['securityToken'];
+            sessionStorage.setItem("jwt", token);
+            this.thisRouter.navigate(['./dashboard']);
           };
 
           if (message1 === '001' || message1 === '002' || message1 === '003') {
@@ -103,9 +104,3 @@ export class LoginComponent extends AppComponent implements OnInit {
     );
   }
 }
-//export function RegExpConstraint01(pattern: RegExp): ValidatorFn {
-//  return (control: AbstractControl): { [key: string]: any } | null => {
-//    const ismatched = pattern.test(control.value);
-//    return !ismatched ? { 'regexpconstrain01': { value: control.value } } : null;
-//  };
-//}

@@ -1,9 +1,9 @@
-import { Component, ViewEncapsulation, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
-import { OAuthService, JwksValidationHandler } from "angular-oauth2-oidc";
-import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,26 +14,17 @@ import { isPlatformBrowser } from '@angular/common';
     '../font/montserrat/montserrat.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private _defaultLanguage: string;
   private langOptions: string[] = (['vi', 'en']);
-  constructor(private translate: TranslateService, private cookieService: CookieService, public http: HttpClient) {
-             //@Inject(PLATFORM_ID) private platformId: Object,
-             // private oauthService: OAuthService) {
+  constructor(private translate: TranslateService, private cookieService: CookieService, public http: HttpClient, private router: Router,
+              private jwtHelper: JwtHelperService ) {
     this._defaultLanguage = this.cookieService.check('pageLanguage') ? this.cookieService.get('pageLanguage') : 'vi';
     translate.setDefaultLang(this._defaultLanguage);
+  }
 
-    //if (isPlatformBrowser(this.platformId)) {
-
-    //  this.oauthService.loadDiscoveryDocumentAndTryLogin().then(_ => {
-    //    if (
-    //      !this.oauthService.hasValidIdToken() ||
-    //      !this.oauthService.hasValidAccessToken()
-    //    ) {
-    //      this.oauthService.initImplicitFlow("some-state");
-    //    }
-    //  });
-    //}
+  ngOnInit() {
+    this.router.navigate(['']);
   }
 
   private switchToLanguage(language: string) {

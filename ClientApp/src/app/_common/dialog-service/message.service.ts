@@ -12,11 +12,7 @@ export class MessageService {
   constructor(private loaderService: LoaderService) {
   }
   sendMessage(message: string, extraInfo: string, type = 1) {
-    //this.loaderService.loaderState.subscribe((state: LoaderState) => {
-    //  if (state.show == false) {
-        this.message.next({ text: message, extraInfo: extraInfo, type: type });
-    //  };
-    //});
+    this.message.next({ text: message, extraInfo: extraInfo, type: type });
   }
   getMessage(): Observable<any> {
     return this.message.asObservable();

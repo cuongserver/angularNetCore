@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { JwtModule } from "@auth0/angular-jwt";
 //dialog
 
 import { MatInputModule } from "@angular/material/input";
@@ -28,7 +29,6 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DialogComponent } from "./dialog/dialog.component";
 import { MessageService } from "./_common/dialog-service/message.service";
-
 import { HttpClient} from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -36,7 +36,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { LoaderComponent } from './loader/loader.component';
 import { LoaderInterceptorService } from './_common/loader-service/loaderinterceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthGuard } from './authguard';
+import { AuthGuard } from './_common/auth-service/authguard.service';
 
 @NgModule({
   declarations: [
@@ -57,7 +57,7 @@ import { AuthGuard } from './authguard';
     //OAuthModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: LoginComponent, pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent}
+      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]}
       //{ path: 'fetch-data', component: FetchDataComponent },
       //{ path: 'login', component: LoginComponent }
     ]),
@@ -67,6 +67,14 @@ import { AuthGuard } from './authguard';
         provide: TranslateLoader,
         useFactory: httpTranslateLoader,
         deps: [HttpClient]
+      }
+    }),
+
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["localhost:44300"],
+        blacklistedRoutes: []
       }
     }),
 
@@ -101,4 +109,8 @@ export class AppModule { }
 
 export function httpTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http);
+}
+
+export function tokenGetter() {
+  return sessionStorage.getItem("jwt");
 }

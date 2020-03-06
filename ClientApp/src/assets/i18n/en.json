@@ -18,5 +18,9 @@
 
   "dashboard": {
     "appName": "Leave Management System v1.0"
+  },
+  "common": {
+    "unauthorized": "Invalid access!"
   }
+
 }

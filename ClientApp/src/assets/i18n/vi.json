@@ -14,10 +14,12 @@
     "userPassBlankValidation": "Mật khẩu không được để trống",
     "userNameRegexValidation": "Tên tài khoản chỉ bao gồm số và chữ số, độ dài từ {{minlength}} đến {{maxlength}} kí tự",
     "userPassRegexValidation": "Mật khẩu chỉ bao gồm số và chữ số, độ dài tối đa {{maxlength}} kí tự"
-
   },
 
   "dashboard": {
     "appName": "Quản lý nghỉ phép v1.0"
+  },
+  "common": {
+    "unauthorized": "Không có quyền truy cập!"
   }
 }
