@@ -23,24 +23,18 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\_common\dialog-service\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\_common\dialog-service\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\_common\dialog-service\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\_common\dialog-service\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="ClientApp\src\app\loader\loader.service.ts" />
-    <None Remove="ClientApp\src\app\loader\loaderinterceptor.service.ts" />
-    <None Remove="ClientApp\src\app\_common\dialog-service\message-box.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Common\" />
     <Folder Include="Test\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\_common\dialog-service\message-box.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

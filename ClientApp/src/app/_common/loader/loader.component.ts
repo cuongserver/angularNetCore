@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { LoaderService } from '../_common/loader-service/loader.service';
-import { LoaderState } from './loader';
+import { LoaderService } from './loader.service';
 
 @Component({
     selector: 'app-loader',
@@ -28,4 +27,8 @@ export class LoaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+}
+
+export interface LoaderState {
+  show: boolean;
 }

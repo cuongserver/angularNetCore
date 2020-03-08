@@ -17,7 +17,10 @@
   },
 
   "dashboard": {
-    "appName": "Leave Management System v1.0"
+    "appName": "Leave Management System v1.0",
+    "welcomeMessage": "Welcome",
+    "nowDisplayIn": "Now displaying in",
+    "logOut": "Logout"
   },
   "common": {
     "unauthorized": "Invalid access!"

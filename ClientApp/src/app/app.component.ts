@@ -1,6 +1,5 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -15,22 +14,32 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
-  private _defaultLanguage: string;
-  private langOptions: string[] = (['vi', 'en']);
-  constructor(private translate: TranslateService, private cookieService: CookieService, public http: HttpClient, private router: Router,
-              private jwtHelper: JwtHelperService ) {
-    this._defaultLanguage = this.cookieService.check('pageLanguage') ? this.cookieService.get('pageLanguage') : 'vi';
-    translate.setDefaultLang(this._defaultLanguage);
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   ngOnInit() {
-    this.router.navigate(['']);
+    //this.router.navigate(['']);
   }
 
-  private switchToLanguage(language: string) {
+}
+
+export class RootComponent {
+  private _defaultLanguage: string;
+  protected langOptions: string[] = (['vi', 'en']);
+  constructor(private translate: TranslateService) {
+    this._defaultLanguage = this.getCachedLanguage();
+    translate.setDefaultLang(this._defaultLanguage);
+  }
+
+  protected switchToLanguage(language: string) {
     let newLang: string;
     newLang = this.langOptions.includes(language) ? language : this._defaultLanguage;
     this.translate.use(newLang);
-    this.cookieService.set('pageLanguage', newLang, 99999);
+    localStorage.setItem("pageLanguage", newLang);
+  }
+
+  protected getCachedLanguage() {
+    let cachedLang = localStorage.getItem('pageLanguage');
+    return this.langOptions.includes(cachedLang) && cachedLang !== null ? cachedLang : 'vi';
   }
 }

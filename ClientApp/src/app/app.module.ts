@@ -1,9 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Directive, ElementRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { OAuthModule } from 'angular-oauth2-oidc';
 import { JwtModule } from "@auth0/angular-jwt";
 //dialog
 
@@ -26,17 +25,19 @@ import { AppComponent } from './app.component';
 //import { CounterComponent } from './counter/counter.component';
 //import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { DialogComponent } from "./dialog/dialog.component";
-import { MessageService } from "./_common/dialog-service/message.service";
+import { DashboardComponent, HideDropDownWhenClickAwayDirective } from './dashboard/dashboard.component';
+import { DialogService, DialogComponent, DialogController } from "./_common/dialog/dialog.component";
 import { HttpClient} from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { CookieService } from 'ngx-cookie-service';
-import { LoaderComponent } from './loader/loader.component';
-import { LoaderInterceptorService } from './_common/loader-service/loaderinterceptor.service';
+import { LoaderComponent } from './_common/loader/loader.component';
+import { LoaderInterceptorService } from './_common/loader/loaderinterceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthGuard } from './_common/auth-service/authguard.service';
+import {
+  PreventUnauthenticated,
+  PreventBackToLoginPageAfterLogin
+} from './_common/auth-service/authguard.service';
+
 
 @NgModule({
   declarations: [
@@ -48,16 +49,16 @@ import { AuthGuard } from './_common/auth-service/authguard.service';
     LoginComponent,
     LoaderComponent,
     DashboardComponent,
-    DialogComponent
+    DialogComponent,
+    HideDropDownWhenClickAwayDirective
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule, ReactiveFormsModule,
-    //OAuthModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: LoginComponent, pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]}
+      { path: '', component: LoginComponent, pathMatch: 'full', canActivate: [PreventBackToLoginPageAfterLogin] },
+      { path: 'dashboard', component: DashboardComponent, canActivate: [PreventUnauthenticated]}
       //{ path: 'fetch-data', component: FetchDataComponent },
       //{ path: 'login', component: LoginComponent }
     ]),
@@ -92,7 +93,6 @@ import { AuthGuard } from './_common/auth-service/authguard.service';
     MatToolbarModule
   ],
   providers: [
-    CookieService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptorService,
@@ -101,7 +101,9 @@ import { AuthGuard } from './_common/auth-service/authguard.service';
     {
       provide: MAT_DIALOG_DATA, useValue: {}
     },
-    MessageService
+    DialogService,
+    PreventBackToLoginPageAfterLogin,
+    PreventUnauthenticated
   ],
   bootstrap: [AppComponent]
 })
@@ -114,3 +116,4 @@ export function httpTranslateLoader(http: HttpClient) {
 export function tokenGetter() {
   return sessionStorage.getItem("jwt");
 }
+

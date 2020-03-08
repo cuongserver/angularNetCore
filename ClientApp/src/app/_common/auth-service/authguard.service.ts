@@ -2,24 +2,21 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { JwtModule, JwtHelperService } from "@auth0/angular-jwt";
 import { MatDialog } from "@angular/material/dialog";
-import { MessageBox, MessageBoxButton, MessageBoxStyle } from "./../dialog-service/message-box";
-import { MessageService } from "./../dialog-service/message.service";
+import { DialogController, MessageBoxButton, MessageBoxStyle, DialogService } from "./../dialog/dialog.component";
 import { Subscription, Observable } from "rxjs";
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
+//@Injectable()
+@Injectable()
+export class PreventUnauthenticated implements CanActivate {
 
   subscriber: Subscription
-  constructor(private jwtHelper: JwtHelperService, private router: Router, private messageService: MessageService,
+  constructor(private jwtHelper: JwtHelperService, private router: Router, private dialogService: DialogService,
     private dialog: MatDialog) {
-
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-    let token = sessionStorage.getItem('jwt');
+    let token = this.jwtHelper.tokenGetter();
     if (token == null) {
-      this.messageService.sendMessage('unauthorized', '');
+      this.dialogService.sendMessage('unauthorized', '');
       return false;
     }
     else {
@@ -27,3 +24,21 @@ export class AuthGuard implements CanActivate {
     }
   }
 }
+
+@Injectable()
+export class PreventBackToLoginPageAfterLogin implements CanActivate {
+  constructor(private jwtHelper: JwtHelperService, private router: Router) {
+  }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    let token = this.jwtHelper.tokenGetter();
+    if (token != null) {
+      this.router.navigate(['./dashboard']);
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+}
+

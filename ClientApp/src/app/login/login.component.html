@@ -47,7 +47,7 @@
         </div>
 
         <div class="login-form-link-outer p-t-25">
-          <a [routerLink]="['/dashboard']" class="login-form-link" >
+          <a [routerLink]="['/dashboard']" class="login-form-link hov-pointer" >
             {{'login.accountRecoveryLink' | translate}}
           </a>
         </div>
@@ -56,11 +56,11 @@
     <div class="login-form-footer login-form-link-outer">
       <span class="login-form-link">
         {{'login.displayPageIn' | translate}}
-        <a class="login-form-link" (click)="switchToLanguage('vi')">
+        <a class="login-form-link hov-pointer" (click)="switchToLanguage('vi')">
           Tiếng Việt
         </a>
         |
-        <a class="login-form-link" (click)="switchToLanguage('en')">
+        <a class="login-form-link hov-pointer" (click)="switchToLanguage('en')">
           English
         </a>
       </span>

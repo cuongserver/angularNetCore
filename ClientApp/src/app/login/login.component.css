@@ -7,7 +7,7 @@
   display: flex;
   min-height: 100vh;
   position:relative;
-  min-width: 390px;
+  min-width: 380px;
   width: 100vw;
   flex-wrap: wrap;
   justify-content: center;
@@ -215,13 +215,13 @@
 
 a.login-form-link:hover {
   text-decoration: none;
-  cursor: pointer;
   color: #fff;
 }
 
 .login-form-footer{
     align-self:flex-end;
     z-index: 2;
+    white-space: nowrap;
 }
 .login-error {
   height: 100%;
@@ -244,8 +244,32 @@ a.login-form-link:hover {
 
 
 /*responsive*/
-@media (max-width: 400px){
-  .login-form-link{
-      font-size: 1.05rem;
+@media (max-width: 375px) {
+  .login-form-link {
+    font-size: 1rem;
+  }
+
+  .login-form-title {
+    font-size: 1.15rem;
+  }
+
+  .login-container {
+    min-width: 330px;
   }
 }
+
+@media (max-width: 320px){
+  .login-form-link{
+      font-size: 0.8rem;
+  }
+
+  .login-form-title {
+      font-size: 1rem;
+  }
+
+  .login-container{
+      min-width: 290px;
+  }
+}
+
+

@@ -51,10 +51,12 @@ namespace AngularNETcore.Controllers
                     Subject = new ClaimsIdentity(new Claim[]
                     {
                         new Claim(ClaimTypes.Name, _status.user.userName),
+                        new Claim(ClaimTypes.GivenName, _status.user.userFullName),
                         new Claim(ClaimTypes.Role, _status.user.userTitleCode)
                     }),
                     Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), 
+                                                SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 _status.securityToken = tokenHandler.WriteToken(token);
@@ -73,6 +75,7 @@ namespace AngularNETcore.Controllers
     }
     public static class Connection
     {
-        public static string ConnectionName = "Db2";
+        //public static string ConnectionName = "Db2";
+        public static string ConnectionName = "Db1";
     }
 }

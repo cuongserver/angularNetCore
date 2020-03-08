@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AppComponent } from 'src/app/app.component';
+import { RootComponent } from 'src/app/app.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { Subscription } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
-import { MessageBox, MessageBoxButton, MessageBoxStyle } from "../_common/dialog-service/message-box";
-import { MessageService } from "../_common/dialog-service/message.service";
+import { DialogController, DialogService, MessageBoxButton, MessageBoxStyle } from "../_common/dialog/dialog.component";
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { take } from 'rxjs/operators';
 
 
 @Component({
@@ -17,11 +16,12 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   templateUrl: './login.component.html',
   styleUrls: [
     './login.component.css'
-  ]
+  ],
+
 })
 /** login component*/
 
-export class LoginComponent extends AppComponent implements OnInit {
+export class LoginComponent extends RootComponent implements OnInit {
   private thisForm: FormGroup;
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -34,20 +34,20 @@ export class LoginComponent extends AppComponent implements OnInit {
   };
   private subscriber: Subscription;
 
-  constructor(public formBuilder: FormBuilder, translate: TranslateService,
-    cookieService: CookieService, http: HttpClient,
-    private thisRouter: Router, jwtHelper: JwtHelperService,
-    private messageService: MessageService,
+  constructor(private formBuilder: FormBuilder, private thisTranslate: TranslateService,
+    private http: HttpClient,
+    private thisRouter: Router, private jwtHelper: JwtHelperService,
+    private dialogService: DialogService,
     private dialog: MatDialog) {
-    super(translate, cookieService, http, thisRouter, jwtHelper);
+    super(thisTranslate);
     this.thisForm = this.formBuilder.group({
       userName: ['', this.KVpair['userNameValidator']],
       userPass: ['', this.KVpair['userPassValidator']]
     });
 
-    this.subscriber = this.messageService.getMessage().subscribe(message => {
-      MessageBox.show(this.dialog, message.text, message.extraInfo, '', '', MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
-            .subscribe(x => this.dialog.closeAll());
+    this.subscriber = this.dialogService.getMessage().subscribe(message => {
+      DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
+                    MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
     });
   }
 
@@ -71,7 +71,6 @@ export class LoginComponent extends AppComponent implements OnInit {
     obj['userName'] = this.thisForm.get('userName').value;
     obj['userPass'] = this.thisForm.get('userPass').value;
     let data = JSON.stringify(obj);
-
     var result, message1, message2;
 
     this.http.post('/User/Login', data, this.httpOptions).subscribe(
@@ -84,21 +83,22 @@ export class LoginComponent extends AppComponent implements OnInit {
             let token = result['securityToken'];
             sessionStorage.setItem("jwt", token);
             this.thisRouter.navigate(['./dashboard']);
+            this.subscriber.unsubscribe();
           };
 
           if (message1 === '001' || message1 === '002' || message1 === '003') {
-            this.messageService.sendMessage(message1, message2)
+            this.dialogService.sendMessage(message1, message2)
           };
 
           if (['000', '001', '002', '003'].indexOf(message1) < 0) {
-            this.messageService.sendMessage('serverError', message1)
+            this.dialogService.sendMessage('serverError', message1)
           };
         }, 750);
       },
       (error) => {
         console.log(JSON.stringify(error));
         setTimeout(() => {
-          this.messageService.sendMessage('serverError', '');
+          this.dialogService.sendMessage('serverError', '');
         }, 750);
       }
     );
