@@ -26,6 +26,9 @@ import { AppComponent } from './app.component';
 //import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent, HideDropDownWhenClickAwayDirective } from './dashboard/dashboard.component';
+import { SideMenuComponent } from './dashboard/dashboard-side-menu/sidemenu.component';
+import { SubGroupComponent } from './dashboard/dashboard-side-menu/subgroup.component';
+
 import { DialogService, DialogComponent, DialogController } from "./_common/dialog/dialog.component";
 import { HttpClient} from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -50,7 +53,8 @@ import {
     LoaderComponent,
     DashboardComponent,
     DialogComponent,
-    HideDropDownWhenClickAwayDirective
+    HideDropDownWhenClickAwayDirective,
+    SideMenuComponent, SubGroupComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

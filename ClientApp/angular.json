@@ -146,5 +146,8 @@
       }
     }
   },
-  "defaultProject": "AngularNETcore"
+  "defaultProject": "AngularNETcore",
+  "cli": {
+    "analytics": false
+  }
 }

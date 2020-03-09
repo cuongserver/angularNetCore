@@ -1,0 +1,10 @@
+<div class="subgroup">
+  <div class="subgroup-header" (click)="toggle.emit()">
+    {{header}}
+  </div>
+  <div class="subgroup-content-container" [ngClass]="{'hidden': !opened}">
+    <div class="subgroup-content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+ </div>

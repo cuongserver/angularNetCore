@@ -3,7 +3,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { RootComponent } from '../app.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-
 @Directive(
   {
     selector: '[appRootElement]'
@@ -32,6 +31,7 @@ export class DashboardComponent extends RootComponent {
   private pageLanguage: string;
   private languageDropdownShowed: boolean = false;
   private languageDropdownClick: boolean = false;
+  private sideMenuOpened: boolean = false;
   constructor(private jwtHelper: JwtHelperService, private thisTranslate: TranslateService, private router: Router) {
     super(thisTranslate);
     let token = this.jwtHelper.tokenGetter();
@@ -54,6 +54,9 @@ export class DashboardComponent extends RootComponent {
   private logOut() {
     sessionStorage.removeItem('jwt');
     this.router.navigate(['./']);
+  }
+  private toggleSideMenu() {
+    this.sideMenuOpened = !this.sideMenuOpened;
   }
 }
 

@@ -83,7 +83,7 @@ export class DialogService {
 export class DialogController {
   static show(dialog: MatDialog, message, extraInfo, title = "Alert",
     information = "", button = 0, allow_outside_click = false,
-    style = 0, width = "200px") {
+    style = 0, width = "290px") {
     const dialogRef = dialog.open(DialogComponent, {
       data: {
         title: title || "Alert",

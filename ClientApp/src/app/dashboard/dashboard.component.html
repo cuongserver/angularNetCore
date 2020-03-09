@@ -1,9 +1,12 @@
 <div class="dashboard-container" appRootElement (hideDropDown)="hideLanguageSwitcher($event)  ">
   <div class="dashboard-header">
+    <div class="dashboard-sidemenu-toggle" [ngClass]="{'hidden': sideMenuOpened}" (click)="toggleSideMenu()">
+      <span class="fas fa-bars"></span>
+    </div>
     <div class="dashboard-header-welcome-logout">
       <div class="dashboard-header-welcome">
         <div>{{'dashboard.welcomeMessage' | translate}},&nbsp;</div>
-        <div style="color: rgb(233, 143, 0)">{{givenName}}&nbsp;&nbsp;</div>
+        <div class="dashboard-user-fullname-display">{{givenName}}&nbsp;&nbsp;</div>
       </div>
       <div class="dashboard-logout-button hov-pointer text-center" (click)="logOut()">{{'dashboard.logOut' | translate}}</div>
     </div>
@@ -27,9 +30,23 @@
   </div>
   <div class="dashboard-body">
     <div class="dashboard-body-menu">
-
+      <div class="dashboard-sidemenu-panel" [ngClass]="{'hidden': !sideMenuOpened}">
+        <app-side-menu>
+          <sub-group header="First Group">this is the content</sub-group>
+          <sub-group header="Second Group">
+            <input type="text" class="form-control" />
+            <button>Send</button>
+          </sub-group>
+          <sub-group header="Third Group">
+            <a>Third Group</a>
+          </sub-group>
+        </app-side-menu>
+      </div>
     </div>
     <div class="dashboard-body-main-content">
+      ssssssssssssssssss
+    </div>
+    <div class="dashboard-sidemenu-panel-overlay" [ngClass]="{'hidden': sideMenuOpened}">
 
     </div>
   </div>
