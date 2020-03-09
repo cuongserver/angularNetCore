@@ -32,6 +32,36 @@ export class DashboardComponent extends RootComponent {
   private languageDropdownShowed: boolean = false;
   private languageDropdownClick: boolean = false;
   private sideMenuOpened: boolean = false;
+  heroes: any[] = [
+    { id: 1, name: 'Superman' },
+    { id: 2, name: 'Batman' },
+    { id: 5, name: 'BatGirl' },
+    { id: 3, name: 'Robin' },
+    { id: 4, name: 'Flash' },
+    { id: 6, name: 'Aquaman' },
+    { id: 7, name: 'Green Lantern' },
+    { id: 8, name: 'Shazam' },
+    { id: 9, name: 'Thor' },
+    { id: 10, name: 'Hulk' },
+    { id: 11, name: 'Captain America' },
+    { id: 13, name: 'Iron Man' },
+  ];
+
+  villains: any[] = [
+    { id: 1, name: 'Superman' },
+    { id: 2, name: 'Batman' },
+    { id: 5, name: 'BatGirl' },
+    { id: 3, name: 'Robin' },
+    { id: 4, name: 'Flash' },
+    { id: 6, name: 'Aquaman' },
+    { id: 7, name: 'Green Lantern' },
+    { id: 8, name: 'Shazam' },
+    { id: 9, name: 'Thor' },
+    { id: 10, name: 'Hulk' },
+    { id: 11, name: 'Captain America' },
+    { id: 13, name: 'Iron Man' },
+  ];
+
   constructor(private jwtHelper: JwtHelperService, private thisTranslate: TranslateService, private router: Router) {
     super(thisTranslate);
     let token = this.jwtHelper.tokenGetter();

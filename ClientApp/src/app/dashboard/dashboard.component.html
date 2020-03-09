@@ -40,6 +40,16 @@
           <sub-group header="Third Group">
             <a>Third Group</a>
           </sub-group>
+          <sub-group header="Heroes">
+            <div *ngFor="let hero of heroes">
+              <a>{{hero.name}}</a>
+            </div>
+          </sub-group>
+          <sub-group header="Villains">
+            <div *ngFor="let villain of villains">
+              <a>{{villain.name}}</a>
+            </div>
+          </sub-group>
         </app-side-menu>
       </div>
     </div>

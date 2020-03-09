@@ -10,4 +10,5 @@ body {
     padding: 0px;
     height:auto;
     width:auto !important;
+    min-width: 100vw;
 }
