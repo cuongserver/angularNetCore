@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Injectable } from '@angular/core';
+import { Component, OnInit, OnDestroy, Injectable, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LoaderService } from './loader.service';
 
@@ -14,6 +14,7 @@ import { LoaderService } from './loader.service';
 export class LoaderComponent implements OnInit, OnDestroy {
   show = false;
   private subscription: Subscription;
+
   constructor(private loaderService: LoaderService) {
 
   }
@@ -25,6 +26,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy() {
+    console.log("destroyed");
     this.subscription.unsubscribe();
   }
 }

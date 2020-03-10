@@ -1,10 +1,13 @@
 <div class="subgroup">
   <div class="subgroup-header" (click)="toggle.emit()">
     {{header}}
-  </div>
-  <div class="subgroup-content-container" [ngClass]="{'hidden': !opened}">
-    <div class="subgroup-content">
-      <ng-content></ng-content>
+    <div class="subgroup-symbol hov-pointer" [ngClass]="{'opened': opened}">
+      <span class="fas fa-angle-right">
+
+      </span>
     </div>
+  </div>
+  <div class="subgroup-content-container">
+      <ng-content></ng-content>
   </div>
  </div>

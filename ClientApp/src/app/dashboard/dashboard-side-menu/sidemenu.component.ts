@@ -1,4 +1,4 @@
-import { Component, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
+import { Component, ContentChildren, QueryList, AfterContentInit, EventEmitter, forwardRef } from '@angular/core';
 import { SubGroupComponent } from './subgroup.component';
 
 @Component({
@@ -8,28 +8,23 @@ import { SubGroupComponent } from './subgroup.component';
 })
 /** dashboard-side-menu component*/
 export class SideMenuComponent implements AfterContentInit{
-  @ContentChildren(SubGroupComponent)
-  groups: QueryList<SubGroupComponent>;
-
-  /**
-   * Invoked when all children (groups) are ready
-   */
+  //@ContentChildren(SubGroupComponent, {descendants: true})
+  //groups: QueryList<SubGroupComponent>;
+  ///**
+  // * Invoked when all children (groups) are ready
+  // */
   ngAfterContentInit() {
-    this.groups.toArray()[0].opened = true;
-    console.log("k");
-    this.groups.toArray().forEach((t) => {
-      t.toggle.subscribe(() => {
-        this.openGroup(t);
-      });
-    });
+    //this.groups.toArray().forEach((t) => {
+    //  t.sideMenuItemClick.subscribe(() => {
+    //    this.showOrHideGroup();
+    //  });
+    //});
   }
-    /**
-  * Open an accordion group
-  * param group   Group instance
-  */
-  openGroup(group: SubGroupComponent) {
-    // close other groups
-    // open current group
-    group.opened = !group.opened;
-  }
+  //  /**
+  //* Open an accordion group
+  //* param group   Group instance
+  //*/
+  //showOrHideGroup() {
+  //  alert("clicked");
+  //}
 }

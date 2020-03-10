@@ -28,6 +28,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent, HideDropDownWhenClickAwayDirective } from './dashboard/dashboard.component';
 import { SideMenuComponent } from './dashboard/dashboard-side-menu/sidemenu.component';
 import { SubGroupComponent } from './dashboard/dashboard-side-menu/subgroup.component';
+import { SideMenuClosingService } from './dashboard/dashboard-side-menu/sidemenu.service';
 
 import { DialogService, DialogComponent, DialogController } from "./_common/dialog/dialog.component";
 import { HttpClient} from '@angular/common/http';
@@ -107,7 +108,8 @@ import {
     },
     DialogService,
     PreventBackToLoginPageAfterLogin,
-    PreventUnauthenticated
+    PreventUnauthenticated,
+    SideMenuClosingService
   ],
   bootstrap: [AppComponent]
 })

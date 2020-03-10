@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Directive, Component, Input, Output, EventEmitter,
+  ElementRef, AfterViewInit, Renderer2, OnChanges, SimpleChanges,
+  OnDestroy
+} from '@angular/core';
+import { SideMenuClosingService } from './sidemenu.service';
+
+
 
 @Component({
   selector: 'sub-group',
@@ -6,13 +13,15 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from 
   styleUrls: ['./sidemenu.component.css']
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SubGroupComponent {
+export class SubGroupComponent implements AfterViewInit, OnDestroy {
 
+  private height;
+  private el; el2;
+  private func: Function;
   /**
    * If the panel is opened or closed
    */
   @Input() opened = false;
-
   /**
    * Text to display in the group title bar
    */
@@ -23,4 +32,34 @@ export class SubGroupComponent {
    * type: {EventEmitter<any>}
    */
   @Output() toggle: EventEmitter<any> = new EventEmitter<any>();
+  @Output() sideMenuItemClick: EventEmitter<any> = new EventEmitter<any>();
+  constructor(private renderer: Renderer2, private elRef: ElementRef, private sideMenuService: SideMenuClosingService) {
+  }
+  ngAfterViewInit() {
+    this.el = this.elRef.nativeElement.querySelector('.subgroup-content-container');
+    this.height = this.el.offsetHeight;
+    this.renderer.setStyle(this.el, 'max-height', '0' + 'px');
+    this.toggle.subscribe(() => {
+      this.opened = !this.opened;
+      if (!this.opened) {
+        this.renderer.setStyle(this.el, 'max-height', '0' + 'px');
+      }
+      else {
+        this.renderer.setStyle(this.el, 'max-height', this.height + 'px');
+      }
+    });
+
+    this.el2 = this.elRef.nativeElement.querySelectorAll('.subgroup-content');
+    for (var i = 0; i < this.el2.length; i += 1) {
+      this.renderer.listen(this.el2[i], 'click', event => {
+        //this.sideMenuItemClick.emit();
+        this.sideMenuService.execute();
+      });
+    }
+  }
+  ngOnDestroy() {
+
+  }
+  
+
 }

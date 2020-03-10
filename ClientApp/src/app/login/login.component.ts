@@ -4,12 +4,13 @@ import { RootComponent } from 'src/app/app.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { Subscription } from "rxjs";
+import { Subscription, forkJoin, Observable } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogController, DialogService, MessageBoxButton, MessageBoxStyle } from "../_common/dialog/dialog.component";
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { take } from 'rxjs/operators';
-
+import { LoaderComponent } from '../_common/loader/loader.component';
+import { LoaderService } from '../_common/loader/loader.service';
+import { LoaderInterceptorService } from '../_common/loader/loaderinterceptor.service';
 
 @Component({
   selector: 'app-login',
@@ -33,27 +34,50 @@ export class LoginComponent extends RootComponent implements OnInit {
     userPassSubmitted : false
   };
   private subscriber: Subscription;
+  private httpReq: Observable<any>;
+  private loaderActive: Observable<any>;
+  private subscriberCombined: Observable<any>[];
 
   constructor(private formBuilder: FormBuilder, private thisTranslate: TranslateService,
     private http: HttpClient,
     private thisRouter: Router, private jwtHelper: JwtHelperService,
     private dialogService: DialogService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog, private loader: LoaderInterceptorService) {
     super(thisTranslate);
     this.thisForm = this.formBuilder.group({
       userName: ['', this.KVpair['userNameValidator']],
       userPass: ['', this.KVpair['userPassValidator']]
     });
 
+    //this.subscriber = this.loaderService.getLoadingStatus().subscribe(loaderState => {
+    //  if (loaderState.show == false) {
+    //    this.dialogService.getMessage().subscribe(message => {
+    //      DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
+    //        MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
+    //    })
+    //  }
+    //});
+    
+
     this.subscriber = this.dialogService.getMessage().subscribe(message => {
-      DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
-                    MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
+        DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
+          MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
     });
+    
   }
 
   ngOnInit() {
+    //this.httpReq = this.dialogService.getMessage();
+    //this.loaderActive = this.loader.state.asObservable();
+    //this.subscriberCombined = [this.httpReq, this.loaderActive];
+    //this.subscriber = forkJoin(this.subscriberCombined).subscribe(combineEventData => {
+    //  console.log(combineEventData[0].text);
+    //  DialogController.show(this.dialog, combineEventData[0].text, combineEventData[0].extraInfo, '', '',
+    //    MessageBoxButton.Ok, false, MessageBoxStyle.Simple);
+    //});
 
   }
+
 
   get f() {
     return this.thisForm.controls;
@@ -72,10 +96,11 @@ export class LoginComponent extends RootComponent implements OnInit {
     obj['userPass'] = this.thisForm.get('userPass').value;
     let data = JSON.stringify(obj);
     var result, message1, message2;
-
+    
+    
     this.http.post('/User/Login', data, this.httpOptions).subscribe(
       (response) => {
-        setTimeout(() => {
+        //setTimeout(() => {
           result = JSON.parse(JSON.stringify(response));
           message1 = result['validateResult'];
           message2 = result['validateMessage'];
@@ -93,13 +118,13 @@ export class LoginComponent extends RootComponent implements OnInit {
           if (['000', '001', '002', '003'].indexOf(message1) < 0) {
             this.dialogService.sendMessage('serverError', message1)
           };
-        }, 750);
+        //}, 750);
       },
       (error) => {
         console.log(JSON.stringify(error));
-        setTimeout(() => {
+        //setTimeout(() => {
           this.dialogService.sendMessage('serverError', '');
-        }, 750);
+        //}, 750);
       }
     );
   }

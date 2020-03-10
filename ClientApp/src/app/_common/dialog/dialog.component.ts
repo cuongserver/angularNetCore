@@ -3,6 +3,7 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from "@angu
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Subject } from "rxjs";
+import { LoaderService } from "../loader/loader.service";
 
 @Component({
   selector: "app-dialog",
@@ -97,6 +98,7 @@ export class DialogController {
       width: width, panelClass: 'custom-dialog-ovelay',
       closeOnNavigation: true
     });
+    console.log("dialog created");
     return dialogRef.afterClosed();
   }
 }

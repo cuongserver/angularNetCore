@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { LoaderState } from './loader.component';
 
 @Injectable({
@@ -18,4 +18,7 @@ export class LoaderService {
   hide() {
     this.loaderSubject.next(<LoaderState>{ show: false });
   }
+  //getLoadingStatus(): Observable<any> {
+  //  return this.loaderState;
+  //}
 }

@@ -4,22 +4,28 @@
 }
 
 .subgroup .subgroup-header {
-    background-color: #ccc;
+    background-color: black;
     width: 100%;
     padding: 10px;
     cursor: pointer;
     border-bottom: 1px solid #666;
+    border-top: 1px ridge aliceblue;
+    color: rgb(233, 143, 0);
+    font-weight:bold;
+ }
+
+.subgroup .subgroup-symbol {
+    float:right;
+    transition: 0.2s all;
+    transform: rotate(0deg);
+ }
+
+.subgroup .subgroup-symbol.opened {
+    transform: rotate(90deg);
  }
 .subgroup .subgroup-content-container {
-    max-height: 5000px;
-    overflow: hidden;
-    transition: max-height 1000ms linear;
+    transition: max-height 200ms linear;
+    overflow-y: hidden;
 }
-.subgroup .subgroup-content-container.hidden {
-    max-height: 0px;
-    transition: max-height 750ms cubic-bezier(0,1.28,0.86,1.24);
-    overflow: hidden;
-}
-.subgroup .subgroup-content{
-    padding: 10px;
-}
+
+

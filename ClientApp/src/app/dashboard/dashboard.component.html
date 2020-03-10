@@ -1,4 +1,4 @@
-<div class="dashboard-container" appRootElement (hideDropDown)="hideLanguageSwitcher($event)  ">
+<div class="dashboard-container" appRootElement (hideDropDown)="hideLanguageSwitcher($event)">
   <div class="dashboard-header">
     <div class="dashboard-sidemenu-toggle" [ngClass]="{'hidden': sideMenuOpened}" (click)="toggleSideMenu()">
       <span class="fas fa-bars"></span>
@@ -32,21 +32,28 @@
     <div class="dashboard-body-menu">
       <div class="dashboard-sidemenu-panel" [ngClass]="{'hidden': !sideMenuOpened}">
         <app-side-menu>
-          <sub-group header="First Group">this is the content</sub-group>
+          <sub-group header="First Group">
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5">
+              this is the content
+            </div>
+          </sub-group>
           <sub-group header="Second Group">
-            <input type="text" class="form-control" />
-            <button>Send</button>
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5">
+              this is the content
+            </div>
           </sub-group>
           <sub-group header="Third Group">
-            <a>Third Group</a>
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5">
+              this is the content
+            </div>
           </sub-group>
           <sub-group header="Heroes">
-            <div *ngFor="let hero of heroes">
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5" *ngFor="let hero of heroes">
               <a>{{hero.name}}</a>
             </div>
           </sub-group>
           <sub-group header="Villains">
-            <div *ngFor="let villain of villains">
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5" *ngFor="let villain of villains">
               <a>{{villain.name}}</a>
             </div>
           </sub-group>
