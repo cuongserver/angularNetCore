@@ -34,6 +34,7 @@ export class LoginComponent extends RootComponent implements OnInit {
     userPassSubmitted : false
   };
   private subscriber: Subscription;
+  private subscriber2: Subscription;
   private httpReq: Observable<any>;
   private loaderActive: Observable<any>;
   private subscriberCombined: Observable<any>[];
@@ -42,39 +43,27 @@ export class LoginComponent extends RootComponent implements OnInit {
     private http: HttpClient,
     private thisRouter: Router, private jwtHelper: JwtHelperService,
     private dialogService: DialogService,
-    private dialog: MatDialog, private loader: LoaderInterceptorService) {
+    private dialog: MatDialog, private loader: LoaderService) {
     super(thisTranslate);
     this.thisForm = this.formBuilder.group({
       userName: ['', this.KVpair['userNameValidator']],
       userPass: ['', this.KVpair['userPassValidator']]
     });
 
-    //this.subscriber = this.loaderService.getLoadingStatus().subscribe(loaderState => {
-    //  if (loaderState.show == false) {
-    //    this.dialogService.getMessage().subscribe(message => {
-    //      DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
-    //        MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
-    //    })
-    //  }
-    //});
     
-
     this.subscriber = this.dialogService.getMessage().subscribe(message => {
+      console.log(this.loader.loaderState2);
+      this.subscriber2 = this.loader.loaderState2.subscribe(() => {
         DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
           MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
+      });
+        //DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
+        //  MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
     });
     
   }
 
   ngOnInit() {
-    //this.httpReq = this.dialogService.getMessage();
-    //this.loaderActive = this.loader.state.asObservable();
-    //this.subscriberCombined = [this.httpReq, this.loaderActive];
-    //this.subscriber = forkJoin(this.subscriberCombined).subscribe(combineEventData => {
-    //  console.log(combineEventData[0].text);
-    //  DialogController.show(this.dialog, combineEventData[0].text, combineEventData[0].extraInfo, '', '',
-    //    MessageBoxButton.Ok, false, MessageBoxStyle.Simple);
-    //});
 
   }
 
@@ -127,5 +116,6 @@ export class LoginComponent extends RootComponent implements OnInit {
         //}, 750);
       }
     );
+    if (this.subscriber2 != null) this.subscriber2.unsubscribe();
   }
 }

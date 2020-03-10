@@ -15,10 +15,13 @@ export class LoaderInterceptorService implements HttpInterceptor {
     this.showLoader();
     let x: Observable<HttpEvent<any>>;
     //setTimeout(() => {
-      x = next.handle(req).pipe(tap(
+    x = next.handle(req)
+      .pipe(
+      tap(
         (event: HttpEvent<any>) => { if (event instanceof HttpResponse) this.onEnd(); },
         (err: any) => { this.onEnd(); }
-      ));
+      )
+    );
     //},1500);
     return x;
   }
@@ -28,11 +31,9 @@ export class LoaderInterceptorService implements HttpInterceptor {
     //}, 1500 );
   }
   private showLoader(): void {
-    console.log('loader show');
     this.loaderService.show();
   }
   private hideLoader(): void {
-    console.log('loader hidden');
     this.loaderService.hide();
   }
 }

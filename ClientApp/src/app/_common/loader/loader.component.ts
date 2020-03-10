@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Injectable, EventEmitter, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, ReplaySubject, Subject } from 'rxjs';
 import { LoaderService } from './loader.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { LoaderService } from './loader.service';
 export class LoaderComponent implements OnInit, OnDestroy {
   show = false;
   private subscription: Subscription;
-
+  subject: Subject<boolean> = new Subject<boolean>();
   constructor(private loaderService: LoaderService) {
 
   }
@@ -23,10 +23,12 @@ export class LoaderComponent implements OnInit, OnDestroy {
     this.subscription = this.loaderService.loaderState
       .subscribe((state: LoaderState) => {
         this.show = state.show;
+        if (state.show == false) this.subject.next();
       });
   }
+
+  
   ngOnDestroy() {
-    console.log("destroyed");
     this.subscription.unsubscribe();
   }
 }
