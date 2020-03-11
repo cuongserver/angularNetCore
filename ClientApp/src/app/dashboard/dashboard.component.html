@@ -29,39 +29,48 @@
     </div>
   </div>
   <div class="dashboard-body">
+    <!--phần sidemenu của admin-->
+
     <div class="dashboard-body-menu">
       <div class="dashboard-sidemenu-panel" [ngClass]="{'hidden': !sideMenuOpened}">
         <app-side-menu>
-          <sub-group header="First Group">
-            <div class="subgroup-content p-l-10 p-t-5 p-b-5">
+          <sub-group header="dashboard.menuGroup.account.caption" *ngIf="userRole == '0000' || userRole == '0003' ">
+            <!-- router outlet không được chứa ký tự đặc biệt-->
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" [routerLink]="['account-information']">
+              <!-- tránh việc div bị blank nội dung trước khi translate xong => max-height không chuẩn-->
+              {{'dashboard.menuGroup.account.functions.accInfo' | translate}}&nbsp;
+            </div>
+          </sub-group>
+          <sub-group header="Second Group" *ngIf="userRole == '0000'">
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer">
               this is the content
             </div>
           </sub-group>
-          <sub-group header="Second Group">
-            <div class="subgroup-content p-l-10 p-t-5 p-b-5">
+          <sub-group header="Third Group" *ngIf="userRole == '0000'">
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer">
               this is the content
             </div>
           </sub-group>
-          <sub-group header="Third Group">
-            <div class="subgroup-content p-l-10 p-t-5 p-b-5">
-              this is the content
-            </div>
-          </sub-group>
-          <sub-group header="Heroes">
-            <div class="subgroup-content p-l-10 p-t-5 p-b-5" *ngFor="let hero of heroes">
+          <sub-group header="Heroes" *ngIf="userRole == '0000'">
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngFor="let hero of heroes">
               <a>{{hero.name}}</a>
             </div>
           </sub-group>
-          <sub-group header="Villains">
-            <div class="subgroup-content p-l-10 p-t-5 p-b-5" *ngFor="let villain of villains">
+          <sub-group header="Villains" *ngIf="userRole == '0000'">
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngFor="let villain of villains">
               <a>{{villain.name}}</a>
             </div>
           </sub-group>
         </app-side-menu>
       </div>
     </div>
-    <div class="dashboard-body-main-content">
-      ssssssssssssssssss
+    <!--phần sidemenu của user-->
+    <div class="dashboard-body-menu" *ngIf="userRole == '0003'">
+      
+    </div>
+    <div class="dashboard-body-main-content p-l-10 p-r-10">
+      <!--<router-outlet name="bodyMainContent"></router-outlet>-->
+      <router-outlet></router-outlet>
     </div>
     <div class="dashboard-sidemenu-panel-overlay" [ngClass]="{'hidden': sideMenuOpened}">
 

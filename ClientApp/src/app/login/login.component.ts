@@ -4,7 +4,8 @@ import { RootComponent } from 'src/app/app.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { Subscription, forkJoin, Observable } from "rxjs";
+import { Subscription, Observable } from "rxjs";
+import { take } from "rxjs/operators";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogController, DialogService, MessageBoxButton, MessageBoxStyle } from "../_common/dialog/dialog.component";
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -35,9 +36,6 @@ export class LoginComponent extends RootComponent implements OnInit {
   };
   private subscriber: Subscription;
   private subscriber2: Subscription;
-  private httpReq: Observable<any>;
-  private loaderActive: Observable<any>;
-  private subscriberCombined: Observable<any>[];
 
   constructor(private formBuilder: FormBuilder, private thisTranslate: TranslateService,
     private http: HttpClient,
@@ -49,24 +47,24 @@ export class LoginComponent extends RootComponent implements OnInit {
       userName: ['', this.KVpair['userNameValidator']],
       userPass: ['', this.KVpair['userPassValidator']]
     });
-
     
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  subscribeAfterLogin(): void {
     this.subscriber = this.dialogService.getMessage().subscribe(message => {
-      console.log(this.loader.loaderState2);
-      this.subscriber2 = this.loader.loaderState2.subscribe(() => {
-        DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
-          MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
+      this.subscriber2 = this.loader.loaderDeactivated.subscribe(() => {
+        var x = DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
+          MessageBoxButton.Ok, false, MessageBoxStyle.Simple).subscribe(result => {
+            this.subscriber.unsubscribe();
+            this.subscriber2.unsubscribe();
+          }); 
       });
-        //DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
-        //  MessageBoxButton.Ok, false, MessageBoxStyle.Simple)
     });
-    
   }
-
-  ngOnInit() {
-
-  }
-
 
   get f() {
     return this.thisForm.controls;
@@ -80,16 +78,17 @@ export class LoginComponent extends RootComponent implements OnInit {
     this.KVpair['userNameSubmitted'] = true;
     this.KVpair['userPassSubmitted'] = true;
     if (this.thisForm.invalid) return;
+    this.KVpair['userNameSubmitted'] = false;
+    this.KVpair['userPassSubmitted'] = false;
     let obj = {};
     obj['userName'] = this.thisForm.get('userName').value;
     obj['userPass'] = this.thisForm.get('userPass').value;
     let data = JSON.stringify(obj);
     var result, message1, message2;
-    
+    this.subscribeAfterLogin();
     
     this.http.post('/User/Login', data, this.httpOptions).subscribe(
       (response) => {
-        //setTimeout(() => {
           result = JSON.parse(JSON.stringify(response));
           message1 = result['validateResult'];
           message2 = result['validateMessage'];
@@ -107,15 +106,11 @@ export class LoginComponent extends RootComponent implements OnInit {
           if (['000', '001', '002', '003'].indexOf(message1) < 0) {
             this.dialogService.sendMessage('serverError', message1)
           };
-        //}, 750);
       },
       (error) => {
         console.log(JSON.stringify(error));
-        //setTimeout(() => {
           this.dialogService.sendMessage('serverError', '');
-        //}, 750);
       }
     );
-    if (this.subscriber2 != null) this.subscriber2.unsubscribe();
   }
 }

@@ -20,7 +20,15 @@
     "appName": "Quản lý nghỉ phép v1.0",
     "welcomeMessage": "Xin chào",
     "nowDisplayIn": "Đang hiển thị với",
-    "logOut": "Thoát"
+    "logOut": "Thoát",
+    "menuGroup": {
+      "account": {
+        "caption": "Quản lý tài khoản",
+        "functions": {
+          "accInfo": "Thông tin tài khoản"
+        }
+      }
+    }
   },
   "common": {
     "unauthorized": "Không có quyền truy cập!"

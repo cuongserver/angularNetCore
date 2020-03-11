@@ -98,7 +98,6 @@ export class DialogController {
       width: width, panelClass: 'custom-dialog-ovelay',
       closeOnNavigation: true
     });
-    console.log("dialog created");
     return dialogRef.afterClosed();
   }
 }

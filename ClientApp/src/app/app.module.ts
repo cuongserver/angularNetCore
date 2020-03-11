@@ -37,37 +37,29 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoaderComponent } from './_common/loader/loader.component';
 import { LoaderInterceptorService } from './_common/loader/loaderinterceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  PreventUnauthenticated,
-  PreventBackToLoginPageAfterLogin
-} from './_common/auth-service/authguard.service';
+import {CustomRoutingModule} from './module/custom-routing.module'
+
+//các chức năng của accountMaintenance
+import {AccountInformationComponent} from './account-maintenance/account-information/account-information.component'
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    //NavMenuComponent,
-    //HomeComponent,
-    //CounterComponent,
-    //FetchDataComponent,
     LoginComponent,
     LoaderComponent,
     DashboardComponent,
     DialogComponent,
     HideDropDownWhenClickAwayDirective,
-    SideMenuComponent, SubGroupComponent
+    SideMenuComponent, SubGroupComponent,
+    AccountInformationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule, ReactiveFormsModule,
-    RouterModule.forRoot([
-      { path: '', component: LoginComponent, pathMatch: 'full', canActivate: [PreventBackToLoginPageAfterLogin] },
-      { path: 'dashboard', component: DashboardComponent, canActivate: [PreventUnauthenticated]}
-      //{ path: 'fetch-data', component: FetchDataComponent },
-      //{ path: 'login', component: LoginComponent }
-    ]),
-
+    CustomRoutingModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -107,8 +99,6 @@ import {
       provide: MAT_DIALOG_DATA, useValue: {}
     },
     DialogService,
-    PreventBackToLoginPageAfterLogin,
-    PreventUnauthenticated,
     SideMenuClosingService
   ],
   bootstrap: [AppComponent]

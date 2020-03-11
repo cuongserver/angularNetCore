@@ -1,6 +1,6 @@
 import {
   Directive, Component, Input, Output, EventEmitter,
-  ElementRef, AfterViewInit, Renderer2, OnChanges, SimpleChanges,
+  ElementRef, AfterContentInit, Renderer2, OnChanges, SimpleChanges,
   OnDestroy
 } from '@angular/core';
 import { SideMenuClosingService } from './sidemenu.service';
@@ -13,7 +13,7 @@ import { SideMenuClosingService } from './sidemenu.service';
   styleUrls: ['./sidemenu.component.css']
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SubGroupComponent implements AfterViewInit, OnDestroy {
+export class SubGroupComponent implements AfterContentInit, OnDestroy {
 
   private height;
   private el; el2;
@@ -35,7 +35,7 @@ export class SubGroupComponent implements AfterViewInit, OnDestroy {
   @Output() sideMenuItemClick: EventEmitter<any> = new EventEmitter<any>();
   constructor(private renderer: Renderer2, private elRef: ElementRef, private sideMenuService: SideMenuClosingService) {
   }
-  ngAfterViewInit() {
+  ngAfterContentInit() {
     this.el = this.elRef.nativeElement.querySelector('.subgroup-content-container');
     this.height = this.el.offsetHeight;
     this.renderer.setStyle(this.el, 'max-height', '0' + 'px');
@@ -49,13 +49,12 @@ export class SubGroupComponent implements AfterViewInit, OnDestroy {
       }
     });
 
-    this.el2 = this.elRef.nativeElement.querySelectorAll('.subgroup-content');
-    for (var i = 0; i < this.el2.length; i += 1) {
-      this.renderer.listen(this.el2[i], 'click', event => {
-        //this.sideMenuItemClick.emit();
-        this.sideMenuService.execute();
-      });
-    }
+    //this.el2 = this.elRef.nativeElement.querySelectorAll('.subgroup-content');
+    //for (var i = 0; i < this.el2.length; i += 1) {
+    //  this.renderer.listen(this.el2[i], 'click', event => {
+    //    this.sideMenuService.execute();
+    //  });
+    //}
   }
   ngOnDestroy() {
 

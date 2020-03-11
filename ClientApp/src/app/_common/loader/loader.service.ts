@@ -8,9 +8,9 @@ import { LoaderState } from './loader.component';
 
 export class LoaderService {
   private loaderSubject = new Subject<LoaderState>();
-  loaderState = this.loaderSubject.asObservable();
-  private loaderSubject2 = new Subject<any>();
-  loaderState2 = this.loaderSubject2.asObservable();
+  loaderState: Observable<any> = this.loaderSubject.asObservable();
+  private loaderInactive = new Subject<any>();
+  loaderDeactivated: Observable<any> = this.loaderInactive.asObservable();
   constructor() {
 
   }
@@ -20,7 +20,7 @@ export class LoaderService {
   hide() {
     setTimeout(() => {
       this.loaderSubject.next(<LoaderState>{ show: false });
-      this.loaderSubject2.next();
+      this.loaderInactive.next();
     }, 750);
   }
 }

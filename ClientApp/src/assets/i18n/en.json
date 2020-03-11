@@ -20,7 +20,15 @@
     "appName": "Leave Management System v1.0",
     "welcomeMessage": "Welcome",
     "nowDisplayIn": "Now displaying in",
-    "logOut": "Logout"
+    "logOut": "Logout",
+    "menuGroup": {
+      "account": {
+        "caption": "Account Maintenance",
+        "functions": {
+          "accInfo": "Account Information"
+        }
+      }
+    }
   },
   "common": {
     "unauthorized": "Invalid access!"

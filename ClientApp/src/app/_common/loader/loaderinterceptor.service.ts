@@ -14,7 +14,6 @@ export class LoaderInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.showLoader();
     let x: Observable<HttpEvent<any>>;
-    //setTimeout(() => {
     x = next.handle(req)
       .pipe(
       tap(
@@ -22,13 +21,10 @@ export class LoaderInterceptorService implements HttpInterceptor {
         (err: any) => { this.onEnd(); }
       )
     );
-    //},1500);
     return x;
   }
   private onEnd(): void {
-    //setTimeout(() => {
       this.hideLoader();
-    //}, 1500 );
   }
   private showLoader(): void {
     this.loaderService.show();

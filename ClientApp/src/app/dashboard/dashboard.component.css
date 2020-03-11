@@ -256,14 +256,22 @@
 /*responsive*/
 /*side menu content*/
 .subgroup-content {
-  color: springgreen;
-  background-color: dimgray;
-  font-size: 0.95em;
+    color: springgreen;
+    background-color: dimgray;
+    font-size: 0.95em;
+    transition: font-size 0.2s;
+}
+
+.subgroup-content.subgroup-content-active {
+    background-color: #fff;
+    text-shadow: 0px 0px 10px springgreen;
+    color: black;
+    border-left: 5px ridge rgb(233, 143, 0);
 }
 
 .subgroup-content:hover {
   text-shadow: 0px 0px 5px springgreen;
-  font-size: 1.1em;
+  font-size: 1em;
   color: black;
 }
 /*side menu content*/

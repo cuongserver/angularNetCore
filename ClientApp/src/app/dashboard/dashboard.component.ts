@@ -34,6 +34,7 @@ export class HideDropDownWhenClickAwayDirective {
 export class DashboardComponent extends RootComponent {
   private year: string = new Date().getFullYear().toString();
   private givenName: string;
+  private userRole: string;
   private pageLanguage: string;
   private languageDropdownShowed: boolean = false;
   private languageDropdownClick: boolean = false;
@@ -78,6 +79,7 @@ export class DashboardComponent extends RootComponent {
     let token = this.jwtHelper.tokenGetter();
     let decodedInfo = this.jwtHelper.decodeToken(token);
     this.givenName = decodedInfo.given_name;
+    this.userRole = decodedInfo.role;
     this.updateDisplayLanguage();
     this.sideMenuService.getCommand().subscribe(sideMenuState => {
       this.hideMenu();
