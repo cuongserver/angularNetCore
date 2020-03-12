@@ -63,8 +63,8 @@ namespace AngularNETcore.Controllers
     }
     public static class Connection
     {
-        public static string ConnectionName = "Db2";
-        //public static string ConnectionName = "Db1";
+        //public static string ConnectionName = "Db2";
+        public static string ConnectionName = "Db1";
     }
 
     public static class AuthourizationLevel
