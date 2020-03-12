@@ -122,7 +122,8 @@ namespace AngularNETcore.Common
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidIssuer = _config.GetSection("JwtIssuerOptions").GetSection("Issuer").Value,
-                    ValidAudience = _config.GetSection("JwtIssuerOptions").GetSection("Audience").Value
+                    ValidAudience = _config.GetSection("JwtIssuerOptions").GetSection("Audience").Value,
+                    ClockSkew = TimeSpan.Zero
                 };
             });
         }
