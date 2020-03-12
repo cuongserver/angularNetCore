@@ -16,7 +16,7 @@ namespace AngularNETcore.DataAccessLayer
         {
             _connectionString = _connString;
         }
-        public LoginValidationStatus loginStatus( User model)
+        public async Task<LoginValidationStatus> loginStatus( User model)
         {
             LoginValidationStatus _status = new LoginValidationStatus();
             using (SqlConnection con = SqlCon())
@@ -112,6 +112,69 @@ namespace AngularNETcore.DataAccessLayer
                 }
             }
             return _status;
+        }
+
+        public async Task<UserInformation> getUserDetails(User model)
+        {
+            UserInformation _userInfo = new UserInformation();
+            using (SqlConnection con = SqlCon())
+            {
+                SqlCommand cmd = SqlCmd(con);
+                cmd.CommandText = "GetUserDetails";
+                cmd.Parameters.AddWithValue("@userName", model.userName);
+
+                SqlParameter prm1 = new SqlParameter
+                {
+                    ParameterName = "@status",
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 50,
+                    Direction = ParameterDirection.Output
+                };
+                //SqlParameter prm2 = new SqlParameter
+                //{
+                //    ParameterName = "@message",
+                //    SqlDbType = SqlDbType.NVarChar,
+                //    Size = 50,
+                //    Direction = ParameterDirection.Output
+                //};
+
+                cmd.Parameters.Add(prm1);
+                //cmd.Parameters.Add(prm2);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+                try
+                {
+                    con.Open();
+                    da.Fill(dt);
+                    _userInfo.status = (string)prm1.Value;
+                    if (dt.Rows.Count > 0)
+                    {
+                        User user = new User();
+                        DataRow dr = dt.Rows[0];
+                        user.userName = (string)dr[nameof(user.userName)];
+                        user.userFullName = (string)dr[nameof(user.userFullName)];
+                        user.userTitleCode = (string)dr[nameof(user.userTitleCode)];
+                        user.userDeptCode = (string)dr[nameof(user.userDeptCode)];
+                        user.userEnabled = (bool)dr[nameof(user.userEnabled)];
+                        user.userFailedLoginCount = (int)dr[nameof(user.userFailedLoginCount)];
+                        user.titleDesc = (string)dr[nameof(user.titleDesc)];
+                        user.deptDesc = (string)dr[nameof(user.deptDesc)];
+                        _userInfo.user = user;
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    _userInfo.status = ex.Number.ToString();
+                    _userInfo.message = ex.Message;
+                }
+                finally
+                {
+                    if (con.State == System.Data.ConnectionState.Open) con.Close();
+                    cmd.Dispose();
+                }
+            }
+            return _userInfo;
         }
     }
 }

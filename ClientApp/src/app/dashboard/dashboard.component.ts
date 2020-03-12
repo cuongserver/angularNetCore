@@ -78,6 +78,7 @@ export class DashboardComponent extends RootComponent {
     super(thisTranslate);
     let token = this.jwtHelper.tokenGetter();
     let decodedInfo = this.jwtHelper.decodeToken(token);
+    console.log(decodedInfo);
     this.givenName = decodedInfo.given_name;
     this.userRole = decodedInfo.role;
     this.updateDisplayLanguage();

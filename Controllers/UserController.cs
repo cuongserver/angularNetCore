@@ -15,9 +15,9 @@ using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AngularNETcore.Common;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-
 namespace AngularNETcore.Controllers
 {
     [Authorize]
@@ -28,49 +28,39 @@ namespace AngularNETcore.Controllers
     {
         private readonly string ConnectionString;
         private readonly string SecurityKey;
-
-        public UserController(IConfiguration _config)
+        private IJwtService jwtService;
+        public UserController(IConfiguration _config, IJwtService _jwtService)
         {
             ConnectionString = _config.GetSection("ConnectionStrings").GetSection(Connection.ConnectionName).Value;
             SecurityKey = _config.GetSection("SecuritySettings").GetSection("Secret").Value;
+            jwtService = _jwtService;
         }
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult Login([FromBody] User model)
+        public async Task<IActionResult> Login([FromBody] User model)
         {
-            User user = new User();
             UserDataAccessLayer dal = new UserDataAccessLayer(ConnectionString);
-            LoginValidationStatus _status = dal.loginStatus(model);
+            LoginValidationStatus _status = await dal.loginStatus(model);
             if (_status.validateResult == "000")
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(SecurityKey);
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim(ClaimTypes.Name, _status.user.userName),
-                        new Claim(ClaimTypes.GivenName, _status.user.userFullName),
-                        new Claim(ClaimTypes.Role, _status.user.userTitleCode)
-                    }),
-                    Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), 
-                                                SecurityAlgorithms.HmacSha256Signature)
-                };
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                _status.securityToken = tokenHandler.WriteToken(token);
+                _status.securityToken = jwtService.createToken_NameAndRole(_status.user);
             }
 
             return Ok(_status);
         }
 
-        //[HttpGet]
-        ////[Authorize]
-        //public void Login()
-        //{
+        [HttpGet("userinformation")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UserInformation([FromQuery] string userName)
+        {
+            User model = new User();
+            model.userName = userName;
+            UserDataAccessLayer dal = new UserDataAccessLayer(ConnectionString);
+            UserInformation _userInfo = await dal.getUserDetails(model);
+            return Ok(_userInfo);
 
-        //}
+        }
 
     }
     public static class Connection

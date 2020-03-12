@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AngularNETcore.Common;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
@@ -27,6 +28,8 @@ namespace AngularNETcore
         {
             services.AddControllersWithViews();
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("SecuritySettings").GetSection("Secret").Value);
+
+            services.AddSingleton<IJwtService, JwtService>();
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
