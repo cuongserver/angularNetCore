@@ -8,9 +8,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AngularNETcore.Common;
-using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Http;
-using System.Diagnostics;
 //using AngularNETcore.Common;
 namespace AngularNETcore
 {
@@ -30,53 +27,12 @@ namespace AngularNETcore
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("SecuritySettings").GetSection("Secret").Value);
 
             services.AddSingleton<IJwtService, JwtService>();
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+            services.ConfigureJwtValidationProcess(Configuration);
             services.AddSession();
 
 
-            //services.AddAuthentication(opt =>
-            //{
-            //    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(options =>
-            //{
-            //    options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuer = true,
-            //        ValidateAudience = true,
-            //        ValidateLifetime = true,
-            //        ValidateIssuerSigningKey = true,
-
-            //        ValidIssuer = "http://localhost:44300",
-            //        ValidAudience = "http://localhost:44300",
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
-            //    };
-            //});
             // In production, the Angular files will be served from this directory
-            //services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-            //   .AddIdentityServerAuthentication(options =>
-            //   {
-            //       options.Authority = "https://localhost:44300";
-            //       options.RequireHttpsMetadata = true;
 
-            //       options.ApiName = "api";
-            //   });
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -97,15 +53,7 @@ namespace AngularNETcore
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //app.Use(async (context, next) =>
-            //{
-            //    var JWToken = context.Session.GetString("JWToken");
-            //    if (!string.IsNullOrEmpty(JWToken))
-            //    {
-            //        context.Request.Headers.Add("Authorization", "Bearer " + JWToken);
-            //    }
-            //    await next();
-            //});
+            
             
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -116,7 +64,9 @@ namespace AngularNETcore
 
             app.UseRouting();
             app.UseAuthentication();
+            app.UseJwtValidationAtDatabase();
             app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

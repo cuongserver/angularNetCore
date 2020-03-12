@@ -23,7 +23,6 @@ namespace AngularNETcore.Controllers
     [Authorize]
     [Route("[controller]")]
     [ApiController]
-
     public class UserController : ControllerBase
     {
         private readonly string ConnectionString;
@@ -50,8 +49,7 @@ namespace AngularNETcore.Controllers
             return Ok(_status);
         }
 
-        [HttpGet("userinformation")]
-        [AllowAnonymous]
+        [HttpGet("userinformation"), Authorize(Roles="0000")]
         public async Task<IActionResult> UserInformation([FromQuery] string userName)
         {
             User model = new User();
@@ -67,5 +65,11 @@ namespace AngularNETcore.Controllers
     {
         public static string ConnectionName = "Db2";
         //public static string ConnectionName = "Db1";
+    }
+
+    public static class AuthourizationLevel
+    {
+        public static string Admin = "0000";
+        public static string User = "0003";
     }
 }

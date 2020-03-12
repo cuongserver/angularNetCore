@@ -9,6 +9,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Builder;
+using System.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 namespace AngularNETcore.Common
 {
     public interface IJwtService
@@ -20,6 +26,8 @@ namespace AngularNETcore.Common
     public class JwtService: IJwtService
     {
         private string SecurityKey;
+        private string JwtIssuer;
+        private string JwtAudience;
         public IConfiguration Configuration { get; }
         public JwtService(IConfiguration _config)
         {
@@ -29,6 +37,8 @@ namespace AngularNETcore.Common
         public void GetSecret()
         {
             SecurityKey = Configuration.GetSection("SecuritySettings").GetSection("Secret").Value;
+            JwtIssuer = Configuration.GetSection("JwtIssuerOptions").GetSection("Issuer").Value;
+            JwtAudience = Configuration.GetSection("JwtIssuerOptions").GetSection("Audience").Value;
         }
         public string createToken_NameAndRole(User _model)
         {
@@ -37,6 +47,8 @@ namespace AngularNETcore.Common
             var key = Encoding.ASCII.GetBytes(SecurityKey);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+                Issuer = JwtIssuer,
+                Audience = JwtAudience,
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                         new Claim(ClaimTypes.Name, model.userName),
@@ -52,4 +64,74 @@ namespace AngularNETcore.Common
         }
 
     }
+
+    //middle ware phải khai báo method Invoke, constructor có RequestDelegate
+
+
+    public static class StartupExtension
+    {
+        //public static IApplicationBuilder UseJwtValidationAtDatabase(this IApplicationBuilder app)
+        //{
+        //    return app.UseMiddleware<JwtMidddleware>();
+        //}
+
+        public static void UseJwtValidationAtDatabase(this IApplicationBuilder app)
+        {
+            app.Use(async delegate(HttpContext context, Func<Task> next)
+            {
+                if (context.Request.Headers.ContainsKey("Authorization"))
+                {
+                    var claims = context.User.Claims;
+                    string role = claims.Single(x => x.Type == ClaimTypes.Role).Value;
+                    Debug.WriteLine(role);
+                }
+                await next.Invoke();
+            });
+        }
+
+        public static void ConfigureJwtValidationProcess(this IServiceCollection _services, IConfiguration _config)
+        {
+            var key = Encoding.ASCII.GetBytes(_config.GetSection("SecuritySettings").GetSection("Secret").Value);
+            _services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = _config.GetSection("JwtIssuerOptions").GetSection("Issuer").Value,
+                    ValidAudience = _config.GetSection("JwtIssuerOptions").GetSection("Audience").Value
+                };
+            });
+        }
+
+    }
+
+    //public class JwtMidddleware
+    //{
+    //    private readonly RequestDelegate _next;
+    //    public JwtMidddleware(RequestDelegate next)
+    //    {
+    //        _next = next;
+    //    }
+    //    public async Task Invoke(HttpContext context)
+    //    {
+    //        if (context.Request.Headers.ContainsKey("Authorization"))
+    //        {
+    //            var claims = context.User.Claims;
+    //            string role = claims.Single(x => x.Type == ClaimTypes.Role).Value;
+    //            Debug.WriteLine(role);
+    //        }
+    //        await _next.Invoke(context);
+    //    }
+    //}
 }
