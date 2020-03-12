@@ -64,7 +64,7 @@ namespace AngularNETcore
 
             app.UseRouting();
             app.UseAuthentication();
-            app.UseJwtValidationAtDatabase();
+            app.UseJwtValidationAtDatabase(Configuration);
             app.UseAuthorization();
             
             app.UseEndpoints(endpoints =>

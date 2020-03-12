@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Builder;
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using AngularNETcore.DataAccessLayer;
+using AngularNETcore.Controllers;
 
 namespace AngularNETcore.Common
 {
@@ -51,9 +53,9 @@ namespace AngularNETcore.Common
                 Audience = JwtAudience,
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                        new Claim(ClaimTypes.Name, model.userName),
-                        new Claim(ClaimTypes.GivenName, model.userFullName),
-                        new Claim(ClaimTypes.Role, model.userTitleCode)
+                    new Claim(ClaimTypes.Name, model.userName),
+                    new Claim(ClaimTypes.GivenName, model.userFullName),
+                    new Claim(ClaimTypes.Role, model.userTitleCode)
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
@@ -62,7 +64,6 @@ namespace AngularNETcore.Common
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-
     }
 
     //middle ware phải khai báo method Invoke, constructor có RequestDelegate
@@ -75,15 +76,27 @@ namespace AngularNETcore.Common
         //    return app.UseMiddleware<JwtMidddleware>();
         //}
 
-        public static void UseJwtValidationAtDatabase(this IApplicationBuilder app)
+        public static void UseJwtValidationAtDatabase(this IApplicationBuilder app, IConfiguration config)
         {
             app.Use(async delegate(HttpContext context, Func<Task> next)
             {
                 if (context.Request.Headers.ContainsKey("Authorization"))
                 {
                     var claims = context.User.Claims;
+                    string name = claims.Single(x => x.Type == ClaimTypes.Name).Value;
                     string role = claims.Single(x => x.Type == ClaimTypes.Role).Value;
-                    Debug.WriteLine(role);
+                    string ConnectionString = config.GetSection("ConnectionStrings").GetSection(Connection.ConnectionName).Value;
+                    UserDataAccessLayer dal = new UserDataAccessLayer(ConnectionString);
+                    User _model = new User { userName = name };
+                    TitleValidationStatus _titleValidate = dal.getUserTitle(_model);
+                    if(role != _titleValidate.validateMessage)
+                    {
+                        context.Response.ContentType = "text/plain";
+                        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                        await context.Response.WriteAsync("Role not matched");
+                        return;
+                    }
+
                 }
                 await next.Invoke();
             });
