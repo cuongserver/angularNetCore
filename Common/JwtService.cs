@@ -16,7 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using AngularNETcore.DataAccessLayer;
 using AngularNETcore.Controllers;
-
+using Newtonsoft.Json;
 namespace AngularNETcore.Common
 {
     public interface IJwtService
@@ -58,6 +58,7 @@ namespace AngularNETcore.Common
                     new Claim(ClaimTypes.Role, model.userTitleCode)
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
+                //Expires = DateTime.UtcNow.AddSeconds(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                                             SecurityAlgorithms.HmacSha256Signature)
             };
@@ -93,7 +94,31 @@ namespace AngularNETcore.Common
                     {
                         context.Response.ContentType = "text/plain";
                         context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                        await context.Response.WriteAsync("Role not matched");
+                        var message = new { validateResult = "403db", validateMessage = "" };
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(message));
+                        return;
+                    }
+
+                }
+                await next.Invoke();
+            });
+        }
+
+        public static void UseJwtLifetimeCustomValidation(this IApplicationBuilder app)
+        {
+            app.Use(async delegate (HttpContext context, Func<Task> next)
+            {
+                if (context.Request.Headers.ContainsKey("Authorization"))
+                {
+                    var claims = context.User.Claims;
+                    long expireAt = Convert.ToInt64(claims.Single(x => x.Type == "exp").Value);
+                    long now = (Int64)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + 0; //cộng thêm clockskew
+                    if (expireAt < now)
+                    {
+                        context.Response.ContentType = "text/plain";
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        var message = new { validateResult = "401expired", validateMessage = "" };
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(message));
                         return;
                     }
 
@@ -120,7 +145,7 @@ namespace AngularNETcore.Common
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateLifetime = true,
+                    ValidateLifetime = false,
                     ValidIssuer = _config.GetSection("JwtIssuerOptions").GetSection("Issuer").Value,
                     ValidAudience = _config.GetSection("JwtIssuerOptions").GetSection("Audience").Value,
                     ClockSkew = TimeSpan.Zero

@@ -108,8 +108,6 @@ export class LoginComponent extends RootComponent implements OnInit {
           };
       },
       (error) => {
-        console.log(JSON.stringify(error));
-          this.dialogService.sendMessage('serverError', '');
       }
     );
   }

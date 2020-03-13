@@ -7,16 +7,15 @@ import { LoginComponent } from '../login/login.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AccountInformationComponent } from '../account-maintenance/account-information/account-information.component';
+import { ChangePasswordComponent } from '../account-maintenance/change-password/change-password.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full', canActivate: [PreventBackToLoginPageAfterLogin] },
   {
     path: 'dashboard', component: DashboardComponent, canActivate: [PreventUnauthenticated],
     children: [
-      {
-        path: 'account-information', component: AccountInformationComponent,
-        canActivate: [PreventUnauthenticated]
-      }
+      { path: 'account-information', component: AccountInformationComponent, canActivate: [PreventUnauthenticated] },
+      { path: 'change-password', component: ChangePasswordComponent, canActivate: [PreventUnauthenticated] }
     ]
   }
 ]

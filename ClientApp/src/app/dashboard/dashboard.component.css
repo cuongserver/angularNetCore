@@ -17,7 +17,8 @@
   z-index: 100;
 }
 .dashboard-body {
-    height: calc(100vh - 2.5rem - 4rem);
+    min-height: calc(100vh - 2.5rem - 4rem);
+    height:auto;
 }
 .dashboard-footer {
   height: 2.5rem;

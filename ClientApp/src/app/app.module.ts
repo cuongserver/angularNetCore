@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Directive, ElementRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 import { JwtModule } from "@auth0/angular-jwt";
 //dialog
 
@@ -41,7 +40,7 @@ import {CustomRoutingModule} from './module/custom-routing.module'
 
 //các chức năng của accountMaintenance
 import {AccountInformationComponent} from './account-maintenance/account-information/account-information.component'
-
+import {ChangePasswordComponent} from './account-maintenance/change-password/change-password.component'
 
 
 @NgModule({
@@ -53,7 +52,8 @@ import {AccountInformationComponent} from './account-maintenance/account-informa
     DialogComponent,
     HideDropDownWhenClickAwayDirective,
     SideMenuComponent, SubGroupComponent,
-    AccountInformationComponent
+    AccountInformationComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -112,4 +112,5 @@ export function httpTranslateLoader(http: HttpClient) {
 export function tokenGetter() {
   return sessionStorage.getItem("jwt");
 }
+
 

@@ -9,7 +9,6 @@
     "001": "Account is locked due to exceeding failed login",
     "002": "Account is disabled or doesn't exist",
     "003": "Wrong password, {{message}} attempt(s) left",
-    "serverError": "Error on server ({{message}})",
     "userNameBlankValidation": "Username must not be blank",
     "userPassBlankValidation": "Password must not be blank",
     "userNameRegexValidation": "Username consists letters and digits only, with length from {{minlength}} to {{maxlength}} characters",
@@ -25,13 +24,46 @@
       "account": {
         "caption": "Account Maintenance",
         "functions": {
-          "accInfo": "Account Information"
+          "accInfo": "Account Information",
+          "changePassword": "Change Password"
         }
       }
     }
   },
-  "common": {
-    "unauthorized": "Invalid access!"
-  }
+  "commonCaptions": {
+    "noInfo": "No Information",
+    "userName": "User Name",
+    "userFullName": "Full Name",
+    "userDeptCode": "Department Code",
+    "userTitleCode": "Title Code",
+    "userEnabled": "Status",
+    "userFailedLoginCount": "Failed login attempt(s)",
+    "titleDesc": {
+      "caption": "Title",
+      "0000": "Admin",
+      "0001": "Director",
+      "0002": "Manager",
+      "0003": "Common User"
+    },
+    "deptDesc": {
+      "caption": "Department Name",
+      "0000": "IT",
+      "0001": "Human Resource"
+    },
+    "enabledtrue": "Active",
+    "enabledfalse": "Inactive",
+    "oldPassword": "Old Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm password",
+    "submit": "Submit"
+  },
+  "responseErrors": {
+    "serverError": "Error at server ({{message}})",
+    "unauthorized": "Invalid access right",
+    "401expired": "Session expired"
+  },
 
+  "validationErrors": {
+    "passwordMismatch": "Password mismatched"
+  }
 }

@@ -14,12 +14,17 @@
   </div>
   <div class="message" *ngIf="message=='serverError'">
     <div>
-      {{'login.serverError' | translate: {message: extraInfo} }}
+      {{'responseErrors.serverError' | translate: {message: extraInfo} }}
     </div>
   </div>
   <div class="message" *ngIf="message=='unauthorized'">
     <div>
-      {{'common.unauthorized' | translate}}
+      {{'responseErrors.unauthorized' | translate}}
+    </div>
+  </div>
+  <div class="message" *ngIf="message=='401expired'">
+    <div>
+      {{'responseErrors.401expired' | translate}}
     </div>
   </div>
   <div class="info" *ngIf="information !== ''">

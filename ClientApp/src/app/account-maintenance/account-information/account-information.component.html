@@ -1,4 +1,52 @@
-<div style="border: 1px solid red">{{userName}}</div>
-<div (click)="refresh()">
-  <span class="fas fa-sync-alt"></span>
+<div class="" [@fadeAnimation]=transitionState>
+  <div class="" *ngIf="status == '000'">
+    <h3>{{'dashboard.menuGroup.account.functions.accInfo' | translate}}</h3>
+    <div class="">
+      <span class="">{{'commonCaptions.userName' | translate}}</span>
+      <span class="">:&nbsp;&nbsp;</span>
+      <span class="">{{userName}}</span>
+    </div>
+    <div class="">
+      <span class="">{{'commonCaptions.userFullName' | translate}}</span>
+      <span class="">:&nbsp;&nbsp;</span>
+      <span class="">{{userFullName}}</span>
+    </div>
+    <div class="">
+      <span class="">{{'commonCaptions.userDeptCode' | translate}}</span>
+      <span class="">:&nbsp;&nbsp;</span>
+      <span class="">{{userDeptCode}}</span>
+    </div>
+    <div class="">
+      <span class="">{{'commonCaptions.deptDesc.caption' | translate}}</span>
+      <span class="">:&nbsp;&nbsp;</span>
+      <span class="">{{'commonCaptions.deptDesc.' + userDeptCode | translate}}</span>
+    </div>
+    <div class="">
+      <span class="">{{'commonCaptions.userTitleCode' | translate}}</span>
+      <span class="">:&nbsp;&nbsp;</span>
+      <span class="">{{userTitleCode}}</span>
+    </div>
+    <div class="">
+      <span class="">{{'commonCaptions.titleDesc.caption' | translate}}</span>
+      <span class="">:&nbsp;&nbsp;</span>
+      <span class="">{{'commonCaptions.titleDesc.' + userTitleCode | translate}}</span>
+    </div>
+    <div class="">
+      <span class="">{{'commonCaptions.userFailedLoginCount' | translate}}</span>
+      <span class="">:&nbsp;&nbsp;</span>
+      <span class="">{{userFailedLoginCount}}</span>
+    </div>
+    <div class="">
+      <span class="">{{'commonCaptions.userEnabled' | translate}}</span>
+      <span class="">:&nbsp;&nbsp;</span>
+      <span class="">{{'commonCaptions.enabled' + userEnabled | translate}}</span>
+    </div>
+  </div>
+  <div class="" *ngIf="status !== '000'">
+    <h3>{{'commonCaptions.noInfo' | translate}}</h3>
+  </div>
+  <div></div>
+  <div class="btn btn-block btn-success" (click)="refresh()">
+    <span><i class="fas fa-sync-alt"></i>&nbsp;&nbsp;</span>
+  </div>
 </div>

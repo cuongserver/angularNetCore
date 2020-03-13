@@ -49,7 +49,7 @@ namespace AngularNETcore.Controllers
             return Ok(_status);
         }
 
-        [HttpGet("userinformation"), Authorize(Roles="0000")]
+        [HttpGet("userinformation"), Authorize(Roles="0000, 0001, 0002, 0003")]
         public async Task<IActionResult> UserInformation([FromQuery] string userName)
         {
             User model = new User();
@@ -63,8 +63,8 @@ namespace AngularNETcore.Controllers
     }
     public static class Connection
     {
-        //public static string ConnectionName = "Db2";
-        public static string ConnectionName = "Db1";
+        public static string ConnectionName = "Db2";
+        //public static string ConnectionName = "Db1";
     }
 
     public static class AuthourizationLevel

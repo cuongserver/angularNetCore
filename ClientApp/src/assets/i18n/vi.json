@@ -9,7 +9,6 @@
     "001": "Tài khoản bị khóa vì đăng nhập sai quá giới hạn",
     "002": "Tài khoản bị vô hiệu hoặc không tồn tại",
     "003": "Sai mật khẩu, còn {{message}} lần thử lại",
-    "serverError": "Lỗi máy chủ ({{message}})",
     "userNameBlankValidation": "Tài khoản không được để trống",
     "userPassBlankValidation": "Mật khẩu không được để trống",
     "userNameRegexValidation": "Tên tài khoản chỉ bao gồm số và chữ số, độ dài từ {{minlength}} đến {{maxlength}} kí tự",
@@ -25,12 +24,46 @@
       "account": {
         "caption": "Quản lý tài khoản",
         "functions": {
-          "accInfo": "Thông tin tài khoản"
+          "accInfo": "Thông tin tài khoản",
+          "changePassword": "Đổi mật khẩu"
         }
       }
     }
   },
-  "common": {
-    "unauthorized": "Không có quyền truy cập!"
+  "commonCaptions": {
+    "noInfo": "Không có thông tin",
+    "userName": "Tài khoản",
+    "userFullName": "Tên người dùng",
+    "userDeptCode": "Mã phòng ban",
+    "userTitleCode": "Mã chức vụ",
+    "userEnabled": "Trạng thái",
+    "userFailedLoginCount": "Số lần đăng nhập sai",
+    "titleDesc": {
+      "caption": "Chức vụ",
+      "0000": "Quản trị hệ thống",
+      "0001": "Giám đốc",
+      "0002": "Trưởng phòng",
+      "0003": "Người dùng bình thường"
+    },
+    "deptDesc": {
+      "caption": "Phòng ban",
+      "0000": "IT",
+      "0001": "Nhân sự"
+    },
+    "enabledtrue": "Đang hoạt động",
+    "enabledfalse": "Vô hiệu",
+    "oldPassword": "Mật khẩu cũ",
+    "newPassword": "Mật khẩu mới",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "submit": "Gửi yêu cầu"
+  },
+  "responseErrors": {
+    "serverError": "Lỗi máy chủ ({{message}})",
+    "unauthorized": "Không có quyền truy cập",
+    "401expired": "Hết phiên làm việc"
+  },
+  "validationErrors": {
+    "passwordMismatch": "Mật khẩu không khớp",
+    "userPassRegexValidation": "Mật khẩu chỉ bao gồm số và chữ số, độ dài từ {{minlength}} đến {{maxlength}} kí tự"
   }
 }

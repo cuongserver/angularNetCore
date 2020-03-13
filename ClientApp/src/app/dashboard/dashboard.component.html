@@ -40,6 +40,10 @@
               <!-- tránh việc div bị blank nội dung trước khi translate xong => max-height không chuẩn-->
               {{'dashboard.menuGroup.account.functions.accInfo' | translate}}&nbsp;
             </div>
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" [routerLink]="['change-password']">
+              <!-- tránh việc div bị blank nội dung trước khi translate xong => max-height không chuẩn-->
+              {{'dashboard.menuGroup.account.functions.changePassword' | translate}}&nbsp;
+            </div>
           </sub-group>
           <sub-group header="Second Group" *ngIf="userRole == '0000'">
             <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer">
@@ -68,7 +72,7 @@
     <div class="dashboard-body-menu" *ngIf="userRole == '0003'">
       
     </div>
-    <div class="dashboard-body-main-content p-l-10 p-r-10">
+    <div class="dashboard-body-main-content p-l-10 p-r-10 w-100">
       <!--<router-outlet name="bodyMainContent"></router-outlet>-->
       <router-outlet></router-outlet>
     </div>
