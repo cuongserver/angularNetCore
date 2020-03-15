@@ -17,8 +17,8 @@
   z-index: 100;
 }
 .dashboard-body {
-    min-height: calc(100vh - 2.5rem - 4rem);
-    height:auto;
+    height: calc(100vh - 2.5rem - 4rem);
+    min-height: calc(568px - 2.5rem - 4rem);
 }
 .dashboard-footer {
   height: 2.5rem;
@@ -103,17 +103,18 @@
 
 .dashboard-body-menu {
   display: flex;
-  overflow-x: auto;
+  overflow-y: auto;
   z-index: 11;
-  box-shadow: 0px 0px 10px rgb(233, 143, 0);
+  box-shadow: 0px 0px 10px rgb(35, 255, 1);
+  height: 100%;
 }
 .dashboard-sidemenu-panel {
   z-index: 11;
-  width: 250px;
+  width: 300px;
   transition: 0.25s;
   white-space: nowrap;
   background-color: #313131;
-  box-shadow: 0px 2px 15px #313131;
+  /*box-shadow: 0px 2px 15px #313131;*/
   overflow-x: hidden;
 }
 
@@ -130,12 +131,12 @@
   box-shadow: 0px 0px 25px springgreen;
   color: rgb(233, 143, 0);
 }
-.dashboard-sidemenu-panel-overlay{
-    position: absolute;
-    height: inherit;
-    width: 100%;
-    background-color: rgba(92, 68, 68, 0.62);
-    display: none;
+.dashboard-sidemenu-panel-overlay {
+  position: absolute;
+  width: 100%;
+  background-color: rgba(92, 68, 68, 0.62);
+  display: none;
+  height: 100%;
 }
 .dashboard-sidemenu-panel-overlay.hidden {
     z-index: 10;
@@ -149,7 +150,6 @@
 
   .dashboard-body-menu {
     position: absolute;
-    height: inherit;
     font-size: 0.9rem;
   }
 
@@ -162,7 +162,7 @@
   }
 
   .dashboard-sidemenu-panel {
-    width: 200px;
+    width: 240px;
   }
 
   .dashboard-sidemenu-panel-overlay.hidden {
@@ -177,7 +177,6 @@
   }
   .dashboard-body-menu {
     position: absolute;
-    height: inherit;
     font-size: 0.85rem;
   }
 
@@ -190,7 +189,7 @@
   }
 
   .dashboard-sidemenu-panel {
-    width: 200px;
+    width: 210px;
   }
 }
 
@@ -210,7 +209,6 @@
 
   .dashboard-body-menu {
     position: absolute;
-    height: inherit;
     font-size: 0.85rem;
   }
 
@@ -240,7 +238,6 @@
   }
   .dashboard-body-menu{
       position:absolute;
-      height: inherit;
   }
 
   .dashboard-sidemenu-toggle {
@@ -251,7 +248,7 @@
   }
 
   .dashboard-sidemenu-panel {
-    width: 150px;
+    width: 180px;
   }
 }
 /*responsive*/

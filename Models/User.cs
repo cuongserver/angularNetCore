@@ -16,7 +16,13 @@ namespace AngularNETcore.Models
         public int userFailedLoginCount { get; set; }
         public string titleDesc { get; set; }
         public string deptDesc { get; set; }
+
+        //dung cho doi password
+        public string userPassOld { get; set; }
+        public string userPassNew { get; set; }
+        public string userPassConfirm { get; set; }
     }
+
 
     public class LoginValidationStatus
     {
@@ -39,8 +45,12 @@ namespace AngularNETcore.Models
         public string validateMessage { get; set; }
     }
 
-    public static class UserTitle
+    public class PasswordChangeStatus
     {
-        public static string Admin = "0000";
+        public User user { get; set; }
+        public string securityToken { get; set; }
+        public string validateResult { get; set; }
+        public string validateMessage { get; set; }
     }
+
 }

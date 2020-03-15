@@ -89,7 +89,7 @@ namespace AngularNETcore.Common
                     string ConnectionString = config.GetSection("ConnectionStrings").GetSection(Connection.ConnectionName).Value;
                     UserDataAccessLayer dal = new UserDataAccessLayer(ConnectionString);
                     User _model = new User { userName = name };
-                    TitleValidationStatus _titleValidate = dal.getUserTitle(_model);
+                    TitleValidationStatus _titleValidate = await dal.getUserTitle(_model);
                     if(role != _titleValidate.validateMessage)
                     {
                         context.Response.ContentType = "text/plain";

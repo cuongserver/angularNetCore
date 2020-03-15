@@ -1,0 +1,106 @@
+<div class="component-container max-w-450" [@fadeAnimation]=transitionState>
+  <h3>{{'dashboard.menuGroup.user.functions.addNewUser' | translate}}</h3>
+  <form class="" [formGroup]="thisForm" (ngSubmit)="submitForm()">
+    <div class="textbox-section m-t-5 m-b-5">
+      <div class="field-caption">
+        <span>{{'commonCaptions.userName' | translate}}</span>
+      </div>
+      <div class="input-area bo-r-5" (click)="resetValidity('userName')">
+        <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userName">
+      </div>
+    </div>
+
+    <div class="textbox-section m-t-5 m-b-5">
+      <div class="field-caption">
+        <span>{{'commonCaptions.userFullName' | translate}}</span>
+      </div>
+      <div class="input-area bo-r-5" (click)="resetValidity('userFullName')">
+        <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userFullName">
+      </div>
+    </div>
+
+    <div class="textbox-section m-t-5 m-b-5">
+      <div class="field-caption">
+        <span>{{'commonCaptions.userPass' | translate}}</span>
+      </div>
+      <div class="input-area bo-r-5" (click)="resetValidity('userPass')">
+        <input class="textbox sizefull bo-r-5 text-disk" autocomplete="off" formControlName="userPass">
+      </div>
+    </div>
+
+    <div class="textbox-section m-t-5 m-b-5">
+      <div class="field-caption">
+        <span>{{'commonCaptions.confirmPassword' | translate}}</span>
+      </div>
+      <div class="input-area bo-r-5" (click)="resetValidity('userPassConfirm')">
+        <input class="textbox sizefull bo-r-5 text-disk" autocomplete="off" formControlName="userPassConfirm">
+      </div>
+    </div>
+
+    <div class="textbox-section m-t-5 m-b-5">
+      <div class="field-caption">
+        <span>{{'commonCaptions.deptDesc.caption' | translate}}</span>
+      </div>
+      <div class="input-area bo-r-5" (click)="resetValidity('userDeptCode')">
+        <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userDeptCode">
+      </div>
+    </div>
+
+    <div class="textbox-section m-t-5 m-b-5">
+      <div class="field-caption">
+        <span>{{'commonCaptions.titleDesc.caption' | translate}}</span>
+      </div>
+      <div class="input-area bo-r-5" (click)="resetValidity('userTitleCode')">
+        <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userTitleCode">
+      </div>
+    </div>
+
+    <div class="textbox-section m-t-5 m-b-5">
+      <div class="field-caption">
+        <span>{{'commonCaptions.userEmail' | translate}}</span>
+      </div>
+      <div class="input-area bo-r-5" (click)="resetValidity('userEmail')">
+        <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userEmail">
+      </div>
+    </div>
+
+    <!--<div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span class="field-caption">{{'commonCaptions.newPassword' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5" (click)="resetValidity('userPassNewSubmitted')">
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="this.KVpair['userPassNewSubmitted'] && f.userPassNew?.errors?.required">
+        {{'login.userPassBlankValidation' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="this.KVpair['userPassNewSubmitted'] && !f.userPassNew.errors.required && f.userPassNew?.errors?.pattern">
+        {{'validationErrors.userPassRegexValidation' | translate: {minlength: '6', maxlength: '20'} }}
+      </div>
+      <input class="textbox sizefull bo-r-5 text-disk" autocomplete="off" formControlName="userPassNew">
+    </div>
+  </div>
+  <div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'commonCaptions.confirmPassword' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5" (click)="resetValidity('userPassConfirmSubmitted')">
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="(this.thisForm?.errors?.passwordMisMatch) && this.KVpair['userPassConfirmSubmitted']">
+        {{'validationErrors.passwordMismatch' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="this.KVpair['userPassConfirmSubmitted'] && f.userPassConfirm?.errors?.required && (!this.thisForm?.errors?.passwordMisMatch)">
+        {{'login.userPassBlankValidation' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="this.KVpair['userPassConfirmSubmitted'] && !f.userPassConfirm?.errors?.required
+                      && f.userPassConfirm?.errors?.pattern && (!this.thisForm?.errors?.passwordMisMatch)">
+        {{'validationErrors.userPassRegexValidation' | translate: {minlength: '6', maxlength: '20'} }}
+      </div>
+      <input class="textbox sizefull bo-r-5 text-disk" autocomplete="off" formControlName="userPassConfirm">
+    </div>
+  </div>-->
+
+    <div class="">
+      <button class="btn btn-success" type="submit">
+        {{'commonCaptions.submit' | translate}}
+      </button>
+    </div>
+  </form>
+</div>

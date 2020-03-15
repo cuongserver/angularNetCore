@@ -104,10 +104,11 @@ export class LoginComponent extends RootComponent implements OnInit {
           };
 
           if (['000', '001', '002', '003'].indexOf(message1) < 0) {
-            this.dialogService.sendMessage('serverError', message1)
+            this.dialogService.sendMessage('dbError', message1)
           };
       },
       (error) => {
+        this.subscriber.unsubscribe();
       }
     );
   }

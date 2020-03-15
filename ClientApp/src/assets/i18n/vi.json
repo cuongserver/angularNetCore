@@ -27,17 +27,26 @@
           "accInfo": "Thông tin tài khoản",
           "changePassword": "Đổi mật khẩu"
         }
+      },
+      "user": {
+        "caption": "Quản lý người dùng",
+        "functions": {
+          "listAllUser": "Danh sách người dùng",
+          "addNewUser": "Thêm người dùng"
+        }
       }
     }
   },
   "commonCaptions": {
     "noInfo": "Không có thông tin",
     "userName": "Tài khoản",
+    "userPass": "Mật khẩu",
     "userFullName": "Tên người dùng",
     "userDeptCode": "Mã phòng ban",
     "userTitleCode": "Mã chức vụ",
     "userEnabled": "Trạng thái",
     "userFailedLoginCount": "Số lần đăng nhập sai",
+    "userEmail": "Địa chỉ hòm thư",
     "titleDesc": {
       "caption": "Chức vụ",
       "0000": "Quản trị hệ thống",
@@ -55,7 +64,8 @@
     "oldPassword": "Mật khẩu cũ",
     "newPassword": "Mật khẩu mới",
     "confirmPassword": "Xác nhận mật khẩu",
-    "submit": "Gửi yêu cầu"
+    "submit": "Gửi yêu cầu",
+    "refreshCommand": "Làm mới"
   },
   "responseErrors": {
     "serverError": "Lỗi máy chủ ({{message}})",
@@ -65,5 +75,10 @@
   "validationErrors": {
     "passwordMismatch": "Mật khẩu không khớp",
     "userPassRegexValidation": "Mật khẩu chỉ bao gồm số và chữ số, độ dài từ {{minlength}} đến {{maxlength}} kí tự"
+  },
+  "changePasswordStatus": {
+    "000changepassword": "Mật khẩu đã thay đổi, bạn sẽ được chuyển qua trang đăng nhập",
+    "001changepassword": "Mật khẩu cũ không đúng",
+    "002changepassword": "Tài khoản bị vô hiệu hoặc không tồn tại"
   }
 }

@@ -10,7 +10,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
     './app.component.css',
     '../util.css',
     '../font/fontawesome-free-5.12.1-web/css/all.css',
-    '../font/montserrat/montserrat.css'],
+    '../font/montserrat/montserrat.css',
+    '../font/text-security/text-security.min.css',
+],
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {

@@ -9,7 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
   providedIn: 'root'
 })
 export class LoaderInterceptorService implements HttpInterceptor {
-  constructor(private loaderService: LoaderService, private dialogService: DialogService, private dialog: MatDialog) {
+  
+  constructor(private loaderService: LoaderService, private dialog: MatDialog) {
 
   }
   
@@ -27,56 +28,57 @@ export class LoaderInterceptorService implements HttpInterceptor {
   //}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    
     this.showLoader();
-    let x: Observable<HttpEvent<any>>;
-    x = next.handle(req)
-      .pipe(
-      tap(
-        (event: HttpEvent<any>) => {
-          if (event instanceof HttpResponse) {
-            
-            this.onEnd();
-          }
-        },
+    return next.handle(req)
+      .pipe(tap(
+          (event: HttpEvent<any>) => {
+            if (event instanceof HttpResponse) {
+              this.onEnd();
+            }
+          },
         (err: any) => {
-          let response = err;
-          console.log(JSON.stringify(response));
-          this.showErrorDialog();
-          this.onEnd();
-          let result = JSON.parse(JSON.stringify(response));          
-          let statusCode = result['status'];
-          switch (statusCode) {
-            case 403:
-              this.dialogService.sendMessage('unauthorized', '');
-              break;
-            case 401:
-              let message1 = result['error']['validateResult'];
-              if (message1 == '401expired') {
-                this.dialogService.sendMessage(message1, '');
+            let dialogService: DialogService = new DialogService();
+            let response = err;
+            console.log(JSON.stringify(response));
+            this.showErrorDialog(dialogService);
+            this.onEnd();
+            let result = JSON.parse(JSON.stringify(response));
+            let statusCode = result['status'];
+            switch (statusCode) {
+              case 403:
+                dialogService.sendMessage('unauthorized', '');
                 break;
-              }
-              if (message1 == null) {
-                this.dialogService.sendMessage('unauthorized', '');
-                break;
-              }            
-            default:
-              this.dialogService.sendMessage('serverError', '');              
-          }
+              case 401:
+                let message1 = result['error']['validateResult'];
+                if (message1 == '401expired') {
+                  dialogService.sendMessage(message1, '');
+                  break;
+                }
+                if (message1 == null) {
+                  dialogService.sendMessage('unauthorized', '');
+                  break;
+                }
+              default:
+                  dialogService.sendMessage('serverError', '');
+            }
+          dialogService = null;
         }
-      )
-    );
-    return x;
+        )
+      );
   }
 
-  private showErrorDialog(): void {
-    let subscriber = this.dialogService.getMessage().subscribe(message => {
-      let subscriber2 = this.loaderService.loaderDeactivated.subscribe(() => {
-        var x = DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
-          MessageBoxButton.Ok, false, MessageBoxStyle.Simple).subscribe(result => {
-            subscriber.unsubscribe();
-            subscriber2.unsubscribe();
-          });
-      });
+  private showErrorDialog(dialogService: DialogService): void {
+    let subscriber = dialogService.getMessage().subscribe(message => {
+      subscriber.unsubscribe();
+      if (['unauthorized', '401expired', 'serverError'].indexOf(message.text) >= 0) {
+        let subscriber2 = this.loaderService.loaderDeactivated.subscribe(() => {
+          subscriber2.unsubscribe();
+          var x = DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
+            MessageBoxButton.Ok, false, MessageBoxStyle.Simple).subscribe(result => {
+            });
+        });
+      }
     });
   }
 

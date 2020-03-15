@@ -26,6 +26,42 @@ export class PreventUnauthenticated implements CanActivate {
 }
 
 @Injectable()
+export class RoleCheck implements CanActivate {
+
+  private subscriber: Subscription
+  constructor(private jwtHelper: JwtHelperService, private router: Router, private dialogService: DialogService,
+    private dialog: MatDialog) {
+  }
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
+    let roles: Array<string> = route.data["authorizedRoles"];
+    let token = this.jwtHelper.tokenGetter();
+    if (token == null) {
+      this.sendMessage();
+      return false;
+    }
+    let role: string = extractFromToken('role', this.jwtHelper);
+    if (!roles.includes(role)) {
+      this.sendMessage();
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+  private sendMessage() {
+    this.subscriber = this.dialogService.getMessage().subscribe((message) => {
+      this.subscriber.unsubscribe();
+      DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
+          MessageBoxButton.Ok, false, MessageBoxStyle.Simple).subscribe((result) => {
+
+        });
+    });
+    this.dialogService.sendMessage('unauthorized', '');
+  }
+}
+
+@Injectable()
 export class PreventBackToLoginPageAfterLogin implements CanActivate {
   constructor(private jwtHelper: JwtHelperService, private router: Router) {
   }
@@ -42,3 +78,8 @@ export class PreventBackToLoginPageAfterLogin implements CanActivate {
   }
 }
 
+export function extractFromToken(segment: string, jwtHelper: JwtHelperService): string {
+  let token = jwtHelper.tokenGetter();
+  let decodedInfo = jwtHelper.decodeToken(token);
+  return decodedInfo[segment];
+}

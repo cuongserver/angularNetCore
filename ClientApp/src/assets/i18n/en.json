@@ -27,17 +27,26 @@
           "accInfo": "Account Information",
           "changePassword": "Change Password"
         }
+      },
+      "user": {
+        "caption": "User Maintenance",
+        "functions": {
+          "listAllUser": "Users List",
+          "addNewUser":  "Add User"
+        }
       }
     }
   },
   "commonCaptions": {
     "noInfo": "No Information",
     "userName": "User Name",
+    "userPass": "Password",
     "userFullName": "Full Name",
     "userDeptCode": "Department Code",
     "userTitleCode": "Title Code",
     "userEnabled": "Status",
     "userFailedLoginCount": "Failed login attempt(s)",
+    "userEmail": "Email Address",
     "titleDesc": {
       "caption": "Title",
       "0000": "Admin",
@@ -55,7 +64,8 @@
     "oldPassword": "Old Password",
     "newPassword": "New Password",
     "confirmPassword": "Confirm password",
-    "submit": "Submit"
+    "submit": "Submit",
+    "refreshCommand": "Làm mới"
   },
   "responseErrors": {
     "serverError": "Error at server ({{message}})",
@@ -64,6 +74,12 @@
   },
 
   "validationErrors": {
-    "passwordMismatch": "Password mismatched"
+    "passwordMismatch": "Password mismatched",
+    "userPassRegexValidation": "Password must consist letters and numbers only, with length from {{minlength}} to {{maxlength}} characters"
+  },
+  "changePasswordStatus": {
+    "000changepassword": "Password is changed, you will be redirected to login page",
+    "001changepassword": "Incorrect old password",
+    "002changepassword": "Account is disabled or doesn't exist"
   }
 }

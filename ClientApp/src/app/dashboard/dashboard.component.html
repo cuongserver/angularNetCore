@@ -31,7 +31,7 @@
   <div class="dashboard-body">
     <!--phần sidemenu của admin-->
 
-    <div class="dashboard-body-menu">
+    <div class="dashboard-body-menu min-h-full">
       <div class="dashboard-sidemenu-panel" [ngClass]="{'hidden': !sideMenuOpened}">
         <app-side-menu>
           <sub-group header="dashboard.menuGroup.account.caption" *ngIf="userRole == '0000' || userRole == '0003' ">
@@ -45,9 +45,12 @@
               {{'dashboard.menuGroup.account.functions.changePassword' | translate}}&nbsp;
             </div>
           </sub-group>
-          <sub-group header="Second Group" *ngIf="userRole == '0000'">
-            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer">
-              this is the content
+          <sub-group header="dashboard.menuGroup.user.caption" *ngIf="['0000'].indexOf(userRole) >= 0">
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" [routerLink]="['add-new-user']">
+              {{'dashboard.menuGroup.user.functions.addNewUser' | translate}}&nbsp;
+            </div>
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" [routerLink]="['list-all-user']">
+              {{'dashboard.menuGroup.user.functions.listAllUser' | translate}}&nbsp;
             </div>
           </sub-group>
           <sub-group header="Third Group" *ngIf="userRole == '0000'">
@@ -68,11 +71,7 @@
         </app-side-menu>
       </div>
     </div>
-    <!--phần sidemenu của user-->
-    <div class="dashboard-body-menu" *ngIf="userRole == '0003'">
-      
-    </div>
-    <div class="dashboard-body-main-content p-l-10 p-r-10 w-100">
+    <div class="dashboard-body-main-content p-l-10 p-r-10 p-t-5 p-b-10 w-100">
       <!--<router-outlet name="bodyMainContent"></router-outlet>-->
       <router-outlet></router-outlet>
     </div>

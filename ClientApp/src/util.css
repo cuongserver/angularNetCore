@@ -2982,12 +2982,21 @@
 	right: 0px;
 	bottom: 0px;
 }
+/*max width*/
+.max-w-450{max-width: 450px}
+/*======max width*/
+
+/*font-weight*/
+.font-b{font-weight: bold}
+/*======max width*/
+
+/*border-radius*/
+.bo-r-5 {border-radius: 5px}
+/*======border-radius*/
 
 
-
-
-
-
-
+/*text-security*/
+.text-disk{font-family: 'text-security-disc'}
+/*======text-security*/
 
 
