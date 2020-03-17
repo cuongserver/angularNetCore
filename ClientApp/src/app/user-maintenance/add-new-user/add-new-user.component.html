@@ -6,6 +6,15 @@
         <span>{{'commonCaptions.userName' | translate}}</span>
       </div>
       <div class="input-area bo-r-5" (click)="resetValidity('userName')">
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userNameRequired')">
+          {{'validationErrors.userNameRequired' | translate}}
+        </div>
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userNamePattern')">
+          {{'validationErrors.userNamePattern' | translate: {minlength: '6', maxlength: '20'} }}
+        </div>
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userName' + 'DbExist')">
+          {{'databaseErrors.userName2627' | translate}}
+        </div>
         <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userName">
       </div>
     </div>
@@ -15,6 +24,12 @@
         <span>{{'commonCaptions.userFullName' | translate}}</span>
       </div>
       <div class="input-area bo-r-5" (click)="resetValidity('userFullName')">
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userFullNameRequired')">
+          {{'validationErrors.userFullNameRequired' | translate}}
+        </div>
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userFullNamePattern')">
+          {{'validationErrors.userFullNamePattern' | translate: {minlength: '1', maxlength: '20'} }}
+        </div>
         <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userFullName">
       </div>
     </div>
@@ -24,6 +39,12 @@
         <span>{{'commonCaptions.userPass' | translate}}</span>
       </div>
       <div class="input-area bo-r-5" (click)="resetValidity('userPass')">
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userPass' + 'Required')">
+          {{'login.userPassBlankValidation' | translate}}
+        </div>
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userPass' + 'Pattern')">
+          {{'validationErrors.userPassRegexValidation' | translate: {minlength: '6', maxlength: '20'} }}
+        </div>
         <input class="textbox sizefull bo-r-5 text-disk" autocomplete="off" formControlName="userPass">
       </div>
     </div>
@@ -33,6 +54,15 @@
         <span>{{'commonCaptions.confirmPassword' | translate}}</span>
       </div>
       <div class="input-area bo-r-5" (click)="resetValidity('userPassConfirm')">
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userPassConfirm' + 'Required')">
+          {{'login.userPassBlankValidation' | translate}}
+        </div>
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userPassConfirm' + 'Pattern')">
+          {{'validationErrors.userPassRegexValidation' | translate: {minlength: '6', maxlength: '20'} }}
+        </div>
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userPassConfirm' + 'Mismatch')">
+          {{'validationErrors.passwordMismatch' | translate }}
+        </div>
         <input class="textbox sizefull bo-r-5 text-disk" autocomplete="off" formControlName="userPassConfirm">
       </div>
     </div>
@@ -42,7 +72,17 @@
         <span>{{'commonCaptions.deptDesc.caption' | translate}}</span>
       </div>
       <div class="input-area bo-r-5" (click)="resetValidity('userDeptCode')">
-        <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userDeptCode">
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userDeptCode' + 'Required')">
+          {{'validationErrors.userDeptCodeRequired' | translate}}
+        </div>
+        <select class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userDeptCode">
+          <option class="font-b" value="" selected>
+            --&nbsp;{{'commonCaptions.pleasePickOne' | translate}}&nbsp;--
+          </option>
+          <option *ngFor="let deptCode of deptCodeList" value="{{deptCode}}">
+            {{deptCode}}&nbsp;_&nbsp;{{'commonCaptions.deptDesc.' + deptCode | translate}}
+          </option>
+        </select>
       </div>
     </div>
 
@@ -51,7 +91,17 @@
         <span>{{'commonCaptions.titleDesc.caption' | translate}}</span>
       </div>
       <div class="input-area bo-r-5" (click)="resetValidity('userTitleCode')">
-        <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userTitleCode">
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userTitleCode' + 'Required')">
+          {{'validationErrors.userDeptCodeRequired' | translate}}
+        </div>
+        <select class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userTitleCode">
+          <option class="font-b" value="" selected>
+            --&nbsp;{{'commonCaptions.pleasePickOne' | translate}}&nbsp;--
+          </option>
+          <option *ngFor="let titleCode of titleCodeList" value="{{titleCode}}">
+            {{titleCode}}&nbsp;_&nbsp;{{'commonCaptions.titleDesc.' + titleCode | translate}}
+          </option>
+        </select>
       </div>
     </div>
 
@@ -60,6 +110,12 @@
         <span>{{'commonCaptions.userEmail' | translate}}</span>
       </div>
       <div class="input-area bo-r-5" (click)="resetValidity('userEmail')">
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userEmail' + 'Required')">
+          {{'validationErrors.userEmailRequired' | translate}}
+        </div>
+        <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userEmail' + 'Pattern')">
+          {{'validationErrors.userEmailPattern' | translate}}
+        </div>
         <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userEmail">
       </div>
     </div>

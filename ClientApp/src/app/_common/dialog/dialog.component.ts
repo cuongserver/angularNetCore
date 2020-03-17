@@ -76,10 +76,6 @@ export class DialogService {
     return this.message.asObservable();
   }
 
-  getMessage2(): Observable<any> {
-    return this.message.asObservable();
-  }
-
   clearMessage() {
     this.message.next();
   }

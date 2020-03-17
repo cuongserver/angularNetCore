@@ -27,11 +27,15 @@ namespace AngularNETcore.Controllers
     {
         private readonly string ConnectionString;
         private readonly string SecurityKey;
+        private readonly long DefautltPageSize;
+        private readonly long DefaultRequestPage;
         private IJwtService jwtService;
         private UserDataAccessLayer dal;
         public UserController(IConfiguration _config, IJwtService _jwtService)
         {
             ConnectionString = _config.GetSection("ConnectionStrings").GetSection(Connection.ConnectionName).Value;
+            DefautltPageSize = Convert.ToInt64(_config.GetSection("DbPaging").GetSection("DefaultPageSize").Value);
+            DefaultRequestPage = Convert.ToInt64(_config.GetSection("DbPaging").GetSection("DefaultRequestPage").Value);
             SecurityKey = _config.GetSection("SecuritySettings").GetSection("Secret").Value;
             jwtService = _jwtService;
             dal = new UserDataAccessLayer(ConnectionString);
@@ -54,7 +58,7 @@ namespace AngularNETcore.Controllers
         [Authorize(Roles = "0000, 0001, 0002, 0003")]
         public async Task<IActionResult> ChangePassword([FromBody] User model)
         {
-            if((model.userPassNew != model.userPassConfirm) || !ModelState.IsValid)
+            if((model.userPassNew != model.userPassConfirm))
             {
                 return StatusCode(StatusCodes.Status404NotFound);
             }
@@ -71,6 +75,63 @@ namespace AngularNETcore.Controllers
 
         }
 
+        [HttpPost("addnewuser")]
+        [Authorize(Roles = "0000")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddNewUser([FromBody] User model)
+        {
+            if ((model.userPass != model.userPassConfirm))
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            UserInformation _obj = await dal.addNewUser(model);
+            string[] OkStatusList = { "000", "2627" };
+            if (OkStatusList.Contains(_obj.status))
+            {
+                return Ok(_obj);
+            }
+            else
+            {
+                return NotFound(_obj);
+            }
+        }
+
+
+
+
+
+
+        [HttpGet("titleanddeptlist")]
+        [Authorize(Roles = "0000")]
+        public async Task<IActionResult> TitleAndDeptList()
+        {
+            TitleAndDept _obj= await dal.getTitleAndDeptCode();
+            return Ok(_obj);
+        }
+
+        //[HttpGet("listalluser")]
+        //[AllowAnonymous]
+        //[Authorize(Roles = "0000")]
+        //public async Task<IActionResult> ListAllUser()
+        //{
+        //    UserCollection _obj = await dal.listAllUser();
+        //    return Ok(_obj);
+        //}
+
+        [HttpGet("listalluser")]
+        [AllowAnonymous]
+        //[Authorize(Roles = "0000")]
+        public async Task<IActionResult> ListAllUser(long pageSize, long requestPage)
+        {
+            long _pageSize = pageSize <= 0 ? DefautltPageSize : pageSize;
+            long _requestPage = requestPage <= 0 ? DefaultRequestPage : requestPage;
+            UserCollection _obj = await dal.listAllUserWithPaging(_pageSize, _requestPage);
+            if(_obj.status != "000")
+            {
+                return NotFound(_obj);
+            }
+            return Ok(_obj);
+        }
     }
     public static class Connection
     {

@@ -34,7 +34,7 @@
     <div class="dashboard-body-menu min-h-full">
       <div class="dashboard-sidemenu-panel" [ngClass]="{'hidden': !sideMenuOpened}">
         <app-side-menu>
-          <sub-group header="dashboard.menuGroup.account.caption" *ngIf="userRole == '0000' || userRole == '0003' ">
+          <sub-group header="dashboard.menuGroup.account.caption" *ngIf="['0000', '0001', '0002', '0003'].indexOf(userRole) >= 0">
             <!-- router outlet không được chứa ký tự đặc biệt-->
             <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" [routerLink]="['account-information']">
               <!-- tránh việc div bị blank nội dung trước khi translate xong => max-height không chuẩn-->

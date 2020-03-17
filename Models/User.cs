@@ -16,6 +16,7 @@ namespace AngularNETcore.Models
         public int userFailedLoginCount { get; set; }
         public string titleDesc { get; set; }
         public string deptDesc { get; set; }
+        public string userEmail { get; set; }
 
         //dung cho doi password
         public string userPassOld { get; set; }
@@ -23,6 +24,11 @@ namespace AngularNETcore.Models
         public string userPassConfirm { get; set; }
     }
 
+    public class TitleAndDept
+    {
+        public List<string> titleCodeList { get; set; }
+        public List<string> deptCodeList { get; set; }
+    }
 
     public class LoginValidationStatus
     {
@@ -39,6 +45,15 @@ namespace AngularNETcore.Models
         public string message { get; set; }
     }
 
+    public class UserCollection
+    {
+        public List<User> users { get; set; }
+        public long pageSize { get; set; }
+        public long collectionSize { get; set; }
+        public long activePage { get; set; }
+        public string status { get; set; }
+        public string message { get; set; }
+    }
     public class TitleValidationStatus
     {
         public string validateResult { get; set; }

@@ -71,7 +71,6 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     this.setEventListenerAfterSubmit();
     this.http.put('/User/ChangePassword', data, httpOptions).subscribe(
       (response) => {
-        console.log(response);
         let result = JSON.parse(JSON.stringify(response));
         let message1 = result['validateResult'];
         let message2 = result['validateMessage'];

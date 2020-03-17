@@ -21,11 +21,11 @@ const routes: Routes = [
       //{ path: 'change-password', component: ChangePasswordComponent, canActivate: [PreventUnauthenticated] },
       {
         path: 'account-information', component: AccountInformationComponent,
-        canActivate: [RoleCheck], data: { authorizedRoles: ['0000','0003'] }
+        canActivate: [RoleCheck], data: { authorizedRoles: ['0000', '0001', '0002', '0003'] }
       },
       {
         path: 'change-password', component: ChangePasswordComponent,
-        canActivate: [RoleCheck], data: { authorizedRoles: ['0000', '0003'] }
+        canActivate: [RoleCheck], data: { authorizedRoles: ['0000', '0001', '0002', '0003'] }
       },
       {
         path: 'list-all-user', component: ListAllUserComponent,

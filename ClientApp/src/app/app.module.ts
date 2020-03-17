@@ -43,6 +43,7 @@ import {AccountInformationComponent} from './account-maintenance/account-informa
 import {ChangePasswordComponent} from './account-maintenance/change-password/change-password.component'
 import { ListAllUserComponent } from './user-maintenance/list-all-user/list-all-user.component';
 import { AddNewUserComponent } from './user-maintenance/add-new-user/add-new-user.component';
+import { UserListTableComponent, NgbdSortableHeader } from './user-maintenance/list-all-user/user-list-table/user-list-table.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { AddNewUserComponent } from './user-maintenance/add-new-user/add-new-use
     SideMenuComponent, SubGroupComponent,
     AccountInformationComponent,
     ChangePasswordComponent,
-    ListAllUserComponent,
+    ListAllUserComponent, UserListTableComponent, NgbdSortableHeader,
     AddNewUserComponent
   ],
   imports: [
@@ -103,6 +104,7 @@ import { AddNewUserComponent } from './user-maintenance/add-new-user/add-new-use
     },
     DialogService,
     SideMenuClosingService
+    
   ],
   bootstrap: [AppComponent]
 })

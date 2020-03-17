@@ -57,7 +57,9 @@
     "deptDesc": {
       "caption": "Phòng ban",
       "0000": "IT",
-      "0001": "Nhân sự"
+      "0001": "Nhân sự",
+      "0002": "Tài chính / Kế toán",
+      "0003": "Cung ứng / Vận chuyển / Kho bãi"
     },
     "enabledtrue": "Đang hoạt động",
     "enabledfalse": "Vô hiệu",
@@ -65,7 +67,9 @@
     "newPassword": "Mật khẩu mới",
     "confirmPassword": "Xác nhận mật khẩu",
     "submit": "Gửi yêu cầu",
-    "refreshCommand": "Làm mới"
+    "refreshCommand": "Làm mới",
+    "pleasePickOne": "Hãy chọn lấy một",
+    "clearSort": "Bỏ sắp xếp"
   },
   "responseErrors": {
     "serverError": "Lỗi máy chủ ({{message}})",
@@ -74,11 +78,25 @@
   },
   "validationErrors": {
     "passwordMismatch": "Mật khẩu không khớp",
-    "userPassRegexValidation": "Mật khẩu chỉ bao gồm số và chữ số, độ dài từ {{minlength}} đến {{maxlength}} kí tự"
+    "userPassRegexValidation": "Mật khẩu chỉ bao gồm số và chữ số, độ dài từ {{minlength}} đến {{maxlength}} kí tự",
+    "userNameRequired": "Tài khoản không được trống",
+    "userNamePattern": "Tên tài khoản chỉ bao gồm số và chữ số, độ dài từ {{minlength}} đến {{maxlength}} kí tự",
+    "userFullNameRequired": "Tên gọi không được trống",
+    "userFullNamePattern": "Tên gọi chỉ bao gồm số và chữ số, độ dài từ {{minlength}} đến {{maxlength}} kí tự",
+    "userTitleCodeRequired": "Chức vụ không được trống",
+    "userDeptCodeRequired": "Phòng ban không được trống",
+    "userEmailRequired": "Địa chỉ thư không được trống",
+    "userEmailPattern": "Địa chỉ thư không hợp lệ"
+  },
+  "databaseErrors": {
+    "userName2627": "Tài khoản đã tồn tại"
   },
   "changePasswordStatus": {
     "000changepassword": "Mật khẩu đã thay đổi, bạn sẽ được chuyển qua trang đăng nhập",
     "001changepassword": "Mật khẩu cũ không đúng",
     "002changepassword": "Tài khoản bị vô hiệu hoặc không tồn tại"
+  },
+  "addNewUserStatus": {
+    "000addnewuser": "Tài khoản {{userName}} đã được tạo"
   }
 }

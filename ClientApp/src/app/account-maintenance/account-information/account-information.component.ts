@@ -20,6 +20,7 @@ export class AccountInformationComponent {
   private userFailedLoginCount
   private titleDesc
   private deptDesc
+  private userEmail
   private status
   transitionState: string = 'in';
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
@@ -46,6 +47,7 @@ export class AccountInformationComponent {
           this.userFailedLoginCount = result['user']['userFailedLoginCount'];
           this.titleDesc = result['user']['titleDesc'];
           this.deptDesc = result['user']['deptDesc'];
+          this.userEmail = result['user']['userEmail'];
           this.status = result['status'];
         },
         (error) => {

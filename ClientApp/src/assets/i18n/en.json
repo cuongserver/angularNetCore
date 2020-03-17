@@ -32,7 +32,7 @@
         "caption": "User Maintenance",
         "functions": {
           "listAllUser": "Users List",
-          "addNewUser":  "Add User"
+          "addNewUser": "Add User"
         }
       }
     }
@@ -57,7 +57,9 @@
     "deptDesc": {
       "caption": "Department Name",
       "0000": "IT",
-      "0001": "Human Resource"
+      "0001": "Human Resource",
+      "0002": "Finance / Accounting",
+      "0003": "Supply Chain / Logistic / Warehouse"
     },
     "enabledtrue": "Active",
     "enabledfalse": "Inactive",
@@ -65,7 +67,9 @@
     "newPassword": "New Password",
     "confirmPassword": "Confirm password",
     "submit": "Submit",
-    "refreshCommand": "Làm mới"
+    "refreshCommand": "Refresh",
+    "pleasePickOne": "Please Pick One",
+    "clearSort": "Undo Sort"
   },
   "responseErrors": {
     "serverError": "Error at server ({{message}})",
@@ -75,11 +79,28 @@
 
   "validationErrors": {
     "passwordMismatch": "Password mismatched",
-    "userPassRegexValidation": "Password must consist letters and numbers only, with length from {{minlength}} to {{maxlength}} characters"
+    "userPassRegexValidation": "Password must consist letters and numbers only, with length from {{minlength}} to {{maxlength}} characters",
+    "userNameRequired": "Username must not be blank",
+    "userNamePattern": "Username consists letters and digits only, with length from {{minlength}} to {{maxlength}} characters",
+    "userFullNameRequired": "Fullname must not be blank",
+    "userFullNamePattern": "Fullname consists letters and digits only, with length from {{minlength}} to {{maxlength}} characters",
+    "userTitleCodeRequired": "Title must not be blank",
+    "userDeptCodeRequired": "Department must not be blank",
+    "userEmailRequired": "Email must not be blank",
+    "userEmailPattern": "Email address is not valid"
+
+
+  },
+  "databaseErrors": {
+    "userName2627": "Account is occupied"
   },
   "changePasswordStatus": {
     "000changepassword": "Password is changed, you will be redirected to login page",
     "001changepassword": "Incorrect old password",
     "002changepassword": "Account is disabled or doesn't exist"
+  },
+  "addNewUserStatus": {
+    "000addnewuser": "Account {{userName}} is created"
   }
+
 }

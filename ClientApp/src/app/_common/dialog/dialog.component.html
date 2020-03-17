@@ -41,6 +41,14 @@
   </div>
 
   <!-- dialog phần đổi mật khẩu (hết)-->
+  <!-- dialog phần thêm mới user -->
+  <div class="message" *ngIf="message == '000addnewuser'">
+    <div>
+      {{'addNewUserStatus.' + message | translate: {userName: extraInfo} }}
+    </div>
+  </div>
+
+  <!-- dialog phần thêm mới user (hết)-->
   <div class="info" *ngIf="information !== ''">
     <p>{{information}}</p>
   </div>

@@ -1,0 +1,100 @@
+<div>
+  <div class="search-bar">
+
+  </div>
+  <div class="command-bar">
+    <div class="btn btn-success m-t-3 m-b-3 m-l-3 m-r-3" (click)="clearSort()">
+      <i class="fas fa-undo-alt"></i>&nbsp;&nbsp;
+      {{ 'commonCaptions.clearSort' | translate }}
+    </div>
+    <div class="btn btn-success m-t-3 m-b-3 m-l-3 m-r-3" (click)="refresh()">
+      <span><i class="fas fa-sync-alt"></i>&nbsp;&nbsp;{{'commonCaptions.refreshCommand' | translate}}</span>
+    </div>
+  </div>
+
+  <div class="">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" sortable="userName" priority="" (sort)="onSort($event)">userName</th>
+          <th scope="col" sortable="userFullName" priority="" (sort)="onSort($event)">userFullName</th>
+          <th scope="col" sortable="userDeptCode" priority="" (sort)="onSort($event)">userDeptCode</th>
+          <th scope="col" sortable="userTitleCode" priority="" (sort)="onSort($event)">userTitleCode</th>
+          <th scope="col" sortable="userEmail" priority="" (sort)="onSort($event)">userEmail</th>
+          <th scope="col" sortable="userEnabled" priority="" (sort)="onSort($event)">userEnabled</th>
+          <th scope="col" sortable="userFailedLoginCount" priority="" (sort)="onSort($event)">userFailedLoginCount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>
+            {{ user.userName }}
+          </td>
+          <td>
+            {{ user.userFullName }}
+          </td>
+          <td>
+            {{ user.userDeptCode }}
+          </td>
+          <td>
+            {{ user.userTitleCode }}
+          </td>
+          <td>
+            {{ user.userEmail }}
+          </td>
+          <td>
+            {{ user.userEnabled }}
+          </td>
+          <td>
+            {{ user.userFailedLoginCount }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex justify-content-between p-2 pager-bar">
+    <div class="card-footer pb-0 pt-3">
+      <ul class="pagination" *ngIf="pageCount > 1 && collectionSize > 0">
+        <!--first page-->
+        <li class="page-item number-item" *ngIf="activePage !== 1" (click)="loadPage(1)">
+          <span class="page-link"><i class="fas fa-fast-backward"></i></span>
+        </li>
+        <!--previous page-->
+        <li class="page-item number-item" *ngIf="activePage !== 1" (click)="loadPage(activePage - 1)">
+          <span class="page-link"><i class="fas fa-angle-left"></i></span>
+        </li>
+        <!--lower tripple dot-->
+        <li class="page-item number-item" *ngIf="pageBlockIndex > 1" disabled>
+          <span class="page-link" disabled><i class="fas fa-ellipsis-h"></i></span>
+        </li>
+
+        <li class="page-item number-item" *ngFor="let page of visiblePages" (click)="loadPage(page)" [ngClass]="{active: page == activePage}">
+          <span class="page-link">{{page}}</span>
+        </li>
+
+        <!--upper tripple dot-->
+        <li class="page-item number-item" *ngIf="pageBlockIndex < upperPageBlockIndex" disabled>
+          <span class="page-link" disabled><i class="fas fa-ellipsis-h"></i></span>
+        </li>
+        <!--next page-->
+        <li class="page-item number-item" *ngIf="activePage !== pageCount" (click)="loadPage(activePage + 1)">
+          <span class="page-link"><i class="fas fa-angle-right"></i></span>
+        </li>
+        <!--last page-->
+        <li class="page-item number-item" *ngIf="activePage !== pageCount" (click)="loadPage(collectionSize)">
+          <span class="page-link"><i class="fas fa-fast-forward"></i></span>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+  Collection size: {{collectionSize}}, pagesize: {{pageSize}}, activePage: {{activePage}}
+<div>
+  <select class="custom-select" #options (change)="changePageSize(options.value)">
+    <option *ngFor="let pageSizeOption of pageSizeOptions" [value]="pageSizeOption" [selected]="pageSizeOption == pageSize">{{pageSizeOption}} items per page</option>
+  </select>
+</div>
+</div>
