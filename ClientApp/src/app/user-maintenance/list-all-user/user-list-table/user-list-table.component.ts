@@ -217,7 +217,12 @@ export class UserListTableComponent {
     return index;
   }
   removeCondition(index: number) {
+    var x = this.conditionSet.length;
     this.conditionSet.splice(index, 1);
+    if (x > 1){
+      this.conditionSet[0].phraseOperator = 'and'
+    };
+
   }
   checkBooleanField(index: number) {
     let x: FilterCondition = this.conditionSet[index]

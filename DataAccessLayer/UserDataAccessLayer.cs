@@ -7,6 +7,7 @@ using AngularNETcore.Models;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Diagnostics;
+using AngularNETcore.Common;
 namespace AngularNETcore.DataAccessLayer
 {
     public class UserDataAccessLayer : DataAccessLayerBase
@@ -419,7 +420,7 @@ namespace AngularNETcore.DataAccessLayer
             return _obj;
         }
 
-        public async Task<UserCollection> listAllUserWithPaging(long pageSize, long requestPage)
+        public async Task<UserCollection> listAllUserWithPaging(long pageSize, long requestPage, UserSearchCondition filters)
         {
             long _pageSize = pageSize;
             long _requestPage = requestPage;
@@ -428,12 +429,16 @@ namespace AngularNETcore.DataAccessLayer
                 users = new List<User>()
             };
 
+            string _condition = Utility.CompleteConditionString(filters);
+            string condition = String.IsNullOrEmpty(_condition) ? "1 = 1" : "(" + _condition + ")";
+            Debug.WriteLine(condition);
             using (SqlConnection con = SqlCon())
             {
                 SqlCommand cmd = SqlCmd(con);
                 cmd.CommandText = "GetUserWithPaging";
                 cmd.Parameters.AddWithValue("@pageSize", _pageSize);
                 cmd.Parameters.AddWithValue("@requestPage", _requestPage);
+                cmd.Parameters.AddWithValue("@condition", condition);
 
                 SqlParameter prm1 = new SqlParameter
                 {
@@ -459,7 +464,7 @@ namespace AngularNETcore.DataAccessLayer
                 {
                     con.Open();
                     da.Fill(ds);
-                    dt0 = ds.Tables[0];
+                    if(ds.Tables.Count > 0) dt0 = ds.Tables[0];
                     if (dt0.Rows.Count > 0)
                     {
                         foreach (DataRow dr in dt0.Rows)
@@ -479,7 +484,7 @@ namespace AngularNETcore.DataAccessLayer
                     }
                     
                     _obj.collectionSize = (Int64)prm1.Value;
-                    _obj.pageSize = Math.Min(_pageSize, _obj.collectionSize);
+                    _obj.pageSize = _pageSize;
                     _obj.activePage = (Int64)prm2.Value;
                     _obj.status = "000";
                 }

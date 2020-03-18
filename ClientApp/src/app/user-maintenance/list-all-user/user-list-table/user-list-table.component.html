@@ -10,7 +10,7 @@
       </div>
       <select class="m-l-2 m-r-2" [(ngModel)]="conditionSet[i].phraseOperator">
         <option value="and">And</option>
-        <option value="or">Or</option>
+        <option value="or" *ngIf="i!=0">Or</option>
       </select>
       <select class="m-l-2 m-r-2" [(ngModel)]="conditionSet[i].field" (change)="checkBooleanField(i)">
         <option value="userName">{{'commonCaptions.userName' | translate}}</option>
