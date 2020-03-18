@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using System.Text;
 using AngularNETcore.Common;
 //using AngularNETcore.Common;
@@ -29,7 +29,7 @@ namespace AngularNETcore
             services.AddSingleton<IJwtService, JwtService>();
             services.ConfigureJwtValidationProcess(Configuration);
             services.AddSession();
-
+            services.AddControllers().AddNewtonsoftJson();
 
             // In production, the Angular files will be served from this directory
 

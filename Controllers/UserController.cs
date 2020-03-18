@@ -118,13 +118,17 @@ namespace AngularNETcore.Controllers
         //    return Ok(_obj);
         //}
 
-        [HttpGet("listalluser")]
+        [HttpPost("listalluser")]
         [AllowAnonymous]
         //[Authorize(Roles = "0000")]
-        public async Task<IActionResult> ListAllUser(long pageSize, long requestPage)
-        {
-            long _pageSize = pageSize <= 0 ? DefautltPageSize : pageSize;
-            long _requestPage = requestPage <= 0 ? DefaultRequestPage : requestPage;
+        public async Task<IActionResult> ListAllUser([FromBody]UserSearchCondition conditionSet)
+        {            
+            foreach(var x in conditionSet.filters)
+            {
+                Debug.WriteLine(x.field);
+            }
+            long _pageSize = conditionSet.pageSize <= 0 ? DefautltPageSize : conditionSet.pageSize;
+            long _requestPage = conditionSet.requestPage <= 0 ? DefaultRequestPage : conditionSet.requestPage;
             UserCollection _obj = await dal.listAllUserWithPaging(_pageSize, _requestPage);
             if(_obj.status != "000")
             {
@@ -135,8 +139,8 @@ namespace AngularNETcore.Controllers
     }
     public static class Connection
     {
-        //public static string ConnectionName = "Db2";
-        public static string ConnectionName = "Db1";
+        public static string ConnectionName = "Db2";
+        //public static string ConnectionName = "Db1";
     }
 
     public static class AuthourizationLevel

@@ -68,4 +68,19 @@ namespace AngularNETcore.Models
         public string validateMessage { get; set; }
     }
 
+    public class UserFilter
+    {
+        public string phraseOperator { get; set; }
+        public string field { get; set; }
+        public string comparisonType { get; set; }
+        public string filterValue { get; set; }
+        public bool booleanField { get; set; }
+    }
+
+    public class UserSearchCondition
+    {
+        public long pageSize { get; set; }
+        public long requestPage { get; set; }
+        public List<UserFilter> filters { get; set; }
+    }
 }

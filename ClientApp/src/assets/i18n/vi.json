@@ -69,7 +69,10 @@
     "submit": "Gửi yêu cầu",
     "refreshCommand": "Làm mới",
     "pleasePickOne": "Hãy chọn lấy một",
-    "clearSort": "Bỏ sắp xếp"
+    "clearSort": "Bỏ sắp xếp",
+    "itemPerPage": "bản ghi mỗi trang",
+    "add": "Thêm",
+    "remove": "Xóa"
   },
   "responseErrors": {
     "serverError": "Lỗi máy chủ ({{message}})",
@@ -98,5 +101,11 @@
   },
   "addNewUserStatus": {
     "000addnewuser": "Tài khoản {{userName}} đã được tạo"
+  },
+  "filterComparison": {
+    "equal": "Bằng",
+    "notEqual": "Khác",
+    "contain": "Chứa",
+    "notContain": "Không chứa"
   }
 }

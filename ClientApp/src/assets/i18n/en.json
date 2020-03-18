@@ -69,7 +69,10 @@
     "submit": "Submit",
     "refreshCommand": "Refresh",
     "pleasePickOne": "Please Pick One",
-    "clearSort": "Undo Sort"
+    "clearSort": "Undo Sort",
+    "itemPerPage": "items per page",
+    "add": "Add",
+    "remove": "Remove"
   },
   "responseErrors": {
     "serverError": "Error at server ({{message}})",
@@ -101,6 +104,12 @@
   },
   "addNewUserStatus": {
     "000addnewuser": "Account {{userName}} is created"
+  },
+  "filterComparison": {
+    "equal": "Equal",
+    "notEqual": "Not equal",
+    "contain": "Contain",
+    "notContain": "Not contain"
   }
 
 }

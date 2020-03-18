@@ -1,9 +1,10 @@
 import {
   Component, Renderer2, ElementRef,
-  Directive, EventEmitter, Input, Output, QueryList, ViewChildren, HostBinding, HostListener
+  Directive, EventEmitter, Input, Output, QueryList, ViewChildren, HostBinding, HostListener, OnInit, AfterViewInit, ViewChild
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, Subscription } from 'rxjs';
+import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 
 
 
@@ -25,6 +26,7 @@ export class NgbdSortableHeader {
   }
 
 }
+
 
 
 @Component({
@@ -53,12 +55,16 @@ export class UserListTableComponent {
   visiblePages: Array<number> = new Array<number>();
   pageSizeOptions = [3, 6, 9];
   private dataLoading = new Subject<any>();
+  conditionSet: Array<FilterCondition> = new Array<FilterCondition>();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private fb: FormBuilder) {
     this.pageSize = this.pageSizeOptions[0]; this.requestPage = 1;
     this.getData(this.pageSize, this.requestPage);
   }
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+
+
+
 
   onSort({ column, direction, hostObject }: SortEvent) {
     this.sortPriority += 1;
@@ -121,14 +127,21 @@ export class UserListTableComponent {
       this.visiblePages.push(i);
     }
   }
-  getData(pageSize: number, requestPage: number){
-    this.http.get('/User/ListAllUser',
-      {
-        params: {
-          pageSize: pageSize.toString(),
-          requestPage: requestPage.toString()
-        }
-      }).subscribe(
+
+  getData(pageSize: number, requestPage: number) {
+    let x = {
+      pageSize: pageSize as number,
+      requestPage: requestPage as number,
+      filters: this.conditionSet
+    }
+    let data = JSON.stringify(x);
+    this.http.post('/User/ListAllUser', data, httpOptions)
+      //{
+      //  params: {
+      //    pageSize: pageSize.toString(),
+      //    requestPage: requestPage.toString()
+      //  }
+      .subscribe(
         response => {
           let result = JSON.parse(JSON.stringify(response));
           let array = result['users'] as Array<any>
@@ -192,6 +205,31 @@ export class UserListTableComponent {
     this.requestPage = 1;
     this.getData(this.pageSize, this.requestPage);
   }
+
+  addCondition() {
+    let condition = {} as FilterCondition
+    condition.booleanField = false;
+    condition.phraseOperator = 'and'
+    condition.comparisonType = 'contain'
+    this.conditionSet.push(condition);
+  }
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+  removeCondition(index: number) {
+    this.conditionSet.splice(index, 1);
+  }
+  checkBooleanField(index: number) {
+    let x: FilterCondition = this.conditionSet[index]
+    if (["userEnabled"].indexOf(x.field) >= 0) {
+      x.comparisonType = "equal";
+      x.filterValue = "true";
+      x.booleanField = true;
+    }
+    else {
+      x.booleanField = false;
+    }
+  }
 }
 
 export interface User {
@@ -215,4 +253,13 @@ export interface SortEvent {
   hostObject: NgbdSortableHeader;
 }
 
-
+export interface FilterCondition {
+  phraseOperator: string;
+  field: string;
+  comparisonType: string;
+  filterValue: string;
+  booleanField: boolean;
+}
+export const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+}

@@ -2309,6 +2309,7 @@
 }
 .w-full {width: 100%;}
 .h-full {height: 100%;}
+.w-auto {width: auto;}
 .max-w-full {max-width: 100%;}
 .max-h-full {max-height: 100%;}
 .min-w-full {min-width: 100%;}
@@ -3000,3 +3001,11 @@
 /*======text-security*/
 
 
+/*font-size-relative*/
+.fs-06-rem{font-size: 0.6rem}
+.fs-07-rem{font-size: 0.7rem}
+.fs-08-rem{font-size: 0.8rem}
+.fs-09-rem{font-size: 0.9rem}
+.fs-10-rem{font-size: 1.0rem}
+.fs-11-rem{font-size: 1.1rem}
+/*======font-size-relative*/
