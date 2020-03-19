@@ -51,7 +51,14 @@ th[sortable] {
 .quick-navigate input, .quick-navigate span {
   height: 100%;
 }
+.data-display-section{
+    overflow-x:auto;
+}
 
+.component-container.edit-mode{
+   height:0;
+   overflow: hidden;
+}
 /*bootstrap override*/
 .table {
   color: springgreen;

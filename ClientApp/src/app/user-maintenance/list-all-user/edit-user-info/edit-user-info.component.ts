@@ -17,9 +17,9 @@ import { Subscription } from 'rxjs';
 /** EditUserInfo component*/
 export class EditUserInfoComponent implements OnDestroy{
 /** EditUserInfo ctor */
-  user: User;
-  index: number;
-  x: Subscription;
+  private user: User;
+  private index: number;
+  private x: Subscription;
 
   private thisForm: FormGroup
   private KVpair: { [key: string]: any } = {
@@ -55,6 +55,8 @@ export class EditUserInfoComponent implements OnDestroy{
       userDeptCode: ['', this.KVpair['userDeptCodeV']],
       userTitleCode: ['', this.KVpair['userTitleCodeV']],
       userEmail: ['', this.KVpair['userEmailV']],
+      userEnabled: [''],
+      userFailedLoginCount: ['']
     });
 
     this.x = this.infoservice.getOpenMessage().subscribe(data => {
@@ -68,9 +70,17 @@ export class EditUserInfoComponent implements OnDestroy{
         }
       )
 
-      this.toggleEditmode(true);
-      this.user = data.user;
+      this.user = {
+        userName: data.user.userName,
+        userFullName: data.user.userFullName,
+        userDeptCode: data.user.userDeptCode,
+        userTitleCode: data.user.userTitleCode,
+        userEmail: data.user.userEmail,
+        userEnabled: data.user.userEnabled,
+        userFailedLoginCount: data.user.userFailedLoginCount
+      }
       this.index = data.index;
+      this.thisForm.controls['userEnabled'].setValue(this.user.userEnabled);
     })
   }
 
@@ -109,19 +119,16 @@ export class EditUserInfoComponent implements OnDestroy{
     if (key == 'userEmail' + 'Pattern') return !ctls['userEmail']?.errors?.required && this.KVpair['userEmail' + 'S'] && ctls['userEmail']?.errors?.pattern
   }
 
-  toggleEditmode(state: boolean) {
-    var y = document.querySelector('.dashboard-body-main-content')
-    if (state) y.classList.add('edit-mode');
-    if (!state) y.classList.remove('edit-mode');
-  }
+
   ngOnDestroy() {
+    this.infoservice.sendCloseCommand();
     this.x.unsubscribe();
-    this.toggleEditmode(false);
+
   }
   closeEditing() {
     this.infoservice.sendCloseCommand();
     this.user = null;
-    this.toggleEditmode(false);
+
   }
 }
 

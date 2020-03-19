@@ -11,6 +11,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'; 
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { MatRadioModule } from "@angular/material/radio";
@@ -93,7 +94,8 @@ import { EditUserInfoComponent } from './user-maintenance/list-all-user/edit-use
     MatIconModule,
     MatDialogModule,
     MatRadioModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSlideToggleModule
   ],
   providers: [
     {

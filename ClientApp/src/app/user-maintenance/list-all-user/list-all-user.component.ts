@@ -1,6 +1,6 @@
 import {
   Component, Renderer2, ElementRef,
-  Directive, EventEmitter, Input, Output, QueryList, ViewChildren, HostBinding, HostListener, OnInit, AfterViewInit, ViewChild
+  Directive, EventEmitter, Input, Output, QueryList, ViewChildren, HostBinding, HostListener, OnInit, AfterViewInit, ViewChild, OnDestroy
 } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -37,7 +37,7 @@ export class NgbdSortableHeader {
   animations: fadeAnimation
 })
 /** user-list-table component*/
-export class ListAllUserComponent {
+export class ListAllUserComponent implements OnDestroy {
   users: Array<User> = new Array<User>();
   usersOriginal: Array<User> = new Array<User>();
   sortPriority: number = 0;
@@ -60,10 +60,10 @@ export class ListAllUserComponent {
   visiblePages: Array<number> = new Array<number>();
   pageSizeOptions = [3, 6, 9];
   private dataLoading = new Subject<any>();
-  private conditionSetCleaning = new Subject<any>();
-  conditionSet: Array<FilterCondition> = new Array<FilterCondition>();
 
-  userInEdit: User;
+  conditionSet: Array<FilterCondition> = new Array<FilterCondition>();
+  editMode: boolean;
+  x: Subscription
 
   constructor(private http: HttpClient, private fb: FormBuilder, private infoservice: UserInfoService) {
     this.pageSize = this.pageSizeOptions[0]; this.requestPage = 1;
@@ -72,7 +72,9 @@ export class ListAllUserComponent {
   }
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
-
+  ngOnDestroy() {
+    this.x.unsubscribe();
+  }
 
 
   onSort({ column, direction, hostObject }: SortEvent) {
@@ -121,9 +123,6 @@ export class ListAllUserComponent {
       for (var i = 1; i < x + 1; i += 1) {
         this.pager.push(i);
       }
-
-
-
     this.pageCount = x;
     this.pageBlockIndex = Math.ceil(this.activePage / this.pageBlockSize);
     this.upperPageBlockIndex = Math.ceil(this.pageCount / this.pageBlockSize);
@@ -139,9 +138,6 @@ export class ListAllUserComponent {
     this.upperItem = Math.min(this.activePage * pageSize, this.collectionSize);
   }
 
-  cleaningConditionSet() {
-    
-  }
 
   getData(pageSize: number, requestPage: number) {
 
@@ -161,11 +157,6 @@ export class ListAllUserComponent {
     }
     let data = JSON.stringify(x);
     this.http.post('/User/ListAllUser', data, httpOptions)
-      //{
-      //  params: {
-      //    pageSize: pageSize.toString(),
-      //    requestPage: requestPage.toString()
-      //  }
       .subscribe(
         response => {
           let result = JSON.parse(JSON.stringify(response));
@@ -277,8 +268,12 @@ export class ListAllUserComponent {
   }
 
   openEditFunction(user: User, index: number) {
+    this.x = this.infoservice.getCloseMessage().subscribe(() => {
+      this.x.unsubscribe();
+      this.editMode = false;
+    });
     this.infoservice.sendOpenCommand(user, index);
-
+    this.editMode = true;
   }
 }
 
