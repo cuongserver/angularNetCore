@@ -11,14 +11,13 @@ import { AccountInformationComponent } from '../account-maintenance/account-info
 import { ChangePasswordComponent } from '../account-maintenance/change-password/change-password.component';
 import { ListAllUserComponent } from '../user-maintenance/list-all-user/list-all-user.component';
 import { AddNewUserComponent } from '../user-maintenance/add-new-user/add-new-user.component';
+import { EditUserInfoComponent } from '../user-maintenance/list-all-user/edit-user-info/edit-user-info.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full', canActivate: [PreventBackToLoginPageAfterLogin] },
   {
     path: 'dashboard', component: DashboardComponent, canActivate: [PreventUnauthenticated],
     children: [
-      //{ path: 'account-information', component: AccountInformationComponent, canActivate: [PreventUnauthenticated] },
-      //{ path: 'change-password', component: ChangePasswordComponent, canActivate: [PreventUnauthenticated] },
       {
         path: 'account-information', component: AccountInformationComponent,
         canActivate: [RoleCheck], data: { authorizedRoles: ['0000', '0001', '0002', '0003'] }
@@ -29,7 +28,7 @@ const routes: Routes = [
       },
       {
         path: 'list-all-user', component: ListAllUserComponent,
-        canActivate: [RoleCheck], data: { authorizedRoles: ['0000'] }
+        canActivate: [RoleCheck], data: { authorizedRoles: ['0000'] }   
       },
       {
         path: 'add-new-user', component: AddNewUserComponent,

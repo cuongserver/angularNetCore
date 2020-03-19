@@ -32,7 +32,8 @@
         "caption": "User Maintenance",
         "functions": {
           "listAllUser": "Users List",
-          "addNewUser": "Add User"
+          "addNewUser": "Add User",
+          "editUserInfo":  "Edit User Information"
         }
       }
     }
@@ -72,7 +73,8 @@
     "clearSort": "Undo Sort",
     "itemPerPage": "items per page",
     "add": "Add",
-    "remove": "Remove"
+    "remove": "Remove",
+    "goToPage":"Go to page"
   },
   "responseErrors": {
     "serverError": "Error at server ({{message}})",

@@ -143,7 +143,13 @@
     display: none;
 }
 .dashboard-body-main-content{
-    overflow: auto
+    overflow: auto;
+    position: relative;
+
+}
+
+.dashboard-body-main-content.edit-mode {
+  overflow: hidden;
 }
 /*responsive*/
 @media (max-width: 800px) {

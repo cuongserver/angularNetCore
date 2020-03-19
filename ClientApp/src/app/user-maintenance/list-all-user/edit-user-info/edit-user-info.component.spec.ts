@@ -1,21 +1,21 @@
 ﻿/// <reference path="../../../../../../node_modules/@types/jasmine/index.d.ts" />
 import { TestBed, async, ComponentFixture, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { BrowserModule, By } from "@angular/platform-browser";
-import { UserListTableComponent } from './user-list-table.component';
+import { EditUserInfoComponent } from './edit-user-info.component';
 
-let component: UserListTableComponent;
-let fixture: ComponentFixture<UserListTableComponent>;
+let component: EditUserInfoComponent;
+let fixture: ComponentFixture<EditUserInfoComponent>;
 
-describe('user-list-table component', () => {
+describe('EditUserInfo component', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ UserListTableComponent ],
+            declarations: [ EditUserInfoComponent ],
             imports: [ BrowserModule ],
             providers: [
                 { provide: ComponentFixtureAutoDetect, useValue: true }
             ]
         });
-        fixture = TestBed.createComponent(UserListTableComponent);
+        fixture = TestBed.createComponent(EditUserInfoComponent);
         component = fixture.componentInstance;
     }));
 

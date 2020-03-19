@@ -25,7 +25,7 @@ namespace AngularNETcore.Common
             cleanProp.Add(ReplaceSensitiveString(condition.phraseOperator));
             cleanProp.Add(ReplaceSensitiveString(condition.field));
             cleanProp.Add(ReplaceSensitiveString(condition.comparisonType));
-            cleanProp.Add(ReplaceSensitiveString(condition.filterValue));
+            cleanProp.Add(ReplaceSensitiveString(condition.filterValue ?? string.Empty));
             StringBuilder str = new StringBuilder();
 
             str.Append(cleanProp[0]);

@@ -7,7 +7,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { DialogService, DialogController, MessageBoxStyle, MessageBoxButton } from '../../_common/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderService } from '../../_common/loader/loader.service';
-import { error } from '@angular/compiler/src/util';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-add-new-user',

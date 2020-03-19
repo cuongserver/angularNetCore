@@ -431,7 +431,6 @@ namespace AngularNETcore.DataAccessLayer
 
             string _condition = Utility.CompleteConditionString(filters);
             string condition = String.IsNullOrEmpty(_condition) ? "1 = 1" : "(" + _condition + ")";
-            Debug.WriteLine(condition);
             using (SqlConnection con = SqlCon())
             {
                 SqlCommand cmd = SqlCmd(con);

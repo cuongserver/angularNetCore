@@ -41,9 +41,10 @@ import {CustomRoutingModule} from './module/custom-routing.module'
 //các chức năng của accountMaintenance
 import {AccountInformationComponent} from './account-maintenance/account-information/account-information.component'
 import {ChangePasswordComponent} from './account-maintenance/change-password/change-password.component'
-import { ListAllUserComponent } from './user-maintenance/list-all-user/list-all-user.component';
+import { ListAllUserComponent, NgbdSortableHeader } from './user-maintenance/list-all-user/list-all-user.component';
 import { AddNewUserComponent } from './user-maintenance/add-new-user/add-new-user.component';
-import { UserListTableComponent, NgbdSortableHeader } from './user-maintenance/list-all-user/user-list-table/user-list-table.component';
+import { EditUserInfoComponent } from './user-maintenance/list-all-user/edit-user-info/edit-user-info.component';
+
 
 @NgModule({
   declarations: [
@@ -56,8 +57,9 @@ import { UserListTableComponent, NgbdSortableHeader } from './user-maintenance/l
     SideMenuComponent, SubGroupComponent,
     AccountInformationComponent,
     ChangePasswordComponent,
-    ListAllUserComponent, UserListTableComponent, NgbdSortableHeader,
-    AddNewUserComponent
+    ListAllUserComponent, NgbdSortableHeader,
+    AddNewUserComponent,
+    EditUserInfoComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
