@@ -12,6 +12,7 @@ import { ChangePasswordComponent } from '../account-maintenance/change-password/
 import { ListAllUserComponent } from '../user-maintenance/list-all-user/list-all-user.component';
 import { AddNewUserComponent } from '../user-maintenance/add-new-user/add-new-user.component';
 import { EditUserInfoComponent } from '../user-maintenance/list-all-user/edit-user-info/edit-user-info.component';
+import {SystemSettingRoutes, SystemSettingModule} from '@app/module/system-setting/system-setting.module'
 
 const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full', canActivate: [PreventBackToLoginPageAfterLogin] },
@@ -28,13 +29,15 @@ const routes: Routes = [
       },
       {
         path: 'list-all-user', component: ListAllUserComponent,
-        canActivate: [RoleCheck], data: { authorizedRoles: ['0000'] }   
+        canActivate: [RoleCheck], data: { authorizedRoles: ['0000'] }
       },
       {
         path: 'add-new-user', component: AddNewUserComponent,
         canActivate: [RoleCheck], data: { authorizedRoles: ['0000'] }
-      }
+      },
+      ...SystemSettingRoutes
     ]
+
   }
 ]
 
@@ -43,7 +46,8 @@ const routes: Routes = [
     RouterModule.forRoot(
       routes
       /*{ enableTracing: true }*/ // <-- debugging purposes only
-    )
+    ),
+    SystemSettingModule
   ],
   providers: [
     PreventBackToLoginPageAfterLogin,

@@ -33,7 +33,15 @@
         "functions": {
           "listAllUser": "Danh sách người dùng",
           "addNewUser": "Thêm người dùng",
-          "editUserInfo": "Sửa thông tin người dùng"
+          "editUserInfo": "Sửa thông tin người dùng",
+          "adminResetPassword": "Đặt lại mật khẩu"
+        }
+      },
+      "systemSetting": {
+        "caption": "Cài đặt chung",
+        "functions": {
+          "addPublicHoliday": "Thêm ngày lễ",
+          "publicHolidayList":  "Danh sách ngày lễ"
         }
       }
     }
@@ -74,7 +82,10 @@
     "itemPerPage": "bản ghi mỗi trang",
     "add": "Thêm",
     "remove": "Xóa",
-    "goToPage": "Đi tới trang"
+    "goToPage": "Đi tới trang",
+    "cancel": "Hủy",
+    "confirm": "Xác nhận"
+
   },
   "responseErrors": {
     "serverError": "Lỗi máy chủ ({{message}})",
@@ -91,7 +102,8 @@
     "userTitleCodeRequired": "Chức vụ không được trống",
     "userDeptCodeRequired": "Phòng ban không được trống",
     "userEmailRequired": "Địa chỉ thư không được trống",
-    "userEmailPattern": "Địa chỉ thư không hợp lệ"
+    "userEmailPattern": "Địa chỉ thư không hợp lệ",
+    "userFailedLoginCountPattern": "Không được để trống và phải là số nguyên không âm"
   },
   "databaseErrors": {
     "userName2627": "Tài khoản đã tồn tại"
@@ -103,6 +115,12 @@
   },
   "addNewUserStatus": {
     "000addnewuser": "Tài khoản {{userName}} đã được tạo"
+  },
+
+  "editUserInfoStatus": {
+    "000edituserinfo": "Tài khoản {{userName}} đã được cập nhật thông tin",
+    "002edituserinfo": "Tài khoản {{userName}} không tồn tại",
+    "000resetpassword": "Mật khẩu tài khoản {{userName}} đã được đặt lại"
   },
   "filterComparison": {
     "equal": "Bằng",

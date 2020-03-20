@@ -45,6 +45,7 @@
               {{'dashboard.menuGroup.account.functions.changePassword' | translate}}&nbsp;
             </div>
           </sub-group>
+          <!---->
           <sub-group header="dashboard.menuGroup.user.caption" *ngIf="['0000'].indexOf(userRole) >= 0">
             <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" [routerLink]="['add-new-user']">
               {{'dashboard.menuGroup.user.functions.addNewUser' | translate}}&nbsp;
@@ -53,11 +54,16 @@
               {{'dashboard.menuGroup.user.functions.listAllUser' | translate}}&nbsp;
             </div>
           </sub-group>
-          <sub-group header="Third Group" *ngIf="userRole == '0000'">
-            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer">
-              this is the content
+          <!---->
+          <sub-group header="dashboard.menuGroup.systemSetting.caption" *ngIf="userRole == '0000'">
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" [routerLink]="['add-public-holiday']">
+              {{'dashboard.menuGroup.systemSetting.functions.addPublicHoliday' | translate}}&nbsp;
+            </div>
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" [routerLink]="['public-holiday-list']">
+              {{'dashboard.menuGroup.systemSetting.functions.publicHolidayList' | translate}}&nbsp;
             </div>
           </sub-group>
+          <!---->
           <sub-group header="Heroes" *ngIf="userRole == '0000'">
             <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngFor="let hero of heroes">
               <a>{{hero.name}}</a>

@@ -33,7 +33,15 @@
         "functions": {
           "listAllUser": "Users List",
           "addNewUser": "Add User",
-          "editUserInfo":  "Edit User Information"
+          "editUserInfo": "Edit User Information",
+          "adminResetPassword": "Reset password"
+        }
+      },
+      "systemSetting": {
+        "caption": "Common Settings",
+        "functions": {
+          "addPublicHoliday": "Add Public Holiday",
+          "publicHolidayList": "Holiday List"
         }
       }
     }
@@ -74,7 +82,10 @@
     "itemPerPage": "items per page",
     "add": "Add",
     "remove": "Remove",
-    "goToPage":"Go to page"
+    "goToPage": "Go to page",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+
   },
   "responseErrors": {
     "serverError": "Error at server ({{message}})",
@@ -92,7 +103,8 @@
     "userTitleCodeRequired": "Title must not be blank",
     "userDeptCodeRequired": "Department must not be blank",
     "userEmailRequired": "Email must not be blank",
-    "userEmailPattern": "Email address is not valid"
+    "userEmailPattern": "Email address is not valid",
+    "userFailedLoginCountPattern": "Must be non-blank and non-negative integer"
 
 
   },
@@ -106,6 +118,11 @@
   },
   "addNewUserStatus": {
     "000addnewuser": "Account {{userName}} is created"
+  },
+  "editUserInfoStatus": {
+    "000edituserinfo": "Account {{userName}} is updated",
+    "002edituserinfo": "Account {{userName}} does not exist",
+    "000resetpassword": "Password of account {{userName}} is reset"
   },
   "filterComparison": {
     "equal": "Equal",

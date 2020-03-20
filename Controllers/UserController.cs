@@ -77,7 +77,6 @@ namespace AngularNETcore.Controllers
 
         [HttpPost("addnewuser")]
         [Authorize(Roles = "0000")]
-        [AllowAnonymous]
         public async Task<IActionResult> AddNewUser([FromBody] User model)
         {
             if ((model.userPass != model.userPassConfirm))
@@ -96,6 +95,42 @@ namespace AngularNETcore.Controllers
             }
         }
 
+        [HttpPost("edituserinfo")]
+        [Authorize(Roles = "0000")]
+        public async Task<IActionResult> EditUserInfo([FromBody] User model)
+        {
+
+            UserInformation _obj = await dal.EditUserInfo(model);
+            string[] OkStatusList = { "000", "002" };
+            if (OkStatusList.Contains(_obj.status))
+            {
+                return Ok(_obj);
+            }
+            else
+            {
+                return NotFound(_obj);
+            }
+        }
+
+        [HttpPost("resetpassword")]
+        [Authorize(Roles = "0000")]
+        public async Task<IActionResult> ResetPassword([FromBody] User model)
+        {
+            if ((model.userPass != model.userPassConfirm))
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+            UserInformation _obj = await dal.ResetUserPassword(model);
+            string[] OkStatusList = { "000", "002" };
+            if (OkStatusList.Contains(_obj.status))
+            {
+                return Ok(_obj);
+            }
+            else
+            {
+                return NotFound(_obj);
+            }
+        }
 
 
 
@@ -119,8 +154,7 @@ namespace AngularNETcore.Controllers
         //}
 
         [HttpPost("listalluser")]
-        [AllowAnonymous]
-        //[Authorize(Roles = "0000")]
+        [Authorize(Roles = "0000")]
         public async Task<IActionResult> ListAllUser([FromBody]UserSearchCondition conditionSet)
         {            
             long _pageSize = conditionSet.pageSize <= 0 ? DefautltPageSize : conditionSet.pageSize;
@@ -135,8 +169,8 @@ namespace AngularNETcore.Controllers
     }
     public static class Connection
     {
-        //public static string ConnectionName = "Db2";
-        public static string ConnectionName = "Db1";
+        public static string ConnectionName = "Db2";
+        //public static string ConnectionName = "Db1";
     }
 
     public static class AuthourizationLevel

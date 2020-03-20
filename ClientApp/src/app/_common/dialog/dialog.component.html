@@ -49,6 +49,24 @@
   </div>
 
   <!-- dialog phần thêm mới user (hết)-->
+  <!-- dialog phần cập nhật user -->
+  <div class="message" *ngIf="message == '000'+ 'edituserinfo'">
+    <div>
+      {{'editUserInfoStatus.' + message | translate: {userName: extraInfo} }}
+    </div>
+  </div>
+  <div class="message" *ngIf="message == '002'+ 'edituserinfo'">
+    <div>
+      {{'editUserInfoStatus.' + message | translate: {userName: extraInfo} }}
+    </div>
+  </div>
+  <div class="message" *ngIf="message == '000'+ 'resetpassword'">
+    <div>
+      {{'editUserInfoStatus.' + message | translate: {userName: extraInfo} }}
+    </div>
+  </div>
+
+  <!--dialog phần cập nhật user (hết)-->
   <div class="info" *ngIf="information !== ''">
     <p>{{information}}</p>
   </div>

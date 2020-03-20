@@ -45,7 +45,9 @@ import {ChangePasswordComponent} from './account-maintenance/change-password/cha
 import { ListAllUserComponent, NgbdSortableHeader } from './user-maintenance/list-all-user/list-all-user.component';
 import { AddNewUserComponent } from './user-maintenance/add-new-user/add-new-user.component';
 import { EditUserInfoComponent } from './user-maintenance/list-all-user/edit-user-info/edit-user-info.component';
+import { ChangeUserPasswordComponent } from './user-maintenance/list-all-user/change-user-password/change-user-password.component';
 
+import { SystemSettingModule } from '@app/module/system-setting/system-setting.module'
 
 @NgModule({
   declarations: [
@@ -60,7 +62,8 @@ import { EditUserInfoComponent } from './user-maintenance/list-all-user/edit-use
     ChangePasswordComponent,
     ListAllUserComponent, NgbdSortableHeader,
     AddNewUserComponent,
-    EditUserInfoComponent
+    EditUserInfoComponent,
+    ChangeUserPasswordComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -95,7 +98,8 @@ import { EditUserInfoComponent } from './user-maintenance/list-all-user/edit-use
     MatDialogModule,
     MatRadioModule,
     MatToolbarModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    SystemSettingModule
   ],
   providers: [
     {

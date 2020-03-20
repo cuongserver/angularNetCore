@@ -60,7 +60,7 @@
     </div>
   </div>
   <div class="data-display-section">
-    
+
     <div class="pager-bar d-flex justify-content-between p-2 fs-08-rem">
       <ul class="pagination m-b-5" *ngIf="pageCount > 1 && collectionSize > 0">
         <!--first page-->
@@ -115,8 +115,13 @@
       <tbody>
         <tr *ngFor="let user of users; index as i">
           <th scope="row">
-            <div class="p-l-10 p-t-5 p-b-5 hov-pointer" (click)="openEditFunction(user, i)">
-              Edit
+            <div class="flex-c-m">
+              <div class="p-l-7 p-r-7 p-t-5 p-b-5 hov-pointer table-line-command" title="{{'dashboard.menuGroup.user.functions.editUserInfo' | translate}}" (click)="openEditFunction(user, i)">
+                <i class="fas fa-edit"></i>
+              </div>
+              <div class="p-l-7 p-r-7 p-t-5 p-b-5 hov-pointer table-line-command" title="{{'dashboard.menuGroup.user.functions.adminResetPassword' | translate}}" (click)="openResetPasswordFunction(user, i)">
+                <i class="fas fa-key"></i>
+              </div>
             </div>
           </th>
           <td>
@@ -154,5 +159,5 @@
     </table>
   </div>
 </div>
- <app-edit-user-info></app-edit-user-info>
-
+<app-edit-user-info></app-edit-user-info>
+<app-change-user-password></app-change-user-password>

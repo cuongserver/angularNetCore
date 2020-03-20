@@ -63,7 +63,8 @@ export class ListAllUserComponent implements OnDestroy {
 
   conditionSet: Array<FilterCondition> = new Array<FilterCondition>();
   editMode: boolean;
-  x: Subscription
+  private subscription1: Subscription; private subscription2: Subscription;
+  private subscription3: Subscription; private subscription4: Subscription;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private infoservice: UserInfoService) {
     this.pageSize = this.pageSizeOptions[0]; this.requestPage = 1;
@@ -73,7 +74,10 @@ export class ListAllUserComponent implements OnDestroy {
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
   ngOnDestroy() {
-    this.x.unsubscribe();
+    if (this.subscription1) this.subscription1.unsubscribe();
+    if (this.subscription2) this.subscription2.unsubscribe();
+    if (this.subscription3) this.subscription3.unsubscribe();
+    if (this.subscription4) this.subscription4.unsubscribe();
   }
 
 
@@ -213,7 +217,6 @@ export class ListAllUserComponent implements OnDestroy {
   }
   navigate(quickNavigateToPage: any) {
     if (!Number.isInteger(+quickNavigateToPage)) {
-      console.log("x" + quickNavigateToPage);
       this.navigateToPage = 1;
       return;
     }
@@ -268,11 +271,33 @@ export class ListAllUserComponent implements OnDestroy {
   }
 
   openEditFunction(user: User, index: number) {
-    this.x = this.infoservice.getCloseMessage().subscribe(() => {
-      this.x.unsubscribe();
+    this.subscription1 = this.infoservice.getCloseMessage().subscribe(() => {
+      this.subscription1.unsubscribe();
+      this.subscription2.unsubscribe();
+      this.editMode = false;     
+    });
+    this.subscription2 = this.infoservice.getConfirmMessage().subscribe((data) => {
+      this.subscription2.unsubscribe();
+      let i: number = data.index;
+      let user: User = data.user;
+      this.users[i].userFullName = user.userFullName;
+      this.users[i].userDeptCode = user.userDeptCode;
+      this.users[i].userTitleCode = user.userTitleCode;
+      this.users[i].userEmail = user.userEmail;
+      this.users[i].userEnabled = user.userEnabled;
+      this.users[i].userFailedLoginCount = user.userFailedLoginCount;
+    })
+    this.infoservice.sendOpenCommand(user, index);
+    this.editMode = true;
+  }
+
+  openResetPasswordFunction(user: User, index: number) {
+    this.subscription3 = this.infoservice.OnCloseResetPasswordFunction().subscribe(() => {
+      this.subscription3.unsubscribe();
       this.editMode = false;
     });
-    this.infoservice.sendOpenCommand(user, index);
+
+    this.infoservice.OpenResetPasswordFunction(user, index);
     this.editMode = true;
   }
 }

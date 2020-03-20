@@ -59,6 +59,11 @@ th[sortable] {
    height:0;
    overflow: hidden;
 }
+
+.table-line-command:hover {
+  text-shadow: 0 0 17px rgb(233,143,0);
+  color: rgb(233,143,0);
+}
 /*bootstrap override*/
 .table {
   color: springgreen;

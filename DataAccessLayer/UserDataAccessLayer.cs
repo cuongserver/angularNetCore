@@ -501,5 +501,128 @@ namespace AngularNETcore.DataAccessLayer
             }
             return _obj;
         }
+
+        public async Task<UserInformation> EditUserInfo(User model)
+        {
+            UserInformation _obj = new UserInformation();
+
+
+            using (SqlConnection con = SqlCon())
+            {
+                DataTable dt = userInfo();
+                DataRow dr = dt.NewRow();
+                dr["userName"] = model.userName;
+                dr["userFullName"] = model.userFullName;
+                //dr["userPass"] = model.userPass;
+                dr["userTitleCode"] = model.userTitleCode;
+                dr["userDeptCode"] = model.userDeptCode;
+                dr["userEmail"] = model.userEmail;
+                dr["userEnabled"] = model.userEnabled;
+                dr["userFailedLoginCount"] = model.userFailedLoginCount;
+                dt.Rows.Add(dr);
+                SqlCommand cmd = SqlCmd(con);
+                cmd.CommandText = "EditUserInfo";
+                SqlParameter prm1 = new SqlParameter
+                {
+                    ParameterName = "@user",
+                    SqlDbType = SqlDbType.Structured,
+                    Direction = ParameterDirection.Input,
+                    Value = dt
+                };
+
+                SqlParameter prm2 = new SqlParameter
+                {
+                    ParameterName = "@status",
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 50,
+                    Direction = ParameterDirection.Output
+                };
+
+                cmd.Parameters.Add(prm1);
+                cmd.Parameters.Add(prm2);
+
+                try
+                {
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    _obj.status = (string)prm2.Value;
+                }
+                catch (SqlException ex)
+                {
+                    _obj.status = ex.Number.ToString();
+                    _obj.message = ex.Message;
+                }
+                finally
+                {
+                    if (con.State == System.Data.ConnectionState.Open) con.Close();
+                    cmd.Dispose();
+                }
+            }
+            return _obj;
+        }
+
+        public async Task<UserInformation> ResetUserPassword(User model)
+        {
+            UserInformation _obj = new UserInformation();
+            using (SqlConnection con = SqlCon())
+            {
+                SqlCommand cmd = SqlCmd(con);
+                cmd.CommandText = "ChangeUserPasswordByAdmin";
+                cmd.Parameters.AddWithValue("@userName", model.userName);
+                cmd.Parameters.AddWithValue("@userPass", model.userPass);
+                //cmd.Parameters.AddWithValue("@userPassNew", model.userPassNew);
+                SqlParameter prm1 = new SqlParameter
+                {
+                    ParameterName = "@status",
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 50,
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(prm1);
+
+                SqlParameter prm2 = new SqlParameter
+                {
+                    ParameterName = "@message",
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 50,
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(prm2);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+                try
+                {
+                    con.Open();
+                    da.Fill(dt);
+                    _obj.status = (string)prm1.Value;
+                    //if (dt.Rows.Count > 0)
+                    //{
+                    //    User user = new User();
+                    //    DataRow dr = dt.Rows[0];
+                    //    user.userName = (string)dr[nameof(user.userName)];
+                    //    user.userFullName = (string)dr[nameof(user.userFullName)];
+                    //    user.userTitleCode = (string)dr[nameof(user.userTitleCode)];
+                    //    user.userDeptCode = (string)dr[nameof(user.userDeptCode)];
+                    //    user.userEnabled = (bool)dr[nameof(user.userEnabled)];
+                    //    user.userFailedLoginCount = (int)dr[nameof(user.userFailedLoginCount)];
+                    //    user.titleDesc = (string)dr[nameof(user.titleDesc)];
+                    //    user.deptDesc = (string)dr[nameof(user.deptDesc)];
+                    //    _userInfo.user = user;
+                    //}
+                }
+                catch (SqlException ex)
+                {
+                    _obj.status = ex.Number.ToString();
+                }
+                finally
+                {
+                    if (con.State == System.Data.ConnectionState.Open) con.Close();
+                    cmd.Dispose();
+                }
+            }
+            return _obj;
+        }
     }
 }
