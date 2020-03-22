@@ -1,1 +1,38 @@
-﻿
+.textbox {
+  color: black;
+}
+
+.field-caption {
+  color: black;
+  font-weight: bold;
+}
+
+.error-message {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  font-family: Montserrat-Bold;
+  align-items: center;
+  justify-content: right;
+  font-size: 0.7rem;
+  z-index: 4;
+  color: red;
+  border: 2px solid red;
+  background: white;
+}
+
+.textbox-section {
+}
+
+.component-container {
+  font-size: 0.8rem;
+  color: black;
+}
+
+
+.input-area {
+  height: 30px;
+  position: relative;
+  height: 35px;
+}

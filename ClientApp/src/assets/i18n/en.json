@@ -84,7 +84,9 @@
     "remove": "Remove",
     "goToPage": "Go to page",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "date": "Date",
+    "descriptionCommon": "Description"
 
   },
   "responseErrors": {

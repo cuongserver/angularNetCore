@@ -55,7 +55,7 @@
             </div>
           </sub-group>
           <!---->
-          <sub-group header="dashboard.menuGroup.systemSetting.caption" *ngIf="userRole == '0000'">
+          <sub-group header="dashboard.menuGroup.systemSetting.caption" *ngIf="['0000','0003'].indexOf(userRole) >= 0">
             <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" [routerLink]="['add-public-holiday']">
               {{'dashboard.menuGroup.systemSetting.functions.addPublicHoliday' | translate}}&nbsp;
             </div>

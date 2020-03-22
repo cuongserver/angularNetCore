@@ -68,7 +68,6 @@ import { SystemSettingModule } from '@app/module/system-setting/system-setting.m
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    FormsModule, ReactiveFormsModule,
     CustomRoutingModule,
     TranslateModule.forRoot({
       loader: {
@@ -87,7 +86,7 @@ import { SystemSettingModule } from '@app/module/system-setting/system-setting.m
     }),
 
     BrowserAnimationsModule,
-    FormsModule,
+    FormsModule, ReactiveFormsModule,
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,

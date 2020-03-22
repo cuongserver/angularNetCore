@@ -8,7 +8,8 @@ import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { fadeAnimation } from '../../_common/const/animation';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserInfoService } from './user-info.service';
-
+import { saveAs } from 'file-saver'
+import { map } from 'rxjs/operators';
 
 @Directive({
   selector: 'th[sortable]'
@@ -300,6 +301,26 @@ export class ListAllUserComponent implements OnDestroy {
     this.infoservice.OpenResetPasswordFunction(user, index);
     this.editMode = true;
   }
+
+  downloadCsv() {
+    let form: HTMLElement = document.createElement('form');
+    let input: HTMLElement = document.createElement('input');
+    let submit: HTMLElement = document.createElement('input');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', '/User/DownloadUserList');
+    form.setAttribute('target', '_blank');
+    input.setAttribute('type', 'hidden');
+    input.setAttribute('name', 'jwt');    
+    submit.setAttribute('type', 'submit');
+    form.appendChild(input);
+    form.appendChild(submit);
+    document.getElementsByTagName('body')[0].appendChild(form);
+    input.setAttribute('value', sessionStorage.getItem('jwt'));
+    submit.click();
+    form.remove();
+  }
+
+
 }
 
 export interface User {

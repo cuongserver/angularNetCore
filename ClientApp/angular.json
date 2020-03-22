@@ -14,7 +14,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "progress": false,
-            "extractCss": true,
+            "extractCss": false,
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -26,9 +26,13 @@
             "styles": [
               "src/custom-theme.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/initial-loader.css"
+              "src/initial-loader.css",
+              "src/assets/external-js-lib/jquery-datetime-picker/jquery.datetimepicker.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/external-js-lib/jquery-datetime-picker/jquery.datetimepicker.full.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -75,9 +79,13 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/external-js-lib/jquery-datetime-picker/jquery.datetimepicker.min.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/external-js-lib/jquery-datetime-picker/jquery.datetimepicker.full.js"
+            ],
             "assets": [
               "src/assets"
             ]

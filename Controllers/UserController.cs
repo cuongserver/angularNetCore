@@ -18,6 +18,10 @@ using System.Text;
 using AngularNETcore.Common;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
+using System.IO;
+using System.Threading;
+
 namespace AngularNETcore.Controllers
 {
     [Authorize]
@@ -144,14 +148,6 @@ namespace AngularNETcore.Controllers
             return Ok(_obj);
         }
 
-        //[HttpGet("listalluser")]
-        //[AllowAnonymous]
-        //[Authorize(Roles = "0000")]
-        //public async Task<IActionResult> ListAllUser()
-        //{
-        //    UserCollection _obj = await dal.listAllUser();
-        //    return Ok(_obj);
-        //}
 
         [HttpPost("listalluser")]
         [Authorize(Roles = "0000")]
@@ -166,11 +162,64 @@ namespace AngularNETcore.Controllers
             }
             return Ok(_obj);
         }
+
+        [HttpPost("downloaduserlist")]
+        [AllowAnonymous]
+        public async Task DownloadUserList([FromForm] string jwt)
+        {
+            Debug.WriteLine(GetClaim(jwt, "exp"));
+
+
+            int bytesToRead = 4*1024;
+            int bps = 1024 * 1024 * 50;
+            var currentDirectory = System.IO.Directory.GetCurrentDirectory();
+            currentDirectory = currentDirectory + @"\mock";
+            var file = Path.Combine(currentDirectory, "mock.zip");
+            FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read);
+            Response.Headers.Add("Content-Disposition", "attachment; filename=mock.zip");
+            Response.Headers.Add("Content-Length", fs.Length.ToString());
+            Response.ContentType = "application/octet-stream";
+            byte[] buffer;
+            long remainingContent = fs.Length;
+            int length;
+            int transferredBytes = 0;
+            DateTime start = DateTime.Now;
+            do
+            {
+                if (transferredBytes == 0) start = DateTime.Now;
+                buffer = new Byte[bytesToRead];
+                length = fs.Read(buffer, 0, bytesToRead);
+                transferredBytes += length;
+                remainingContent -= length;
+                await Response.Body.WriteAsync(buffer, 0, length);
+                await Response.Body.FlushAsync();
+                if (transferredBytes >= bps)
+                {
+                    Thread.Sleep(Math.Max(start.AddMilliseconds(1000).Millisecond - DateTime.Now.Millisecond, 0));
+                    transferredBytes = 0;
+                }
+            } while (remainingContent > 0);
+            fs.Close();
+        }
+
+        private string GetClaim(string token, string claimType)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+
+            foreach(var claim in securityToken.Claims)
+            {
+                Debug.WriteLine(claim.Type + ": " + claim.Value.ToString());
+            }
+            var stringClaimValue = securityToken.Claims.First(claim => claim.Type == claimType).Value;
+            return stringClaimValue;
+        }
     }
+
     public static class Connection
     {
-        public static string ConnectionName = "Db2";
-        //public static string ConnectionName = "Db1";
+        //public static string ConnectionName = "Db2";
+        public static string ConnectionName = "Db1";
     }
 
     public static class AuthourizationLevel
@@ -178,4 +227,7 @@ namespace AngularNETcore.Controllers
         public static string Admin = "0000";
         public static string User = "0003";
     }
+
 }
+    
+

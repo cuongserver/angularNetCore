@@ -624,5 +624,7 @@ namespace AngularNETcore.DataAccessLayer
             }
             return _obj;
         }
+
+
     }
 }

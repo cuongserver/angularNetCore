@@ -37,6 +37,11 @@ namespace AngularNETcore
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
         }
 
 

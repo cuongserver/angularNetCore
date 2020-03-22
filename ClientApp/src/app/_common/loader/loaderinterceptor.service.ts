@@ -28,8 +28,9 @@ export class LoaderInterceptorService implements HttpInterceptor {
   //}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    
-    this.showLoader();
+    let isDownload: boolean = req.headers.has('DownloadRequest');
+
+    if (!isDownload) this.showLoader();
     return next.handle(req)
       .pipe(tap(
           (event: HttpEvent<any>) => {

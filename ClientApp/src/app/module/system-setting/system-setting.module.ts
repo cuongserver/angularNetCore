@@ -10,10 +10,22 @@ import {
   extractFromToken
 } from '@app/_common/auth-service/authguard.service'
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {TranslationModule} from '@app/module/shared-module/translation.module'
+
+
 @NgModule({
   declarations: [
     AddPublicHolidayComponent,
     PublicHolidayListComponent
+  ],
+  imports: [
+    BrowserAnimationsModule,
+    HttpClientModule,
+    TranslationModule
   ],
   providers: [
     PreventBackToLoginPageAfterLogin,
@@ -36,7 +48,9 @@ export const SystemSettingRoutes: Routes = [
   {
     path: 'public-holiday-list', component: PublicHolidayListComponent,
     canActivate: [RoleCheck], data: { authorizedRoles: ['0000'] }
-  }     
-
-
+  } 
 ]
+
+
+
+

@@ -84,7 +84,9 @@
     "remove": "Xóa",
     "goToPage": "Đi tới trang",
     "cancel": "Hủy",
-    "confirm": "Xác nhận"
+    "confirm": "Xác nhận",
+    "date": "Ngày",
+    "descriptionCommon": "Diễn giải"
 
   },
   "responseErrors": {

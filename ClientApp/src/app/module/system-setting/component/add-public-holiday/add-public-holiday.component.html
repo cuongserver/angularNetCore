@@ -1,7 +1,59 @@
-<div style="border: 1px solid red">
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec odio blandit, imperdiet odio a, tempor enim. Vestibulum iaculis, nunc ut luctus blandit, urna metus pretium est, sit amet commodo quam odio vitae leo. Curabitur molestie elementum ligula sit amet fermentum. Ut quis venenatis ex, eget fringilla odio. Mauris a rhoncus metus. Morbi pellentesque lobortis enim et interdum. Suspendisse ornare hendrerit ullamcorper. Vivamus vitae vestibulum nisi, ac dignissim enim. Sed fermentum semper tortor, ac finibus urna ullamcorper nec. Fusce eget ipsum est. Quisque sit amet lectus fermentum, lacinia nunc nec, semper leo. Mauris eget suscipit mauris. Sed aliquam eleifend turpis, imperdiet consectetur augue tristique eget.
+<div class="component-container max-w-450" [@fadeAnimation]=transitionState>
+  <h3>{{'dashboard.menuGroup.systemSetting.functions.addPublicHoliday' | translate}}</h3>
+  <form class="" [formGroup]="thisForm" (ngSubmit)="submitForm()">
+    <div class="textbox-section m-t-5 m-b-5">
+      <div class="field-caption">
+        <span>{{'commonCaptions.date' | translate}}</span>
+      </div>
+      <div class="input-area bo-r-5">
+        <input datetimepicker class="textbox sizefull bo-r-5" autocomplete="off" formControlName="calendarDate">
+      </div>
+    </div>
+    <div class="textbox-section m-t-5 m-b-5">
+      <div class="field-caption">
+        <span>{{'commonCaptions.descriptionCommon' | translate}}</span>
+      </div>
+      <div class="input-area bo-r-5">
+        <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="description">
+      </div>
+    </div>
+    <!--<div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span class="field-caption">{{'commonCaptions.newPassword' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5" (click)="resetValidity('userPassNewSubmitted')">
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="this.KVpair['userPassNewSubmitted'] && f.userPassNew?.errors?.required">
+        {{'login.userPassBlankValidation' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="this.KVpair['userPassNewSubmitted'] && !f.userPassNew.errors.required && f.userPassNew?.errors?.pattern">
+        {{'validationErrors.userPassRegexValidation' | translate: {minlength: '6', maxlength: '20'} }}
+      </div>
+      <input class="textbox sizefull bo-r-5 text-disk" autocomplete="off" formControlName="userPassNew">
+    </div>
+  </div>-->
+    <!--<div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'commonCaptions.confirmPassword' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5" (click)="resetValidity('userPassConfirmSubmitted')">
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="(this.thisForm?.errors?.passwordMisMatch) && this.KVpair['userPassConfirmSubmitted']">
+        {{'validationErrors.passwordMismatch' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="this.KVpair['userPassConfirmSubmitted'] && f.userPassConfirm?.errors?.required && (!this.thisForm?.errors?.passwordMisMatch)">
+        {{'login.userPassBlankValidation' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="this.KVpair['userPassConfirmSubmitted'] && !f.userPassConfirm?.errors?.required
+                      && f.userPassConfirm?.errors?.pattern && (!this.thisForm?.errors?.passwordMisMatch)">
+        {{'validationErrors.userPassRegexValidation' | translate: {minlength: '6', maxlength: '20'} }}
+      </div>
+      <input class="textbox sizefull bo-r-5 text-disk" autocomplete="off" formControlName="userPassConfirm">
+    </div>
+  </div>-->
 
-  Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris risus odio, imperdiet et nibh et, fringilla congue risus. Vestibulum mauris diam, dictum id turpis a, sodales dignissim turpis. Proin facilisis in eros nec dictum. Aenean neque nulla, convallis in malesuada eget, malesuada eget ante. Sed convallis, nulla id placerat interdum, mi dolor venenatis elit, quis ullamcorper nibh quam ac lectus. Morbi feugiat enim eget ante consectetur rhoncus. Cras sit amet dignissim nibh, a fermentum nunc.
-
-  In ac orci porttitor, convallis risus non, lobortis eros. Morbi porttitor felis aliquet facilisis malesuada. Nulla scelerisque odio vitae elit mollis, sed pellentesque felis cursus. Vestibulum rhoncus arcu neque, aliquet fermentum ante vehicula ac. Donec a enim tortor. Maecenas fringilla lobortis luctus. Pellentesque a accumsan nisi, vel auctor est. Suspendisse id metus pellentesque, convallis nisl nec, lacinia sapien. Proin vehicula erat nec risus consectetur, et eleifend nisi rhoncus. Pellentesque vitae luctus metus, a gravida erat. Phasellus ultrices a enim sed dapibus. Suspendisse potenti. Donec semper sapien quis nisi euismod euismod.
+    <div class="">
+      <button class="btn btn-success" type="submit">
+        {{'commonCaptions.submit' | translate}}
+      </button>
+    </div>
+  </form>
 </div>
