@@ -98,10 +98,13 @@ export class AddPublicHolidayComponent implements OnDestroy, AfterViewInit{
 
         if (message1 == '000') {
           this.dialogService.sendMessage('000' + 'addnewholiday', _obj.holidayDate);
+          ctls['holidayDate'].setValue('');
+          ctls['description'].setValue('');
         }
         if (message1 == '004') {
           this.dialogService.sendMessage('004' + 'addnewholiday', _obj.holidayDate);
         }
+
       },
       error => {
         this.subscription1.unsubscribe();
