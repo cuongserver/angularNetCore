@@ -11,11 +11,9 @@ import {
 } from '@app/_common/auth-service/authguard.service'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClientModule } from '@angular/common/http';
 import {TranslationModule} from '@app/module/shared-module/translation.module'
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,7 +23,8 @@ import {TranslationModule} from '@app/module/shared-module/translation.module'
   imports: [
     BrowserAnimationsModule,
     HttpClientModule,
-    TranslationModule
+    TranslationModule,
+    FormsModule, ReactiveFormsModule
   ],
   providers: [
     PreventBackToLoginPageAfterLogin,
