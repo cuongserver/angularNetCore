@@ -36,3 +36,8 @@
   position: relative;
   height: 35px;
 }
+.icon {
+  position: absolute;
+  font-size: 1.2rem;
+  right: 5px;
+}
