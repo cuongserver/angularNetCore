@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -420,10 +420,11 @@ namespace AngularNETcore.DataAccessLayer
             return _obj;
         }
 
-        public async Task<UserCollection> listAllUserWithPaging(long pageSize, long requestPage, UserSearchCondition filters)
+        public async Task<UserCollection> listAllUserWithPaging(long pageSize, long requestPage, UserSearchCondition filters, string getAllOrNot)
         {
             long _pageSize = pageSize;
             long _requestPage = requestPage;
+            string _getAllOrNot = getAllOrNot;
             UserCollection _obj = new UserCollection()
             {
                 users = new List<User>()
@@ -438,6 +439,7 @@ namespace AngularNETcore.DataAccessLayer
                 cmd.Parameters.AddWithValue("@pageSize", _pageSize);
                 cmd.Parameters.AddWithValue("@requestPage", _requestPage);
                 cmd.Parameters.AddWithValue("@condition", condition);
+                cmd.Parameters.AddWithValue("@getAll", _getAllOrNot);
 
                 SqlParameter prm1 = new SqlParameter
                 {
@@ -624,6 +626,8 @@ namespace AngularNETcore.DataAccessLayer
             }
             return _obj;
         }
+
+
 
 
     }
