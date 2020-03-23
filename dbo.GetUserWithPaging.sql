@@ -1,6 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[GetUserWithPaging]
+CREATE PROCEDURE [dbo].[GetUserWithPaging]
 	@pageSize bigint,
 	@requestPage bigint,
+	@getAll nvarchar(3),
 	@condition nvarchar(max),
 	@collectionSize bigint out,
 	@activePage bigint out
@@ -22,13 +23,22 @@ declare @sql nvarchar(max) = 'select * from userInfo where userTitleCode <> ' + 
 
 insert into @tempTable exec(@sql)
 
-set @collectionSize = (select count(*) from @tempTable t1 where t1.userTitleCode <> '0000' and userEnabled = true)
+set @collectionSize = (select count(*) from @tempTable t1)
 set @activePage = @requestPage
 if @collectionSize = 0 return
 
 If @activePage*@pageSize > @collectionSize
 	SET @activePage = CEILING(Convert(Decimal(10,0),@collectionSize)/Convert(Decimal(10,0),@pageSize));
 declare @skipRows bigint = (@activePage - 1)*@pageSize;
+if @getAll = 'yes'
+	begin
+	select t1.*, t2.titleDesc, t3.deptDesc from @tempTable t1 
+	join titleInfo t2 on t2.titleCode = t1.userTitleCode
+	join deptInfo t3 on t3.deptCode = t1.userDeptCode
+	where t1.userTitleCode <> '0000'
+	order by t1.userName
+	return
+	end
 
 select t1.*, t2.titleDesc, t3.deptDesc from @tempTable t1 
 	join titleInfo t2 on t2.titleCode = t1.userTitleCode
