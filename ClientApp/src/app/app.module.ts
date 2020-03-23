@@ -37,7 +37,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoaderComponent } from './_common/loader/loader.component';
 import { LoaderInterceptorService } from './_common/loader/loaderinterceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {CustomRoutingModule} from './module/custom-routing.module'
+import { CustomRoutingModule } from './module/custom-routing.module'
+import { JsonToCsvService } from '@app/_common/json-to-csv/json-to-csv.service'
 
 //các chức năng của accountMaintenance
 import {AccountInformationComponent} from './account-maintenance/account-information/account-information.component'
@@ -110,8 +111,8 @@ import { SystemSettingModule } from '@app/module/system-setting/system-setting.m
       provide: MAT_DIALOG_DATA, useValue: {}
     },
     DialogService,
-    SideMenuClosingService
-    
+    SideMenuClosingService,
+    JsonToCsvService    
   ],
   bootstrap: [AppComponent]
 })
