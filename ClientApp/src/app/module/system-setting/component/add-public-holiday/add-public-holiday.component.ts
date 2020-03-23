@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { moduleHttpOptions, fadeAnimation } from '@app/module/system-setting/module-resource';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -23,23 +23,28 @@ declare var $: any
 export class AddPublicHolidayComponent implements OnDestroy, AfterViewInit{
   private transitionState: string = 'in';
   private thisForm: FormGroup;
-  constructor(private formBuilder: FormBuilder, private http: HttpClient,
+  private KVpair: { [key: string]: any } = {
+    holidayDateV: [Validators.required, Validators.pattern(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/)],    
+    holidayDateS: false,
+    descriptionS: false
+  };
+
+  constructor(private formBuilder: FormBuilder,
+    private http: HttpClient,
     private router: Router, private jwtHelper: JwtHelperService,
     private dialogService: DialogService,
     private dialog: MatDialog, private loader: LoaderService) {
     this.thisForm = this.formBuilder.group({
-      calendarDate: [''],
+      holidayDate: ['', this.KVpair['holidayDateV']],
       description: ['']
     });
-
-    
   }
 
   ngAfterViewInit() {
     $('input[datetimepicker]').datetimepicker({
       theme: 'dark',
       timepicker: false,
-      format: 'Y/m/d',
+      format: 'Y-m-d',
       mask: true,
       todayButton: false,
       defaultTime: "00:00",
@@ -52,19 +57,35 @@ export class AddPublicHolidayComponent implements OnDestroy, AfterViewInit{
     });
   }
 
+
   ngOnDestroy() {
     $('input[datetimepicker]').datetimepicker('destroy')
   }
-
-  submitForm() {
-
+  setValue(controlName: string) {
+    var myVal = $("input[formcontrolname='" + controlName + "']").eq(0).val();
+    let ctls = this.thisForm.controls;
+    ctls[controlName].setValue(myVal);
   }
 
+  resetValidity(key: string) {
+    this.KVpair[key + 'S'] = false;
+    if (key == 'userName') this.KVpair[key + 'DbExist'] = false;
+  }
 
+  submitForm() {
+    let ctls = this.thisForm.controls;
+    this.setValue('holidayDate');
+    this.setValue('description');
+    if (ctls['holidayDate'].invalid) this.KVpair['holidayDate' + 'S'] = true;
+    if (this.thisForm.invalid) return;
+  }
+
+  getModelError(key: string): boolean {
+    let ctls = this.thisForm.controls;    
+    if (key == 'holidayDate' + 'Required') return ctls['holidayDate']?.errors?.required && this.KVpair['holidayDate' + 'S']
+    if (key == 'holidayDate' + 'Pattern') return !ctls['holidayDate']?.errors?.required && this.KVpair['holidayDate' + 'S']
+      && ctls['holidayDate']?.errors?.pattern    
+  }
 }
 
-export function getCachedLanguage(): string {
-  let langOptions: string[] = (['vi', 'en']);
-  let cachedLang = localStorage.getItem('pageLanguage');
-  return langOptions.includes(cachedLang) && cachedLang !== null ? cachedLang : 'vi';
-}
+
