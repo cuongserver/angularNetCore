@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -155,7 +155,7 @@ namespace AngularNETcore.Controllers
         {            
             long _pageSize = conditionSet.pageSize <= 0 ? DefautltPageSize : conditionSet.pageSize;
             long _requestPage = conditionSet.requestPage <= 0 ? DefaultRequestPage : conditionSet.requestPage;
-            UserCollection _obj = await dal.listAllUserWithPaging(_pageSize, _requestPage, conditionSet);
+            UserCollection _obj = await dal.listAllUserWithPaging(_pageSize, _requestPage, conditionSet, "no");
             if(_obj.status != "000")
             {
                 return NotFound(_obj);
@@ -163,63 +163,68 @@ namespace AngularNETcore.Controllers
             return Ok(_obj);
         }
 
-        [HttpPost("downloaduserlist")]
-        [AllowAnonymous]
-        public async Task DownloadUserList([FromForm] string jwt)
+        //[HttpPost("downloaduserlist")]
+        //[AllowAnonymous]
+        //public async Task DownloadUserList([FromForm] string jwt, string role)
+        //{
+        //    if(await jwtService.ValidateCurrentToken(jwt,"0001") == false)
+        //    {
+        //        Response.StatusCode = StatusCodes.Status400BadRequest;
+        //        await Response.WriteAsync("Bad request");
+        //        return;
+        //    }
+
+        //    int bytesToRead = 4*1024;
+        //    int bps = 1024 * 1024 * 25;
+        //    var currentDirectory = System.IO.Directory.GetCurrentDirectory();
+        //    currentDirectory = currentDirectory + @"\mock";
+        //    var file = Path.Combine(currentDirectory, "mock.iso");
+        //    FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read);
+        //    Response.Headers.Add("Content-Disposition", "attachment; filename=mock.iso");
+        //    Response.Headers.Add("Content-Length", fs.Length.ToString());
+        //    Response.ContentType = "application/octet-stream";
+        //    byte[] buffer;
+        //    long remainingContent = fs.Length;
+        //    int length;
+        //    int transferredBytes = 0;
+        //    DateTime start = DateTime.Now;
+        //    do
+        //    {
+        //        if (transferredBytes == 0) start = DateTime.Now;
+        //        buffer = new Byte[bytesToRead];
+        //        length = fs.Read(buffer, 0, bytesToRead);
+        //        transferredBytes += length;
+        //        remainingContent -= length;
+        //        await Response.Body.WriteAsync(buffer, 0, length);
+        //        await Response.Body.FlushAsync();
+        //        if (transferredBytes >= bps)
+        //        {
+        //            Thread.Sleep(Math.Max(start.AddMilliseconds(1000).Millisecond - DateTime.Now.Millisecond, 0));
+        //            transferredBytes = 0;
+        //        }
+        //    } while (remainingContent > 0);
+        //    fs.Close();
+        //}
+
+        [HttpPost("downloadalluser")]
+        [Authorize(Roles = "0000")]
+        public async Task<IActionResult> DownloadAllUser([FromBody]UserSearchCondition conditionSet)
         {
-            Debug.WriteLine(GetClaim(jwt, "exp"));
-
-
-            int bytesToRead = 4*1024;
-            int bps = 1024 * 1024 * 50;
-            var currentDirectory = System.IO.Directory.GetCurrentDirectory();
-            currentDirectory = currentDirectory + @"\mock";
-            var file = Path.Combine(currentDirectory, "mock.zip");
-            FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read);
-            Response.Headers.Add("Content-Disposition", "attachment; filename=mock.zip");
-            Response.Headers.Add("Content-Length", fs.Length.ToString());
-            Response.ContentType = "application/octet-stream";
-            byte[] buffer;
-            long remainingContent = fs.Length;
-            int length;
-            int transferredBytes = 0;
-            DateTime start = DateTime.Now;
-            do
+            long _pageSize = 100;
+            long _requestPage = 1;
+            UserCollection _obj = await dal.listAllUserWithPaging(_pageSize, _requestPage, conditionSet, "yes");
+            if (_obj.status != "000")
             {
-                if (transferredBytes == 0) start = DateTime.Now;
-                buffer = new Byte[bytesToRead];
-                length = fs.Read(buffer, 0, bytesToRead);
-                transferredBytes += length;
-                remainingContent -= length;
-                await Response.Body.WriteAsync(buffer, 0, length);
-                await Response.Body.FlushAsync();
-                if (transferredBytes >= bps)
-                {
-                    Thread.Sleep(Math.Max(start.AddMilliseconds(1000).Millisecond - DateTime.Now.Millisecond, 0));
-                    transferredBytes = 0;
-                }
-            } while (remainingContent > 0);
-            fs.Close();
-        }
-
-        private string GetClaim(string token, string claimType)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
-
-            foreach(var claim in securityToken.Claims)
-            {
-                Debug.WriteLine(claim.Type + ": " + claim.Value.ToString());
+                return NotFound(_obj);
             }
-            var stringClaimValue = securityToken.Claims.First(claim => claim.Type == claimType).Value;
-            return stringClaimValue;
+            return Ok(_obj);
         }
     }
 
     public static class Connection
     {
-        //public static string ConnectionName = "Db2";
-        public static string ConnectionName = "Db1";
+        public static string ConnectionName = "Db2";
+        //public static string ConnectionName = "Db1";
     }
 
     public static class AuthourizationLevel
