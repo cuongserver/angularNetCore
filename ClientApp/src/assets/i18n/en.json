@@ -130,6 +130,10 @@
     "notEqual": "Not equal",
     "contain": "Contain",
     "notContain": "Not contain"
+  },
+  "addNewHolidayStatus": {
+    "000addnewholiday": "Public holiday {{holiday}} is added to database",
+    "004addnewholiday": "Public holiday {{holiday}} exists in database"
   }
 
 }

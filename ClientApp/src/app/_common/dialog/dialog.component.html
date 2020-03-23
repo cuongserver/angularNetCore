@@ -67,6 +67,21 @@
   </div>
 
   <!--dialog phần cập nhật user (hết)-->
+  <!-- dialog phần tạo holiday -->
+  <div class="message" *ngIf="message == '000'+ 'addnewholiday'">
+    <div>
+      {{'addNewHolidayStatus.' + message | translate: {holiday: extraInfo} }}
+    </div>
+  </div>
+  <div class="message" *ngIf="message == '004'+ 'addnewholiday'">
+    <div>
+      {{'addNewHolidayStatus.' + message | translate: {holiday: extraInfo} }}
+    </div>
+  </div>
+
+
+  <!--dialog phần tạo holiday (hết)-->
+
   <div class="info" *ngIf="information !== ''">
     <p>{{information}}</p>
   </div>

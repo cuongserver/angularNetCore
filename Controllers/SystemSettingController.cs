@@ -50,7 +50,7 @@ namespace AngularNETcore.Controllers
         public async Task<IActionResult> AddNewHoliday([FromBody] Holiday model)
         {
             Holidays _obj = await dal.AddNewHoliday(model);
-            string[] OkStatusList = { "000", "002" };
+            string[] OkStatusList = { "000", "004" };
             if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
             return Ok(_obj);
         }

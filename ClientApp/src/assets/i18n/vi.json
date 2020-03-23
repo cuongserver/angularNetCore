@@ -130,5 +130,9 @@
     "notEqual": "Khác",
     "contain": "Chứa",
     "notContain": "Không chứa"
+  },
+  "addNewHolidayStatus": {
+    "000addnewholiday": "Ngày lễ {{holiday}} đã được thêm vào dữ liệu",
+    "004addnewholiday": "Ngày lễ {{holiday}} đã có trong dữ liệu"
   }
 }

@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import {TranslationModule} from '@app/module/shared-module/translation.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogService } from '@app/_common/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   providers: [
     PreventBackToLoginPageAfterLogin,
     RoleCheck,
-    PreventUnauthenticated
+    PreventUnauthenticated,
+    DialogService
   ],
   exports: [
     AddPublicHolidayComponent,
