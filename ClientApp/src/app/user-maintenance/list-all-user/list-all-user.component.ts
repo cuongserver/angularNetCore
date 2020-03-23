@@ -10,6 +10,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserInfoService } from './user-info.service';
 import { saveAs } from 'file-saver'
 import { map } from 'rxjs/operators';
+import { JsonToCsvService } from '../../_common/json-to-csv/json-to-csv.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Directive({
   selector: 'th[sortable]'
@@ -67,7 +69,8 @@ export class ListAllUserComponent implements OnDestroy {
   private subscription1: Subscription; private subscription2: Subscription;
   private subscription3: Subscription; private subscription4: Subscription;
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private infoservice: UserInfoService) {
+  constructor(private http: HttpClient, private fb: FormBuilder, private infoservice: UserInfoService,
+    private jsonToCsv: JsonToCsvService, private translate: TranslateService) {
     this.pageSize = this.pageSizeOptions[0]; this.requestPage = 1;
     this.navigateToPage = 1;
     this.getData(this.pageSize, this.requestPage);
@@ -303,22 +306,87 @@ export class ListAllUserComponent implements OnDestroy {
   }
 
   downloadCsv() {
-    let form: HTMLElement = document.createElement('form');
-    let input: HTMLElement = document.createElement('input');
-    let submit: HTMLElement = document.createElement('input');
-    form.setAttribute('method', 'post');
-    form.setAttribute('action', '/User/DownloadUserList');
-    form.setAttribute('target', '_blank');
-    input.setAttribute('type', 'hidden');
-    input.setAttribute('name', 'jwt');    
-    submit.setAttribute('type', 'submit');
-    form.appendChild(input);
-    form.appendChild(submit);
-    document.getElementsByTagName('body')[0].appendChild(form);
-    input.setAttribute('value', sessionStorage.getItem('jwt'));
-    submit.click();
-    form.remove();
+    var z = this.conditionSet.length;
+    if (z > 0) {
+      for (var y = z - 1; y > -1; y -= 1) {
+        if (this.conditionSet[y].field == null || this.conditionSet[y].field == '') {
+          this.conditionSet.splice(y, 1);
+        }
+      }
+    }
+
+    let x = {
+      pageSize: 1 as number,
+      requestPage: 1 as number,
+      filters: this.conditionSet
+    }
+    let data = JSON.stringify(x);
+    this.http.post('/User/DownloadAllUser', data, httpOptions)
+      .subscribe(
+        response => {
+          let x: string[] = this.transformHeader();
+          let result = JSON.parse(JSON.stringify(response));
+          let array = result['users'] as Array<any>
+          let y = this.transformResponse(array);
+          this.jsonToCsv.downloadFile(y, x, 'extract');
+        },
+        error => {
+
+      })
+
   }
+
+  transformHeader(): string[] {
+    var x: string[] = [];
+    x.push(this.translate.instant('commonCaptions.userName'))
+    x.push(this.translate.instant('commonCaptions.userFullName'))
+    x.push(this.translate.instant('commonCaptions.userDeptCode'))
+    x.push(this.translate.instant('commonCaptions.deptDesc.caption'))
+    x.push(this.translate.instant('commonCaptions.userTitleCode'))
+    x.push(this.translate.instant('commonCaptions.titleDesc.caption'))
+    x.push(this.translate.instant('commonCaptions.userEmail'))
+    x.push(this.translate.instant('commonCaptions.userEnabled'))
+    x.push(this.translate.instant('commonCaptions.userFailedLoginCount'))
+    return x
+  }
+  transformResponse(data): Array<User1> {
+    let array = data as Array<any>;
+    let x = new Array<User1>();
+    for (var i = 0; i < array.length; i += 1) {
+      let user: User1 = {
+        userName: array[i]['userName'],
+        userFullName: array[i]['userFullName'],
+        userDeptCode: array[i]['userDeptCode'],
+        deptDesc: this.translate.instant('commonCaptions.deptDesc.' + array[i]['userDeptCode']),
+        userTitleCode: array[i]['userTitleCode'],
+        titleDesc: this.translate.instant('commonCaptions.titleDesc.' + array[i]['userTitleCode']),
+        userEmail: array[i]['userEmail'],
+        userEnabled: this.translate.instant('commonCaptions.enabled' + array[i]['userEnabled']),
+        userFailedLoginCount: array[i]['userFailedLoginCount'] + ''
+      }
+      x.push(user);
+    }
+    return x;
+  }
+
+
+  //private downloadCsv1() {
+  //  let form: HTMLElement = document.createElement('form');
+  //  let input: HTMLElement = document.createElement('input');
+  //  let submit: HTMLElement = document.createElement('input');
+  //  form.setAttribute('method', 'post');
+  //  form.setAttribute('action', '/User/DownloadUserList');
+  //  form.setAttribute('target', '_blank');
+  //  input.setAttribute('type', 'hidden');
+  //  input.setAttribute('name', 'jwt');    
+  //  submit.setAttribute('type', 'submit');
+  //  form.appendChild(input);
+  //  form.appendChild(submit);
+  //  document.getElementsByTagName('body')[0].appendChild(form);
+  //  input.setAttribute('value', sessionStorage.getItem('jwt'));
+  //  submit.click();
+  //  form.remove();
+  //}
 
 
 }
@@ -353,4 +421,16 @@ export interface FilterCondition {
 }
 export const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+}
+
+interface User1 {
+  userName: string
+  userFullName: string
+  userDeptCode: string
+  deptDesc: string
+  userTitleCode: string
+  titleDesc: string
+  userEmail: string
+  userEnabled: string
+  userFailedLoginCount: string
 }
