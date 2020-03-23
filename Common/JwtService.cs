@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +23,7 @@ namespace AngularNETcore.Common
     {
         void GetSecret();
         string createToken_NameAndRole(User _model);
+        Task<bool> ValidateCurrentToken(string token, string role);
     }
 
     public class JwtService: IJwtService
@@ -64,6 +65,86 @@ namespace AngularNETcore.Common
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+
+        public async Task<bool> ValidateCurrentToken(string token, string role)
+        {
+            var mySecret = SecurityKey;
+            var mySecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(mySecret));
+
+            var myIssuer = JwtIssuer;
+            var myAudience = JwtAudience;
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = mySecurityKey,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = false,
+                    ValidIssuer = myIssuer,
+                    ValidAudience = myAudience,                    
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+            }
+            catch
+            {
+                return false;
+            }
+            if (ManualValidateLifetime(token) == false) return false;
+            if (await ManualValidateRole(token, role) == false) return false;
+            return true;
+        }
+
+        public string GetClaim(string token, string claimType)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+
+            foreach (var claim in securityToken.Claims)
+            {
+                Debug.WriteLine(claim.Type + ": " + claim.Value.ToString());
+            }
+            var stringClaimValue = securityToken.Claims.First(claim => claim.Type == claimType).Value;
+            return stringClaimValue;
+        }
+
+        private bool ManualValidateLifetime(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+            var stringClaimValue = securityToken.Claims.First(claim => claim.Type == "exp").Value;
+            if(stringClaimValue == null)
+            {
+                return false;
+            }
+            long expireAt = Convert.ToInt64(stringClaimValue);
+            long now = (Int64)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + 0;
+            if (expireAt < now)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private async Task<bool> ManualValidateRole(string token, string _role)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+            var claims = securityToken.Claims;
+            string name = claims.First(x => x.Type == "unique_name").Value;
+            string role = claims.First(x => x.Type == "role").Value;
+            if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(role)) return false;
+            string ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection(Connection.ConnectionName).Value;
+            UserDataAccessLayer dal = new UserDataAccessLayer(ConnectionString);
+            User _model = new User { userName = name };
+            TitleValidationStatus _titleValidate = await dal.getUserTitle(_model);
+            if (role != _titleValidate.validateMessage || role != _role) return false;
+            return true;
         }
     }
 
