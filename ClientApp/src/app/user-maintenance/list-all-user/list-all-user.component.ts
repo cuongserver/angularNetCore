@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserInfoService } from './user-info.service';
 import { saveAs } from 'file-saver'
 import { map } from 'rxjs/operators';
-import { JsonToCsvService } from '../../_common/json-to-csv/json-to-csv.service';
+import { JsonToCsvService } from '@app/_common/json-to-csv/json-to-csv.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Directive({

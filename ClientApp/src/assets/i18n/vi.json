@@ -41,7 +41,13 @@
         "caption": "Cài đặt chung",
         "functions": {
           "addPublicHoliday": "Thêm ngày lễ",
-          "publicHolidayList":  "Danh sách ngày lễ"
+          "publicHolidayList": "Danh sách ngày lễ"
+        }
+      },
+      "leaveManagement": {
+        "caption": "Quản lý nghỉ phép",
+        "functions": {
+          "leaveLimitSummary": "Tổng hợp hạn mức"
         }
       }
     }
@@ -134,5 +140,9 @@
   "addNewHolidayStatus": {
     "000addnewholiday": "Ngày lễ {{holiday}} đã được thêm vào dữ liệu",
     "004addnewholiday": "Ngày lễ {{holiday}} đã có trong dữ liệu"
+  },
+  "removeHolidayStatus": {
+    "000removeholiday": "Ngày lễ {{holiday}} đã được xóa khỏi dữ liệu",
+    "002removeholiday": "Ngày lễ {{holiday}} không tồn tại trong dữ liệu"
   }
 }

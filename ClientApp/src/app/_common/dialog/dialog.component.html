@@ -81,6 +81,20 @@
 
 
   <!--dialog phần tạo holiday (hết)-->
+  <!-- dialog phần xóa holiday -->
+  <div class="message" *ngIf="message == '000'+ 'removeholiday'">
+    <div>
+      {{'removeHolidayStatus.' + message | translate: {holiday: extraInfo} }}
+    </div>
+  </div>
+  <div class="message" *ngIf="message == '002'+ 'removeholiday'">
+    <div>
+      {{'removeHolidayStatus.' + message | translate: {holiday: extraInfo} }}
+    </div>
+  </div>
+
+
+  <!--dialog phần xóa holiday (hết)-->
 
   <div class="info" *ngIf="information !== ''">
     <p>{{information}}</p>

@@ -43,6 +43,12 @@
           "addPublicHoliday": "Add Public Holiday",
           "publicHolidayList": "Holiday List"
         }
+      },
+      "leaveManagement": {
+        "caption": "Leave Management",
+        "functions": {
+          "leaveLimitSummary": "Limit Summary"
+        }
       }
     }
   },
@@ -134,6 +140,10 @@
   "addNewHolidayStatus": {
     "000addnewholiday": "Public holiday {{holiday}} is added to database",
     "004addnewholiday": "Public holiday {{holiday}} exists in database"
+  },
+  "removeHolidayStatus": {
+    "000removeholiday": "Public holiday {{holiday}} is removed from database",
+    "002removeholiday": "Public holiday {{holiday}} does not exist in database"
   }
 
 }

@@ -54,5 +54,48 @@ namespace AngularNETcore.Controllers
             if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
             return Ok(_obj);
         }
+
+        [HttpGet("listallholiday")]
+        [Authorize(Roles = "0000")]
+        public async Task<IActionResult> ListAllHoliday()
+        {
+            //Holidays _obj = await dal.AddNewHoliday(model);
+
+            long _pageSize = 100;
+            long _requestPage = 1;
+            var _obj = await dal.ListAllHoliday(_pageSize, _requestPage, "yes");
+            string[] OkStatusList = { "000", "004" };
+
+            //var _obj = new
+            //{
+            //    status = "000",
+            //    message = "",
+            //    holidays = new[]
+            //    {
+            //        new {holidayDate = "2020-01-01", description = "tet duong lich"},
+            //        new {holidayDate = "2020-01-22", description = "tet am lich"},
+            //        new {holidayDate = "2020-01-23", description = "tet am lich"},
+            //        new {holidayDate = "2020-01-24", description = "tet am lich"},
+            //        new {holidayDate = "2020-01-25", description = "tet am lich"},
+            //        new {holidayDate = "2020-01-26", description = "tet am lich"},
+            //        new {holidayDate = "2020-01-27", description = "tet am lich"},
+            //        new {holidayDate = "2020-01-28", description = "tet am lich"},
+            //        new {holidayDate = "2020-01-29", description = "tet am lich"}
+            //    }.ToList()
+            //};
+
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpPost("removeholiday")]
+        [Authorize(Roles = "0000")]
+        public async Task<IActionResult> RemoveHoliday([FromBody] Holiday model)
+        {
+            Holidays _obj = await dal.RemoveHoliday(model);
+            string[] OkStatusList = { "000", "002" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
     }
 }

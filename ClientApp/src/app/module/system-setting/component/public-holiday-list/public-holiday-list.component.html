@@ -1,68 +1,36 @@
 <div class="component-container max-w-450" [@fadeAnimation]=transitionState>
-  <!--<div class="" *ngIf="status == '000'">
-    <h3>{{'dashboard.menuGroup.account.functions.accInfo' | translate}}</h3>
-    <div class="">
-      <span class="">{{'commonCaptions.userName' | translate}}</span>
-      <span class="">:&nbsp;&nbsp;</span>
-      <span class="font-b">{{userName}}</span>
-    </div>
-    <div class="">
-      <span class="">{{'commonCaptions.userFullName' | translate}}</span>
-      <span class="">:&nbsp;&nbsp;</span>
-      <span class="font-b">{{userFullName}}</span>
-    </div>
-    <div class="">
-      <span class="">{{'commonCaptions.userDeptCode' | translate}}</span>
-      <span class="">:&nbsp;&nbsp;</span>
-      <span class="font-b">{{userDeptCode}}</span>
-    </div>
-    <div class="">
-      <span class="">{{'commonCaptions.deptDesc.caption' | translate}}</span>
-      <span class="">:&nbsp;&nbsp;</span>
-      <span class="font-b">{{'commonCaptions.deptDesc.' + userDeptCode | translate}}</span>
-    </div>
-    <div class="">
-      <span class="">{{'commonCaptions.userTitleCode' | translate}}</span>
-      <span class="">:&nbsp;&nbsp;</span>
-      <span class="font-b">{{userTitleCode}}</span>
-    </div>
-    <div class="">
-      <span class="">{{'commonCaptions.titleDesc.caption' | translate}}</span>
-      <span class="">:&nbsp;&nbsp;</span>
-      <span class="font-b">{{'commonCaptions.titleDesc.' + userTitleCode | translate}}</span>
-    </div>
-
-    <div class="">
-      <span class="">{{'commonCaptions.userEmail' | translate}}</span>
-      <span class="">:&nbsp;&nbsp;</span>
-      <span class="font-b">{{userEmail}}</span>
-    </div>
-
-    <div class="">
-      <span class="">{{'commonCaptions.userFailedLoginCount' | translate}}</span>
-      <span class="">:&nbsp;&nbsp;</span>
-      <span class="font-b">{{userFailedLoginCount}}</span>
-    </div>
-    <div class="">
-      <span class="">{{'commonCaptions.userEnabled' | translate}}</span>
-      <span class="">:&nbsp;&nbsp;</span>
-      <span class="font-b">{{'commonCaptions.enabled' + userEnabled | translate}}</span>
-    </div>
+  <h3>{{'dashboard.menuGroup.systemSetting.functions.publicHolidayList' | translate}}</h3>
+  <div class="fs-07-rem flex-m">
+    <span class="fas fa-download btn btn-success fs-07-rem" (click)="downloadCsv()">&nbsp;Download CSV</span> &nbsp;&nbsp;
   </div>
-  <div class="" *ngIf="status !== '000'">
-    <h3>{{'commonCaptions.noInfo' | translate}}</h3>
-  </div>
-  <div></div>
-  <div class="btn btn-success" (click)="refresh()">
-    <span><i class="fas fa-sync-alt"></i>&nbsp;&nbsp;{{'commonCaptions.refreshCommand' | translate}}</span>
-  </div>-->
+  <table class="table table-striped fs-07-rem">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col" sortable="userName" priority="">{{'commonCaptions.date' | translate}}</th>
+        <th scope="col" sortable="userFullName" priority="">{{'commonCaptions.descriptionCommon' | translate}}</th>
 
-  <div style="border: 1px solid red">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec odio blandit, imperdiet odio a, tempor enim. Vestibulum iaculis, nunc ut luctus blandit, urna metus pretium est, sit amet commodo quam odio vitae leo. Curabitur molestie elementum ligula sit amet fermentum. Ut quis venenatis ex, eget fringilla odio. Mauris a rhoncus metus. Morbi pellentesque lobortis enim et interdum. Suspendisse ornare hendrerit ullamcorper. Vivamus vitae vestibulum nisi, ac dignissim enim. Sed fermentum semper tortor, ac finibus urna ullamcorper nec. Fusce eget ipsum est. Quisque sit amet lectus fermentum, lacinia nunc nec, semper leo. Mauris eget suscipit mauris. Sed aliquam eleifend turpis, imperdiet consectetur augue tristique eget.
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let holiday of holidays; index as i">
+        <th scope="row">
+          <div class="flex-c-m">
+            <div class="p-l-7 p-r-7 p-t-5 p-b-5 hov-pointer table-line-command" title="{{'commonCaptions.remove' | translate}}" (click)="removeFromDb(i)">
+              <i class="fas fa-trash-alt"></i>
+            </div>
+          </div>
+        </th>
+        <td>
+          {{ holiday.holidayDate }}
+        </td>
+        <td>
+          {{ holiday.description }}
+        </td>
 
-    Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris risus odio, imperdiet et nibh et, fringilla congue risus. Vestibulum mauris diam, dictum id turpis a, sodales dignissim turpis. Proin facilisis in eros nec dictum. Aenean neque nulla, convallis in malesuada eget, malesuada eget ante. Sed convallis, nulla id placerat interdum, mi dolor venenatis elit, quis ullamcorper nibh quam ac lectus. Morbi feugiat enim eget ante consectetur rhoncus. Cras sit amet dignissim nibh, a fermentum nunc.
+      </tr>
+    </tbody>
+  </table>
 
-    In ac orci porttitor, convallis risus non, lobortis eros. Morbi porttitor felis aliquet facilisis malesuada. Nulla scelerisque odio vitae elit mollis, sed pellentesque felis cursus. Vestibulum rhoncus arcu neque, aliquet fermentum ante vehicula ac. Donec a enim tortor. Maecenas fringilla lobortis luctus. Pellentesque a accumsan nisi, vel auctor est. Suspendisse id metus pellentesque, convallis nisl nec, lacinia sapien. Proin vehicula erat nec risus consectetur, et eleifend nisi rhoncus. Pellentesque vitae luctus metus, a gravida erat. Phasellus ultrices a enim sed dapibus. Suspendisse potenti. Donec semper sapien quis nisi euismod euismod.
-  </div>
 </div>
 

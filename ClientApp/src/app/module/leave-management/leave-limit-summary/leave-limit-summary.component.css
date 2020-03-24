@@ -1,4 +1,5 @@
 
+
 /*sort*/
 th[sortable] {
   cursor: pointer;
@@ -104,5 +105,4 @@ th[sortable] {
   width: 30px;
 }
 /*bootstrap override*/
-
 

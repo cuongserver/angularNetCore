@@ -49,6 +49,7 @@ import { EditUserInfoComponent } from './user-maintenance/list-all-user/edit-use
 import { ChangeUserPasswordComponent } from './user-maintenance/list-all-user/change-user-password/change-user-password.component';
 
 import { SystemSettingModule } from '@app/module/system-setting/system-setting.module'
+import { LeaveManagementModule } from '@app/module/leave-management/leave-management.module'
 
 @NgModule({
   declarations: [
@@ -99,7 +100,8 @@ import { SystemSettingModule } from '@app/module/system-setting/system-setting.m
     MatRadioModule,
     MatToolbarModule,
     MatSlideToggleModule,
-    SystemSettingModule
+    SystemSettingModule,
+    LeaveManagementModule
   ],
   providers: [
     {

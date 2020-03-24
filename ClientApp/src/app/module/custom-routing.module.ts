@@ -12,7 +12,8 @@ import { ChangePasswordComponent } from '../account-maintenance/change-password/
 import { ListAllUserComponent } from '../user-maintenance/list-all-user/list-all-user.component';
 import { AddNewUserComponent } from '../user-maintenance/add-new-user/add-new-user.component';
 import { EditUserInfoComponent } from '../user-maintenance/list-all-user/edit-user-info/edit-user-info.component';
-import {SystemSettingRoutes, SystemSettingModule} from '@app/module/system-setting/system-setting.module'
+import { SystemSettingRoutes, SystemSettingModule } from '@app/module/system-setting/system-setting.module'
+import { LeaveManagementRoutes } from '@app/module/leave-management/leave-management.module'
 
 const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full', canActivate: [PreventBackToLoginPageAfterLogin] },
@@ -35,7 +36,8 @@ const routes: Routes = [
         path: 'add-new-user', component: AddNewUserComponent,
         canActivate: [RoleCheck], data: { authorizedRoles: ['0000'] }
       },
-      ...SystemSettingRoutes
+      ...SystemSettingRoutes,
+      ...LeaveManagementRoutes
     ]
 
   }

@@ -55,7 +55,7 @@
             </div>
           </sub-group>
           <!---->
-          <sub-group header="dashboard.menuGroup.systemSetting.caption" *ngIf="['0000','0003'].indexOf(userRole) >= 0">
+          <sub-group header="dashboard.menuGroup.systemSetting.caption" *ngIf="['0000'].indexOf(userRole) >= 0">
             <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" [routerLink]="['add-public-holiday']">
               {{'dashboard.menuGroup.systemSetting.functions.addPublicHoliday' | translate}}&nbsp;
             </div>
@@ -64,11 +64,12 @@
             </div>
           </sub-group>
           <!---->
-          <sub-group header="Heroes" *ngIf="userRole == '0000'">
-            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngFor="let hero of heroes">
-              <a>{{hero.name}}</a>
+          <sub-group header="dashboard.menuGroup.leaveManagement.caption" *ngIf="['0000','0001','0002','0003'].indexOf(userRole) >= 0">
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngIf="['0000'].indexOf(userRole) >= 0" [routerLink]="['leave-limit-summary']">
+              <a>{{'dashboard.menuGroup.leaveManagement.functions.leaveLimitSummary' | translate}}</a>
             </div>
           </sub-group>
+          <!---->
           <sub-group header="Villains" *ngIf="userRole == '0000'">
             <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngFor="let villain of villains">
               <a>{{villain.name}}</a>
