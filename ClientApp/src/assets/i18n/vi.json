@@ -92,7 +92,8 @@
     "cancel": "Hủy",
     "confirm": "Xác nhận",
     "date": "Ngày",
-    "descriptionCommon": "Diễn giải"
+    "descriptionCommon": "Diễn giải",
+    "unlimited": "không giới hạn"
 
   },
   "responseErrors": {
@@ -144,5 +145,15 @@
   "removeHolidayStatus": {
     "000removeholiday": "Ngày lễ {{holiday}} đã được xóa khỏi dữ liệu",
     "002removeholiday": "Ngày lễ {{holiday}} không tồn tại trong dữ liệu"
+  },
+  "leaveCode": {
+    "leaveCode0000": "Phép năm",
+    "leaveCode0001": "Không lương",
+    "leaveCode0002": "Cưới (bản thân)",
+    "leaveCode0003": "Cưới (thành viên gia đình)",
+    "leaveCode0004": "Nghỉ bệnh",
+    "leaveCode0005": "Nghỉ bù",
+    "leaveCode0006": "Tang chế",
+    "leaveCode0007": "Đặc biệt"
   }
 }

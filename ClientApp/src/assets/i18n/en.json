@@ -92,8 +92,8 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "date": "Date",
-    "descriptionCommon": "Description"
-
+    "descriptionCommon": "Description",
+    "unlimited": "Unlimited"
   },
   "responseErrors": {
     "serverError": "Error at server ({{message}})",
@@ -144,6 +144,16 @@
   "removeHolidayStatus": {
     "000removeholiday": "Public holiday {{holiday}} is removed from database",
     "002removeholiday": "Public holiday {{holiday}} does not exist in database"
+  },
+  "leaveCode": {
+    "leaveCode0000": "Annual",
+    "leaveCode0001": "Unpaid",
+    "leaveCode0002": "Self Marriage",
+    "leaveCode0003": "Family Member Marriage",
+    "leaveCode0004": "Sickness",
+    "leaveCode0005": "Compensation",
+    "leaveCode0006": "Bereavement",
+    "leaveCode0007": "Special"
   }
 
 }

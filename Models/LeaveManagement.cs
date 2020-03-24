@@ -24,5 +24,8 @@ namespace AngularNETcore.Models
         public List<string> leaveCodes { get; set; }
         public string status { get; set; }
         public string message { get; set; }
+        public long pageSize { get; set; }
+        public long collectionSize { get; set; }
+        public long activePage { get; set; }
     }
 }

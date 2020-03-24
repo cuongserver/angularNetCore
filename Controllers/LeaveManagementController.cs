@@ -45,12 +45,14 @@ namespace AngularNETcore.Controllers
             jwtService = _jwtService;
             dal = new LeaveManagementDataAccessLayer(ConnectionString);
         }
-        [HttpGet("leavelimitsummary")]
+        [HttpPost("leavelimitsummary")]
         //[Authorize(Roles = "0000")]
         [AllowAnonymous]
-        public async Task<IActionResult> LeaveLimitSummary()
+        public async Task<IActionResult> LeaveLimitSummary([FromBody]SearchCondition filters)
         {
-            var _obj = await dal.GetLeaveLimitSummary();
+            long _pageSize = filters.pageSize <= 0 ? DefautltPageSize : filters.pageSize;
+            long _requestPage = filters.requestPage <= 0 ? DefaultRequestPage : filters.requestPage;
+            var _obj = await dal.GetLeaveLimitSummary(_pageSize, _requestPage, filters, "no");
             string[] OkStatusList = { "000", "004" };
             if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
             return Ok(_obj);

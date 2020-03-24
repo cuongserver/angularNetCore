@@ -18,8 +18,13 @@ namespace AngularNETcore.DataAccessLayer
             _connectionString = _connString;
         }
 
-        public async Task<LeaveBalanceSummary> GetLeaveLimitSummary()
+        public async Task<LeaveBalanceSummary> GetLeaveLimitSummary(long pageSize, long requestPage, SearchCondition filters, string getAllOrNot)
         {
+            long _pageSize = pageSize;
+            long _requestPage = requestPage;
+            string _getAllOrNot = getAllOrNot;
+            string _condition = Utility.CompleteConditionString(filters);
+            string condition = String.IsNullOrEmpty(_condition) ? "1 = 1" : "(" + _condition + ")";
             LeaveBalanceSummary _obj = new LeaveBalanceSummary();
             _obj.summary = new List<LeaveBalance>();
             _obj.leaveCodes = new List<string>();
@@ -30,16 +35,37 @@ namespace AngularNETcore.DataAccessLayer
             {
                 SqlCommand cmd = SqlCmd(con);
                 cmd.CommandText = "LeaveLimitSummary";
+                cmd.Parameters.AddWithValue("@pageSize", _pageSize);
+                cmd.Parameters.AddWithValue("@requestPage", _requestPage);
+                cmd.Parameters.AddWithValue("@condition", condition);
+                cmd.Parameters.AddWithValue("@getAll", _getAllOrNot);
+
+                SqlParameter prm1 = new SqlParameter
+                {
+                    ParameterName = "@collectionSize",
+                    SqlDbType = SqlDbType.BigInt,
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(prm1);
+
+                SqlParameter prm2 = new SqlParameter
+                {
+                    ParameterName = "@activePage",
+                    SqlDbType = SqlDbType.BigInt,
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(prm2);
 
                 DataSet ds = new DataSet();
-
-
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 try
                 {
                     con.Open();
                     da.Fill(ds);
                     dt_leaveType = ds.Tables[0]; dt_user = ds.Tables[1]; dt_leaveLimit = ds.Tables[2];
+                    _obj.collectionSize = (Int64)prm1.Value;
+                    _obj.pageSize = _pageSize;
+                    _obj.activePage = (Int64)prm2.Value;
                     _obj.status = "000";
                 }
                 catch (SqlException ex)
