@@ -1,5 +1,11 @@
 USE [LMS]
 GO
+/****** Object:  Trigger [userInfoInsertTrigger]    Script Date: 3/24/2020 6:04:30 PM ******/
+DROP TRIGGER [dbo].[userInfoInsertTrigger]
+GO
+/****** Object:  Trigger [userInfoDeleteTrigger]    Script Date: 3/24/2020 6:04:30 PM ******/
+DROP TRIGGER [dbo].[userInfoDeleteTrigger]
+GO
 ALTER TABLE [dbo].[userInfo] DROP CONSTRAINT [FK_userInfo_titleInfo]
 GO
 ALTER TABLE [dbo].[userInfo] DROP CONSTRAINT [FK_userInfo_deptInfo]
@@ -10,63 +16,84 @@ ALTER TABLE [dbo].[userInfo] DROP CONSTRAINT [DF__userInfo__userEn__29572725]
 GO
 ALTER TABLE [dbo].[holiday] DROP CONSTRAINT [DF__holiday__isEnabl__4CA06362]
 GO
-/****** Object:  Table [dbo].[userInfo]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  View [dbo].[LeaveSummaryView01]    Script Date: 3/24/2020 6:04:30 PM ******/
+DROP VIEW [dbo].[LeaveSummaryView01]
+GO
+/****** Object:  Table [dbo].[userInfo]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP TABLE [dbo].[userInfo]
 GO
-/****** Object:  Table [dbo].[titleInfo]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  Table [dbo].[titleInfo]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP TABLE [dbo].[titleInfo]
 GO
-/****** Object:  Table [dbo].[holiday]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  Table [dbo].[leaveTypeInfo]    Script Date: 3/24/2020 6:04:30 PM ******/
+DROP TABLE [dbo].[leaveTypeInfo]
+GO
+/****** Object:  Table [dbo].[leaveLimit]    Script Date: 3/24/2020 6:04:30 PM ******/
+DROP TABLE [dbo].[leaveLimit]
+GO
+/****** Object:  Table [dbo].[holiday]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP TABLE [dbo].[holiday]
 GO
-/****** Object:  Table [dbo].[deptInfo]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  Table [dbo].[deptInfo]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP TABLE [dbo].[deptInfo]
 GO
-/****** Object:  UserDefinedFunction [dbo].[hashPW]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[hashPW]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP FUNCTION [dbo].[hashPW]
 GO
-/****** Object:  StoredProcedure [dbo].[ValidateLogin]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[ValidateLogin]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP PROCEDURE [dbo].[ValidateLogin]
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserWithPaging]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[RemoveHoliday]    Script Date: 3/24/2020 6:04:30 PM ******/
+DROP PROCEDURE [dbo].[RemoveHoliday]
+GO
+/****** Object:  StoredProcedure [dbo].[LeaveSummaryPivot]    Script Date: 3/24/2020 6:04:30 PM ******/
+DROP PROCEDURE [dbo].[LeaveSummaryPivot]
+GO
+/****** Object:  StoredProcedure [dbo].[LeaveLimitSummary]    Script Date: 3/24/2020 6:04:30 PM ******/
+DROP PROCEDURE [dbo].[LeaveLimitSummary]
+GO
+/****** Object:  StoredProcedure [dbo].[GetUserWithPaging]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP PROCEDURE [dbo].[GetUserWithPaging]
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserTitle]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetUserTitle]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP PROCEDURE [dbo].[GetUserTitle]
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserNoFilter]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetUserNoFilter]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP PROCEDURE [dbo].[GetUserNoFilter]
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserDetails]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetUserDetails]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP PROCEDURE [dbo].[GetUserDetails]
 GO
-/****** Object:  StoredProcedure [dbo].[GetTitleAndDeptList]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetTitleAndDeptList]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP PROCEDURE [dbo].[GetTitleAndDeptList]
 GO
-/****** Object:  StoredProcedure [dbo].[EditUserInfo]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetHolidayWithPaging]    Script Date: 3/24/2020 6:04:30 PM ******/
+DROP PROCEDURE [dbo].[GetHolidayWithPaging]
+GO
+/****** Object:  StoredProcedure [dbo].[EditUserInfo]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP PROCEDURE [dbo].[EditUserInfo]
 GO
-/****** Object:  StoredProcedure [dbo].[ChangeUserPasswordByAdmin]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[ChangeUserPasswordByAdmin]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP PROCEDURE [dbo].[ChangeUserPasswordByAdmin]
 GO
-/****** Object:  StoredProcedure [dbo].[ChangeUserPassword]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[ChangeUserPassword]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP PROCEDURE [dbo].[ChangeUserPassword]
 GO
-/****** Object:  StoredProcedure [dbo].[AddNewUser]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddNewUser]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP PROCEDURE [dbo].[AddNewUser]
 GO
-/****** Object:  StoredProcedure [dbo].[AddNewHoliday]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddNewHoliday]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP PROCEDURE [dbo].[AddNewHoliday]
 GO
-/****** Object:  UserDefinedTableType [dbo].[userTableType]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[userTableType]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP TYPE [dbo].[userTableType]
 GO
 USE [master]
 GO
-/****** Object:  Database [LMS]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  Database [LMS]    Script Date: 3/24/2020 6:04:30 PM ******/
 DROP DATABASE [LMS]
 GO
-/****** Object:  Database [LMS]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  Database [LMS]    Script Date: 3/24/2020 6:04:30 PM ******/
 CREATE DATABASE [LMS]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -139,7 +166,7 @@ ALTER DATABASE [LMS] SET TARGET_RECOVERY_TIME = 60 SECONDS
 GO
 USE [LMS]
 GO
-/****** Object:  UserDefinedTableType [dbo].[userTableType]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[userTableType]    Script Date: 3/24/2020 6:04:30 PM ******/
 CREATE TYPE [dbo].[userTableType] AS TABLE(
 	[userName] [nvarchar](50) NOT NULL,
 	[userPass] [nvarchar](64) NULL,
@@ -151,7 +178,7 @@ CREATE TYPE [dbo].[userTableType] AS TABLE(
 	[userFailedLoginCount] [int] NULL
 )
 GO
-/****** Object:  StoredProcedure [dbo].[AddNewHoliday]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddNewHoliday]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -173,11 +200,12 @@ if exists (select * from holiday where holidayDate = @date and isEnabled = 0)
 	begin
 	update t1 set t1.isEnabled = 1, t1.description = @description from holiday t1 where t1.holidayDate = @date
 	set @status = '000'
+	return
 	end
 insert into holiday(holidayDate, description, isEnabled) values (@date, @description, 1)
 set @status = '000'
 GO
-/****** Object:  StoredProcedure [dbo].[AddNewUser]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddNewUser]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -205,7 +233,7 @@ set @status = '000'
 end
 
 GO
-/****** Object:  StoredProcedure [dbo].[ChangeUserPassword]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[ChangeUserPassword]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -241,7 +269,7 @@ update t1 set t1.userPass = dbo.hashPW(@userPassNew, @userName)
 set @status = '000'
 
 GO
-/****** Object:  StoredProcedure [dbo].[ChangeUserPasswordByAdmin]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[ChangeUserPasswordByAdmin]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -269,7 +297,7 @@ update t1 set t1.userPass = dbo.hashPW(@userPass, @userName)
 	where t1.userName = @userName
 set @status = '000'
 GO
-/****** Object:  StoredProcedure [dbo].[EditUserInfo]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[EditUserInfo]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -312,7 +340,51 @@ from userInfo as t1
 set @status = '000'
 end
 GO
-/****** Object:  StoredProcedure [dbo].[GetTitleAndDeptList]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetHolidayWithPaging]    Script Date: 3/24/2020 6:04:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetHolidayWithPaging]
+	@pageSize bigint,
+	@requestPage bigint,
+	@getAll nvarchar(3),
+	@condition nvarchar(max),
+	@collectionSize bigint out,
+	@activePage bigint out
+AS
+
+declare @tempTable Table  (
+    [holidayDate]             NVARCHAR (50) NOT NULL,
+    [description]             NVARCHAR (64) NULL,
+    [isEnabled]         Bit NULL,
+    PRIMARY KEY CLUSTERED ([holidayDate] ASC)
+);
+
+declare @sql nvarchar(max) = 'select * from holiday where [isEnabled] <> 0'
+
+insert into @tempTable exec(@sql)
+
+set @collectionSize = (select count(*) from @tempTable t1)
+set @activePage = @requestPage
+if @collectionSize = 0 return
+
+If @activePage*@pageSize > @collectionSize
+	SET @activePage = CEILING(Convert(Decimal(10,0),@collectionSize)/Convert(Decimal(10,0),@pageSize));
+declare @skipRows bigint = (@activePage - 1)*@pageSize;
+if @getAll = 'yes'
+	begin
+	select t1.* from @tempTable t1 
+	order by t1.holidayDate
+	return
+	end
+
+select t1.* from @tempTable t1 
+	order by t1.holidayDate
+	offset @skipRows rows
+	fetch next @pageSize rows only;
+GO
+/****** Object:  StoredProcedure [dbo].[GetTitleAndDeptList]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -324,7 +396,7 @@ select * from deptInfo
 select * from titleInfo where titleCode <> '0000'
 
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserDetails]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetUserDetails]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -349,7 +421,7 @@ select t1.*, t2.titleDesc, t3.deptDesc from userInfo t1
 set @status = '000'
 
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserNoFilter]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetUserNoFilter]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -363,7 +435,7 @@ select t1.*, t2.titleDesc, t3.deptDesc from userInfo t1
 	where t1.userTitleCode <> '0000'
 
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserTitle]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetUserTitle]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -388,7 +460,7 @@ if not exists (select * from userInfo t1 where t1.userName = @userName and t1.us
 	end
 
 GO
-/****** Object:  StoredProcedure [dbo].[GetUserWithPaging]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetUserWithPaging]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -443,7 +515,93 @@ select t1.*, t2.titleDesc, t3.deptDesc from @tempTable t1
 	offset @skipRows rows
 	fetch next @pageSize rows only;
 GO
-/****** Object:  StoredProcedure [dbo].[ValidateLogin]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[LeaveLimitSummary]    Script Date: 3/24/2020 6:04:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[LeaveLimitSummary]
+
+AS
+--DECLARE @Columns as NVARCHAR(MAX)
+--SELECT @Columns = COALESCE(@Columns + ', ','') + QUOTENAME(leaveCode)
+--FROM
+--   (SELECT DISTINCT t1.leaveCode
+--    FROM  leaveLimit t1
+--   ) AS B
+--   ORDER BY B.leaveCode
+--DECLARE @SQL as NVARCHAR(MAX)
+--SET @SQL = 'SELECT userName, ' + @Columns + '
+--FROM
+--(SELECT * FROM
+-- leaveLimit
+--) as PivotData
+--PIVOT
+--(
+--   SUM(limit)
+--   FOR leaveCode IN (' + @Columns + ')
+--) AS PivotResult
+--ORDER BY userName'
+--EXEC(@SQL)
+SELECT leaveCode from leaveTypeInfo;
+SELECT * FROM userInfo WHERE userTitleCode <> '0000';
+SELECT * FROM leaveLimit;
+GO
+/****** Object:  StoredProcedure [dbo].[LeaveSummaryPivot]    Script Date: 3/24/2020 6:04:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[LeaveSummaryPivot]
+
+AS
+--DECLARE @Columns as NVARCHAR(MAX)
+--SELECT @Columns = COALESCE(@Columns + ', ','') + QUOTENAME(leaveCode)
+--FROM
+--   (SELECT DISTINCT t1.leaveCode
+--    FROM  leaveLimit t1
+--   ) AS B
+--   ORDER BY B.leaveCode
+--DECLARE @SQL as NVARCHAR(MAX)
+--SET @SQL = 'SELECT userName, ' + @Columns + '
+--FROM
+--(SELECT * FROM
+-- leaveLimit
+--) as PivotData
+--PIVOT
+--(
+--   SUM(limit)
+--   FOR leaveCode IN (' + @Columns + ')
+--) AS PivotResult
+--ORDER BY userName'
+--EXEC(@SQL)
+SELECT leaveCode from leaveTypeInfo;
+SELECT * FROM userInfo WHERE userTitleCode <> '0000';
+SELECT * FROM leaveLimit;
+GO
+/****** Object:  StoredProcedure [dbo].[RemoveHoliday]    Script Date: 3/24/2020 6:04:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[RemoveHoliday]
+	@date nvarchar(10),
+	@description nvarchar(50),
+	@status nvarchar (50) out
+
+	-- 000: thành công
+	-- 002: không tồn tại record
+AS
+if not exists (select * from holiday where holidayDate = @date and isEnabled = 1)
+	begin
+	set @status = '002'
+	return
+	end
+
+update t1 set t1.isEnabled = 0 from holiday t1 where t1.holidayDate = @date
+set @status = '000'
+GO
+/****** Object:  StoredProcedure [dbo].[ValidateLogin]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -489,7 +647,7 @@ else
 	end
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[hashPW]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[hashPW]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -511,7 +669,7 @@ set @secondpart = CONVERT(NVARCHAR(64),HashBytes('SHA2_256', REVERSE(@userName) 
 END;
 
 GO
-/****** Object:  Table [dbo].[deptInfo]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  Table [dbo].[deptInfo]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -526,7 +684,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[holiday]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  Table [dbo].[holiday]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -542,7 +700,35 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[titleInfo]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  Table [dbo].[leaveLimit]    Script Date: 3/24/2020 6:04:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[leaveLimit](
+	[userName] [nvarchar](50) NULL,
+	[leaveCode] [nvarchar](50) NULL,
+	[limit] [int] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[leaveTypeInfo]    Script Date: 3/24/2020 6:04:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[leaveTypeInfo](
+	[leaveCode] [nvarchar](50) NOT NULL,
+	[leaveDesc] [nvarchar](50) NULL,
+	[defaultLimit] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[leaveCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[titleInfo]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -557,7 +743,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[userInfo]    Script Date: 3/23/2020 5:51:32 PM ******/
+/****** Object:  Table [dbo].[userInfo]    Script Date: 3/24/2020 6:04:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -578,6 +764,18 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 
 GO
+/****** Object:  View [dbo].[LeaveSummaryView01]    Script Date: 3/24/2020 6:04:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[LeaveSummaryView01]
+	AS 
+SELECT        t1.userName, t1.leaveCode, t2.leaveDesc, SUM(isnull(t1.limit,0)) AS limit
+FROM            leaveLimit t1 LEFT OUTER JOIN
+                         leaveTypeInfo t2 ON t1.leaveCode = t2.leaveCode
+GROUP BY t1.userName, t1.leaveCode, t2.leaveDesc
+GO
 INSERT [dbo].[deptInfo] ([deptCode], [deptDesc]) VALUES (N'0000', N'IT')
 GO
 INSERT [dbo].[deptInfo] ([deptCode], [deptDesc]) VALUES (N'0001', N'HR')
@@ -586,7 +784,507 @@ INSERT [dbo].[deptInfo] ([deptCode], [deptDesc]) VALUES (N'0002', N'Finance')
 GO
 INSERT [dbo].[deptInfo] ([deptCode], [deptDesc]) VALUES (N'0003', N'SCM-Logistic-WH')
 GO
-INSERT [dbo].[holiday] ([holidayDate], [description], [isEnabled]) VALUES (N'2020/01/01', N'tet tay', 1)
+INSERT [dbo].[holiday] ([holidayDate], [description], [isEnabled]) VALUES (N'2020-01-01', N'tết dương lịch', 1)
+GO
+INSERT [dbo].[holiday] ([holidayDate], [description], [isEnabled]) VALUES (N'2020-01-22', N'tet am lich', 1)
+GO
+INSERT [dbo].[holiday] ([holidayDate], [description], [isEnabled]) VALUES (N'2020-01-23', N'tet am lich', 1)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user01', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user02', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user03', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user04', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user05', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user06', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user07', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user08', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user09', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user10', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user11', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user12', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user13', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user14', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user15', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user16', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user17', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user18', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user19', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user20', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user21', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user22', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user23', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user24', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user25', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user26', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user27', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user28', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user29', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user01', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user02', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user03', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user04', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user05', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user06', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user07', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user08', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user09', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user10', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user11', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user12', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user13', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user14', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user15', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user16', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user17', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user18', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user19', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user20', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user21', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user22', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user23', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user24', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user25', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user26', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user27', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user28', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user29', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user01', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user02', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user03', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user04', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user05', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user06', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user07', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user08', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user09', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user10', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user11', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user12', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user13', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user14', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user15', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user16', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user17', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user18', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user19', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user20', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user21', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user22', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user23', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user24', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user25', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user26', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user27', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user28', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user29', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user01', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user02', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user03', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user04', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user05', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user06', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user07', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user08', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user09', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user10', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user11', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user12', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user13', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user14', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user15', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user16', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user17', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user18', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user19', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user20', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user21', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user22', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user23', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user24', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user25', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user26', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user27', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user28', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user29', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user01', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user02', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user03', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user04', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user05', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user06', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user07', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user08', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user09', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user10', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user11', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user12', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user13', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user14', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user15', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user16', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user17', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user18', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user19', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user20', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user21', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user22', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user23', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user24', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user25', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user26', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user27', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user28', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user29', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user01', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user02', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user03', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user04', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user05', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user06', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user07', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user08', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user09', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user10', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user11', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user12', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user13', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user14', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user15', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user16', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user17', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user18', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user19', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user20', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user21', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user22', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user23', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user24', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user25', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user26', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user27', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user28', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user29', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user01', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user02', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user03', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user04', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user05', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user06', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user07', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user08', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user09', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user10', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user11', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user12', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user13', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user14', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user15', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user16', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user17', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user18', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user19', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user20', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user21', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user22', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user23', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user24', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user25', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user26', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user27', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user28', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user29', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user30', N'0000', 96)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user30', N'0001', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user30', N'0002', 32)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user30', N'0003', 16)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user30', N'0004', 240)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user01', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user02', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user03', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user04', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user05', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user06', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user07', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user08', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user09', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user10', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user11', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user12', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user13', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user14', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user15', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user16', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user17', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user18', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user19', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user20', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user21', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user22', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user23', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user24', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user25', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user26', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user27', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user28', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user29', N'0007', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user30', N'0005', NULL)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user30', N'0006', 24)
+GO
+INSERT [dbo].[leaveLimit] ([userName], [leaveCode], [limit]) VALUES (N'user30', N'0007', NULL)
+GO
+INSERT [dbo].[leaveTypeInfo] ([leaveCode], [leaveDesc], [defaultLimit]) VALUES (N'0000', N'Annual Leave - Phép năm', 96)
+GO
+INSERT [dbo].[leaveTypeInfo] ([leaveCode], [leaveDesc], [defaultLimit]) VALUES (N'0001', N'Unpaid Leave - Không lương', NULL)
+GO
+INSERT [dbo].[leaveTypeInfo] ([leaveCode], [leaveDesc], [defaultLimit]) VALUES (N'0002', N'(Self) Mariage - (Bản thân) Cưới', 32)
+GO
+INSERT [dbo].[leaveTypeInfo] ([leaveCode], [leaveDesc], [defaultLimit]) VALUES (N'0003', N'(Family member) Marriage - (Người thân) Cưới', 16)
+GO
+INSERT [dbo].[leaveTypeInfo] ([leaveCode], [leaveDesc], [defaultLimit]) VALUES (N'0004', N'Sick Leave - Nghỉ ốm', 240)
+GO
+INSERT [dbo].[leaveTypeInfo] ([leaveCode], [leaveDesc], [defaultLimit]) VALUES (N'0005', N'Compensation Leave - Nghỉ bù', NULL)
+GO
+INSERT [dbo].[leaveTypeInfo] ([leaveCode], [leaveDesc], [defaultLimit]) VALUES (N'0006', N'Bereavement - Tang chế', 24)
+GO
+INSERT [dbo].[leaveTypeInfo] ([leaveCode], [leaveDesc], [defaultLimit]) VALUES (N'0007', N'Special - Đặc biệt', NULL)
 GO
 INSERT [dbo].[titleInfo] ([titleCode], [titleDesc]) VALUES (N'0000', N'Admin')
 GO
@@ -656,15 +1354,7 @@ INSERT [dbo].[userInfo] ([userName], [userPass], [userFullname], [userDeptCode],
 GO
 INSERT [dbo].[userInfo] ([userName], [userPass], [userFullname], [userDeptCode], [userTitleCode], [userEmail], [userEnabled], [userFailedLoginCount]) VALUES (N'user29', N'0x0C68FA001DAD4A9FF4CD2F73BF9AAC0DA7F4452F206484FBD75311BC563090', N'Inglorious Basterds', N'0000', N'0003', N'host@gmail.com', 1, 0)
 GO
-INSERT [dbo].[userInfo] ([userName], [userPass], [userFullname], [userDeptCode], [userTitleCode], [userEmail], [userEnabled], [userFailedLoginCount]) VALUES (N'user30', N'0xA7D8C24DCD9977C3590C22BCDF0D42D1955BAA1535ABDB1674BC3E71DA9DD3', N'ASP.NET Core', N'0000', N'0003', N'host@gmail.com', 1, 0)
-GO
-INSERT [dbo].[userInfo] ([userName], [userPass], [userFullname], [userDeptCode], [userTitleCode], [userEmail], [userEnabled], [userFailedLoginCount]) VALUES (N'user31', N'0x6D619611633B183B8BBA6087F0DFA1ED0A9BB05D93894AF435868338907647', N'Choral Fantasy', N'0000', N'0003', N'host@gmail.com', 1, 0)
-GO
-INSERT [dbo].[userInfo] ([userName], [userPass], [userFullname], [userDeptCode], [userTitleCode], [userEmail], [userEnabled], [userFailedLoginCount]) VALUES (N'user32', N'0xE492AA380BDF065FA6CF1EFFDEE8611CE91606C93D733FFA2D3590BE569C2A', N'Piano Concerto No.5', N'0001', N'0003', N'host@gmail.com', 1, 0)
-GO
-INSERT [dbo].[userInfo] ([userName], [userPass], [userFullname], [userDeptCode], [userTitleCode], [userEmail], [userEnabled], [userFailedLoginCount]) VALUES (N'user33', N'0xC53B6ABA5D556A83027D9677101B4725297CD10274949A46A7E71041E4ACDD', N'Dollar', N'0001', N'0003', N'host@gmail.com', 1, 0)
-GO
-INSERT [dbo].[userInfo] ([userName], [userPass], [userFullname], [userDeptCode], [userTitleCode], [userEmail], [userEnabled], [userFailedLoginCount]) VALUES (N'user34', N'0xCD9AB52BB21C1B6DD13E8E26F8403A4A8F4F348742A8C53570F3EEE1E2111D', N'Euro', N'0001', N'0003', N'host@gmail.com', 1, 0)
+INSERT [dbo].[userInfo] ([userName], [userPass], [userFullname], [userDeptCode], [userTitleCode], [userEmail], [userEnabled], [userFailedLoginCount]) VALUES (N'user30', N'0xA7D8C24DCD9977C3590C22BCDF0D42D1955BAA1535ABDB1674BC3E71DA9DD3', N'Roll Royce', N'0003', N'0002', N'xxx@gmail.com', 1, 0)
 GO
 ALTER TABLE [dbo].[holiday] ADD  DEFAULT ((1)) FOR [isEnabled]
 GO
@@ -681,6 +1371,39 @@ ALTER TABLE [dbo].[userInfo]  WITH CHECK ADD  CONSTRAINT [FK_userInfo_titleInfo]
 REFERENCES [dbo].[titleInfo] ([titleCode])
 GO
 ALTER TABLE [dbo].[userInfo] CHECK CONSTRAINT [FK_userInfo_titleInfo]
+GO
+/****** Object:  Trigger [dbo].[userInfoDeleteTrigger]    Script Date: 3/24/2020 6:04:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dbo].[userInfoDeleteTrigger]
+	ON [dbo].[userInfo]
+AFTER DELETE
+AS
+BEGIN
+	delete t1 from leaveLimit t1 inner join deleted t2 on t1.userName = t2.userName
+END
+GO
+/****** Object:  Trigger [dbo].[userInfoInsertTrigger]    Script Date: 3/24/2020 6:04:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE TRIGGER [dbo].[userInfoInsertTrigger]
+	ON [dbo].[userInfo]
+FOR INSERT
+AS
+BEGIN
+	insert into leaveLimit select t1.userName, t2.leaveCode, t2.defaultLimit as limit from inserted t1, leaveTypeInfo t2
+END
+
 GO
 USE [master]
 GO
