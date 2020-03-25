@@ -95,7 +95,14 @@
 
 
   <!--dialog phần xóa holiday (hết)-->
+  <!-- dialog phần cập nhật hạn mức nghỉ -->
+  <div class="message" *ngIf="message == '000' + 'adjustleavelimit'">
+    <div>
+      {{'adjustLeaveLimit.' + message | translate: {userName: extraInfo} }}
+    </div>
+  </div>
 
+  <!-- dialog phần cập nhật hạn mức nghỉ (hết)-->
   <div class="info" *ngIf="information !== ''">
     <p>{{information}}</p>
   </div>

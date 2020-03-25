@@ -51,7 +51,8 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
   private subscription1: Subscription; private subscription2: Subscription;
   private subscription3: Subscription; private subscription4: Subscription;
 
-  constructor(private http: HttpClient, private infoservice: LeaveLimitService) {
+  constructor(private http: HttpClient, private infoservice: LeaveLimitService, private translate: TranslateService,
+    private jsonToCsv: JsonToCsvService) {
     this.pageSize = this.pageSizeOptions[0]; this.requestPage = 1;
     this.navigateToPage = 1;
     this.getData(this.pageSize, this.requestPage);
@@ -280,6 +281,110 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     })
     this.infoservice.OpenAdjustLimitFunction(detail, index);
     this.editMode = true;
+  }
+
+  transformHeader(): string[] {
+    var x: string[] = [];
+    x.push(this.translate.instant('commonCaptions.userName'))
+    x.push(this.translate.instant('commonCaptions.userFullName'))
+    this.leavecodes.forEach(y => {
+      x.push(this.translate.instant('leaveCode.leaveCode' + y));
+    })
+    return x
+  }
+
+  transformResponse(data): Array<any> {
+    let array = data as Array<LeaveBalance>;
+    let x = new Array<any>();
+    array.forEach(y => {
+      var row = {
+        userName: y.user.userName,
+        userFullName: y.user.userFullName
+      }
+      for (var i = 0; i < this.leavecodes.length; i += 1) {
+        var t = y.leaveTypes[i].limit;
+        if (t != null) {
+          row[this.leavecodes[i]] = t;
+        }
+        else {
+          row[this.leavecodes[i]] = this.translate.instant('commonCaptions.unlimited');
+        }
+      }
+      x.push(row);
+    })
+    return x;
+  }
+
+  downloadCsv() {
+    var z = this.filters.length;
+    if (z > 0) {
+      for (var y = z - 1; y > -1; y -= 1) {
+        if (this.filters[y].field == null || this.filters[y].field == '') {
+          this.filters.splice(y, 1);
+        }
+      }
+    }
+
+    let x = {
+      pageSize: 1 as number,
+      requestPage: 1 as number,
+      filters: this.filters
+    }
+
+    let data = JSON.stringify(x);
+    this.http.post('/LeaveManagement/LeaveLimitSummaryDownLoad', data, res.moduleHttpOptions).subscribe(
+      response => {
+        //let result = JSON.parse(JSON.stringify(response));
+        //this.collectionSize = result['collectionSize'];
+        //this.activePage = result['activePage'];
+        //this.navigateToPage = this.activePage;
+        //this.pageSize = result['pageSize'];
+        //this.buildPager(this.collectionSize, this.pageSize);
+
+        //while (this.summaryOriginal.length > 0) {
+        //  this.summaryOriginal.pop();
+        //}
+        let result = JSON.parse(JSON.stringify(response));
+        this.leavecodes = result["leaveCodes"] as string[];
+        let x: string[] = this.transformHeader();
+        let array = result['summary'] as Array<any>
+        let y = this.transformResponse(array);
+        this.jsonToCsv.downloadFile(y, x, 'extract');
+
+        //let array1 = result["summary"] as Array<any>;
+        //array1.forEach(x => {
+        //  let user: User = {
+        //    userName: x['user']['userName'],
+        //    userFullName: x['user']['userFullName'],
+        //    userDeptCode: x['user']['userDeptCode'],
+        //    userTitleCode: x['user']['userTitleCode']
+        //  }
+        //  let types: Array<LeaveType> = new Array<LeaveType>();
+        //  let array2 = x["leaveTypes"] as Array<any>;
+        //  array2.forEach(y => {
+        //    let leaveType: LeaveType = {
+        //      leaveCode: y['leaveCode'],
+        //      limit: y['limit'] != null ? y['limit'].toString() : '',
+        //      balance: ''
+        //    }
+        //    types.push(leaveType);
+        //  })
+        //  let detail: LeaveBalance = {
+        //    user: user,
+        //    leaveTypes: types
+        //  }
+        //  this.summaryOriginal.push(detail);
+        //});
+        //this.summary = this.summaryOriginal;
+      },
+      error => {
+
+      },
+      () => {
+        this.dataLoading.next();
+      }
+    )
+
   }
 }
 

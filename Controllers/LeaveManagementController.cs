@@ -60,15 +60,28 @@ namespace AngularNETcore.Controllers
 
         [HttpPost("adjustlimit")]
         [Authorize(Roles = "0000")]
-
+        
         public async Task<IActionResult> AdjustLimit([FromBody]LeaveBalance model)
         {
             //long _pageSize = filters.pageSize <= 0 ? DefautltPageSize : filters.pageSize;
             //long _requestPage = filters.requestPage <= 0 ? DefaultRequestPage : filters.requestPage;
             //var _obj = await dal.GetLeaveLimitSummary(_pageSize, _requestPage, filters, "no");
-            var _obj = new LeaveBalanceSummary();
-            Debug.WriteLine(model.user.userName);
-            _obj.status = "000";
+            var _obj = await dal.AdjustLeaveLimit(model);
+            //Debug.WriteLine(model.user.userName);
+            //_obj.status = "000";
+            string[] OkStatusList = { "000" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpPost("leavelimitsummarydownload")]
+        [Authorize(Roles = "0000")]
+
+        public async Task<IActionResult> LeaveLimitSummaryDownLoad([FromBody]SearchCondition filters)
+        {
+            long _pageSize = filters.pageSize <= 0 ? DefautltPageSize : filters.pageSize;
+            long _requestPage = filters.requestPage <= 0 ? DefaultRequestPage : filters.requestPage;
+            var _obj = await dal.GetLeaveLimitSummary(_pageSize, _requestPage, filters, "yes");
             string[] OkStatusList = { "000", "-001" };
             if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
             return Ok(_obj);

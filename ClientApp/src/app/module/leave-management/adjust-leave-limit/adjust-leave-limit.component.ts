@@ -29,7 +29,7 @@ export class AdjustLeaveLimitComponent implements OnDestroy {
   private KVpair: { [key: string]: any } = {
     //userNameV: [Validators.pattern(/^[a-zA-Z0-9]{6,20}$/i), Validators.required],
     //userFullNameV: [Validators.pattern(/^[a-zA-Z0-9 ]{1,20}$/i), Validators.required],
-    limitV: [Validators.pattern(/(^[1-9][0-9]+$|^$)/i)],
+    limitV: [Validators.pattern(/(^[1-9]$|[1-9][0-9]+$|^$)/m)],
     //userDeptCodeV: [Validators.required],
     //userTitleCodeV: [Validators.required],
     //userEmailV: [Validators.required, Validators.pattern(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9._%+-]{2,}[.][A-Za-z]{2,}$/i)],
@@ -164,7 +164,7 @@ export class AdjustLeaveLimitComponent implements OnDestroy {
         let message1 = result['status'];
 
         if (message1 == '000') {
-          this.dialogService.sendMessage('000' + 'resetpassword', obj.user.userName);
+          this.dialogService.sendMessage('000' + 'adjustleavelimit', obj.user.userName);
           this.infoservice.ConfirmAdjustLimitFunction(obj, this.index);
         }
 
@@ -229,10 +229,10 @@ export class AdjustLeaveLimitComponent implements OnDestroy {
 
 
   ngOnDestroy() {
-    //this.infoservice.CloseResetPasswordFunction();
-    //this.x.unsubscribe();
-    //if (this.subscription1) this.subscription1.unsubscribe();
-    //if (this.subscription2) this.subscription2.unsubscribe();
+    this.infoservice.CloseAdjustLimitFunction();
+    this.x.unsubscribe();
+    if (this.subscription1) this.subscription1.unsubscribe();
+    if (this.subscription2) this.subscription2.unsubscribe();
   }
 
   closeEditing() {

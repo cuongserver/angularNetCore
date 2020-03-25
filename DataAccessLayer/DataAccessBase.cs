@@ -53,7 +53,22 @@ namespace AngularNETcore.DataAccessLayer
 
             return dt;
         }
-        
+
+        protected DataTable leaveLimit()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("userName", typeof(string));
+            dt.Columns.Add("leaveCode", typeof(string));
+            dt.Columns.Add("limit", typeof(int));
+
+            dt.Columns["userName"].SetOrdinal(0);
+            dt.Columns["leaveCode"].SetOrdinal(1);
+            dt.Columns["limit"].SetOrdinal(2);
+            dt.Columns["limit"].AllowDBNull = true;
+
+            return dt;
+        }
+
 
     }
 }

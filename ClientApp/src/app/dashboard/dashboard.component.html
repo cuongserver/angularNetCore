@@ -68,6 +68,9 @@
             <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngIf="['0000'].indexOf(userRole) >= 0" [routerLink]="['leave-limit-summary']">
               <a>{{'dashboard.menuGroup.leaveManagement.functions.leaveLimitSummary' | translate}}</a>
             </div>
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngIf="['0002','0003'].indexOf(userRole) >= 0" [routerLink]="['user-leave-application']">
+              <a>{{'dashboard.menuGroup.leaveManagement.functions.userLeaveApplication' | translate}}</a>
+            </div>
           </sub-group>
           <!---->
           <sub-group header="Villains" *ngIf="userRole == '0000'">

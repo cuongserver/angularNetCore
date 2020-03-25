@@ -17,10 +17,12 @@ import { DialogService } from '@app/_common/dialog/dialog.component';
 import { LeaveLimitService } from '@app/module/leave-management/leave-limit.service';
 import { LeaveLimitSummaryComponent } from '@app/module/leave-management/leave-limit-summary/leave-limit-summary.component';
 import { AdjustLeaveLimitComponent } from '@app/module/leave-management/adjust-leave-limit/adjust-leave-limit.component';
+import { UserLeaveApplicationComponent } from './user-leave-application/user-leave-application.component';
 @NgModule({
   declarations: [
     LeaveLimitSummaryComponent,
-    AdjustLeaveLimitComponent
+    AdjustLeaveLimitComponent,
+    UserLeaveApplicationComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -48,5 +50,10 @@ export const LeaveManagementRoutes: Routes = [
   {
     path: 'leave-limit-summary', component: LeaveLimitSummaryComponent,
     canActivate: [RoleCheck], data: { authorizedRoles: ['0000'] }
+  },
+  {
+    path: 'user-leave-application', component: UserLeaveApplicationComponent,
+    canActivate: [RoleCheck], data: { authorizedRoles: ['0002','0003'] }
   }
+
 ]

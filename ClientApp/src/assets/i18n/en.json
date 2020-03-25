@@ -47,7 +47,8 @@
       "leaveManagement": {
         "caption": "Leave Management",
         "functions": {
-          "leaveLimitSummary": "Limit Summary"
+          "leaveLimitSummary": "Limit Summary",
+          "userLeaveApplication": "Apply for leave"
         }
       }
     }
@@ -74,7 +75,13 @@
       "0000": "IT",
       "0001": "Human Resource",
       "0002": "Finance / Accounting",
-      "0003": "Supply Chain / Logistic / Warehouse"
+      "0003": "Supply Chain / Logistic / Warehouse",
+      "0004": "Board of Directors",
+      "0005": "Production",
+      "0006": "Research and Development",
+      "0007": "Facility",
+      "0008": "Sale",
+      "0009": "Marketing"
     },
     "enabledtrue": "Active",
     "enabledfalse": "Inactive",
@@ -146,6 +153,9 @@
   "removeHolidayStatus": {
     "000removeholiday": "Public holiday {{holiday}} is removed from database",
     "002removeholiday": "Public holiday {{holiday}} does not exist in database"
+  },
+  "adjustLeaveLimit": {
+    "000adjustleavelimit": "Leave limit of account {{userName}} is updated"
   },
   "leaveCode": {
     "leaveCode0000": "Annual",

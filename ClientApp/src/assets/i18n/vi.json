@@ -47,7 +47,8 @@
       "leaveManagement": {
         "caption": "Quản lý nghỉ phép",
         "functions": {
-          "leaveLimitSummary": "Tổng hợp hạn mức"
+          "leaveLimitSummary": "Tổng hợp hạn mức",
+          "userLeaveApplication": "Đăng ký nghỉ"
         }
       }
     }
@@ -74,7 +75,13 @@
       "0000": "IT",
       "0001": "Nhân sự",
       "0002": "Tài chính / Kế toán",
-      "0003": "Cung ứng / Vận chuyển / Kho bãi"
+      "0003": "Cung ứng / Vận chuyển / Kho bãi",
+      "0004": "Ban lãnh đạo",
+      "0005": "Sản xuất",
+      "0006": "Nghiên cứu phát triển",
+      "0007": "Cơ sở hạ tầng",
+      "0008": "Kinh doanh",
+      "0009": "Tiếp thị"
     },
     "enabledtrue": "Đang hoạt động",
     "enabledfalse": "Vô hiệu",
@@ -146,6 +153,9 @@
   "removeHolidayStatus": {
     "000removeholiday": "Ngày lễ {{holiday}} đã được xóa khỏi dữ liệu",
     "002removeholiday": "Ngày lễ {{holiday}} không tồn tại trong dữ liệu"
+  },
+  "adjustLeaveLimit": {
+    "000adjustleavelimit": "Tài khoản {{userName}} đã được cập nhật hạn mức nghỉ"
   },
   "leaveCode": {
     "leaveCode0000": "Phép năm",
