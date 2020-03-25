@@ -10,6 +10,8 @@ import { HttpClient } from '@angular/common/http';
 import { DialogService, DialogController, MessageBoxButton, MessageBoxStyle } from '@app/_common/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderService } from '@app/_common/loader/loader.service';
+import { NgbdSortableHeader, rotate, compare, SortDirection, SortEvent } from '@app/module/shared-module/sortable-header.module'
+import { LeaveLimitService } from '@app/module/leave-management/leave-limit.service';
 
 @Component({
   selector: 'app-leave-limit-summary',
@@ -49,11 +51,12 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
   private subscription1: Subscription; private subscription2: Subscription;
   private subscription3: Subscription; private subscription4: Subscription;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private infoservice: LeaveLimitService) {
     this.pageSize = this.pageSizeOptions[0]; this.requestPage = 1;
     this.navigateToPage = 1;
     this.getData(this.pageSize, this.requestPage);
   }
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
   ngOnDestroy() {
     if (this.subscription1) this.subscription1.unsubscribe();
@@ -62,9 +65,42 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     if (this.subscription4) this.subscription4.unsubscribe();
   }
 
+  private onSort({ column, direction, hostObject }: SortEvent): void {
+    this.sortPriority += 1;
+    hostObject.priority = this.sortPriority;
+    this.summary = [...this.summary].sort((a, b) => {
+      var res: number = compare(a['user'][column], b['user'][column]);
+      return direction === 'asc' ? res : -res;
+    });
+  }
+
+  private initialSort(): void {
+    let x = [...this.headers].sort((a, b) => {
+      return compare(a['priority'], b['priority'])
+    })
+
+    x.forEach(header => {
+      if (header.priority > 0) {
+        this.summary = [...this.summary].sort((a, b) => {
+          var res: number = compare(a['user'][header.sortable], b['user'][header.sortable]);
+          return header.direction === 'asc' ? res : -res;
+        })
+      };
+    });
+  }
+
+  private clearSort(): void {
+    this.headers.forEach(header => {
+      header.direction = '';
+      header.priority = 0;
+    });
+    this.summary = this.summaryOriginal;
+    this.sortPriority = 0;
+  }
+
   private loadPage(page: number): void {
     let x: Subscription = this.dataLoading.asObservable().subscribe(() => {
-      //this.initialSort();
+      this.initialSort();
       x.unsubscribe();
     })
     this.requestPage = page;
@@ -155,13 +191,16 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
       },
       error => {
 
+      },
+      () => {
+        this.dataLoading.next();
       }
     )
   }
 
   private refresh(): void {
     let x: Subscription = this.dataLoading.asObservable().subscribe(() => {
-      //this.initialSort();
+      this.initialSort();
       x.unsubscribe();
     })
     this.getData(this.pageSize, this.requestPage);
@@ -184,28 +223,79 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
   private changePageSize(newPageSize: number): void {
     if (this.pageSize == newPageSize) return;
     let x: Subscription = this.dataLoading.asObservable().subscribe(() => {
-      //this.initialSort();
+      this.initialSort();
       x.unsubscribe();
     })
     this.pageSize = newPageSize;
     this.requestPage = 1;
     this.getData(this.pageSize, this.requestPage);
   }
+
+  addCondition() {
+    let condition = {} as Filter
+    condition.booleanField = false;
+    condition.numericField = false;
+    condition.dateField = false;
+    condition.phraseOperator = 'and';
+    condition.comparisonType = 'contain';
+    this.filters.push(condition);
+  }
+
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+
+  removeCondition(index: number) {
+    var x = this.filters.length;
+    this.filters.splice(index, 1);
+    if (x > 1) {
+      this.filters[0].phraseOperator = 'and'
+    };
+  }
+  checkBooleanField(index: number) {
+    let x: Filter = this.filters[index]
+    if (["userEnabled"].indexOf(x.field) >= 0) {
+      x.comparisonType = "equal";
+      x.filterValue = "true";
+      x.booleanField = true;
+    }
+    else {
+      x.booleanField = false;
+    }
+  }
+
+  openEditFunction(detail: LeaveBalance, index: number) {
+    this.subscription1 = this.infoservice.OnCloseAdjustLimitFunction().subscribe(() => {
+      this.subscription1.unsubscribe();
+      this.subscription2.unsubscribe();
+      this.editMode = false;
+    });
+    this.subscription2 = this.infoservice.OnConfirmAdjustLimitFunction().subscribe((data) => {
+      this.subscription2.unsubscribe();
+      let i: number = data.index;
+      let detail: LeaveBalance = data.detail;
+      for (var k = 0; k < detail.leaveTypes.length; k += 1) {
+        this.summary[i].leaveTypes[k].limit = detail.leaveTypes[k].limit;
+      }
+    })
+    this.infoservice.OpenAdjustLimitFunction(detail, index);
+    this.editMode = true;
+  }
 }
 
-interface LeaveBalance {
+export interface LeaveBalance {
   user: User;
   leaveTypes: LeaveType[]
 }
 
-interface User {
+export interface User {
   userName: string
   userFullName: string
   userDeptCode: string
   userTitleCode: string
 }
 
-interface LeaveType {
+export interface LeaveType {
   leaveCode: string
   limit: string
   balance: string
@@ -220,3 +310,14 @@ interface Filter {
   numericField: boolean;
   dateField: boolean;
 }
+
+//export type SortDirection = 'asc' | 'desc' | '';
+//const rotate: { [key: string]: SortDirection } = { 'asc': 'desc', 'desc': 'asc', '': 'asc' };
+//export function compare(v1: any, v2: any): number {
+//  return v1 < v2 ? -1 : (v1 > v2 ? 1 : 0)
+//};
+//export interface SortEvent {
+//  column: string;
+//  direction: SortDirection;
+//  hostObject: NgbdSortableHeader;
+//}

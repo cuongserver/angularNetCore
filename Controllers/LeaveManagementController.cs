@@ -46,14 +46,30 @@ namespace AngularNETcore.Controllers
             dal = new LeaveManagementDataAccessLayer(ConnectionString);
         }
         [HttpPost("leavelimitsummary")]
-        //[Authorize(Roles = "0000")]
-        [AllowAnonymous]
+        [Authorize(Roles = "0000")]
+
         public async Task<IActionResult> LeaveLimitSummary([FromBody]SearchCondition filters)
         {
             long _pageSize = filters.pageSize <= 0 ? DefautltPageSize : filters.pageSize;
             long _requestPage = filters.requestPage <= 0 ? DefaultRequestPage : filters.requestPage;
             var _obj = await dal.GetLeaveLimitSummary(_pageSize, _requestPage, filters, "no");
-            string[] OkStatusList = { "000", "004" };
+            string[] OkStatusList = { "000", "-001" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpPost("adjustlimit")]
+        [Authorize(Roles = "0000")]
+
+        public async Task<IActionResult> AdjustLimit([FromBody]LeaveBalance model)
+        {
+            //long _pageSize = filters.pageSize <= 0 ? DefautltPageSize : filters.pageSize;
+            //long _requestPage = filters.requestPage <= 0 ? DefaultRequestPage : filters.requestPage;
+            //var _obj = await dal.GetLeaveLimitSummary(_pageSize, _requestPage, filters, "no");
+            var _obj = new LeaveBalanceSummary();
+            Debug.WriteLine(model.user.userName);
+            _obj.status = "000";
+            string[] OkStatusList = { "000", "-001" };
             if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
             return Ok(_obj);
         }

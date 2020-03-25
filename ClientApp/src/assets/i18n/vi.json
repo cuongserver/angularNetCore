@@ -93,7 +93,8 @@
     "confirm": "Xác nhận",
     "date": "Ngày",
     "descriptionCommon": "Diễn giải",
-    "unlimited": "không giới hạn"
+    "unlimited": "không giới hạn",
+    "numberOrBlank": "Chỉ bao gồm số hoặc để trống"
 
   },
   "responseErrors": {

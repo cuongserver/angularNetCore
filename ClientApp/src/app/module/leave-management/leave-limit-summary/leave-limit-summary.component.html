@@ -1,47 +1,42 @@
 <div class="component-container" [@fadeAnimation]=transitionState>
   <h3>{{'dashboard.menuGroup.leaveManagement.functions.leaveLimitSummary' | translate}}</h3>
-  <!--<div class="search-bar fs-08-rem m-b-7 p-b-7">
+  <div class="search-bar fs-08-rem m-b-7 p-b-7">
     <div class="btn btn-success m-t-3 m-b-3 m-l-3 m-r-3 fs-07-rem" (click)="addCondition()">
       <i class="fas fa-filter"></i>&nbsp;&nbsp;
       <span>{{'commonCaptions.add' | translate}}</span>
     </div>
-    <div class="search-term flex-m m-t-2 m-b-2" *ngFor="let condition of conditionSet; index as i; trackBy:trackByIndex;">
+    <div class="search-term flex-m m-t-2 m-b-2" *ngFor="let filter of filters; index as i; trackBy:trackByIndex;">
       <div class="m-l-5 m-r-10 font-b filter-button hov-pointer fs-09-rem" (click)="removeCondition(i)">
         <span>{{'commonCaptions.remove' | translate}}</span>
       </div>
-      <select class="m-l-2 m-r-2" [(ngModel)]="conditionSet[i].phraseOperator">
+      <select class="m-l-2 m-r-2" [(ngModel)]="filters[i].phraseOperator">
         <option value="and">And</option>
         <option value="or" *ngIf="i!=0">Or</option>
       </select>
-      <select class="m-l-2 m-r-2" [(ngModel)]="conditionSet[i].field" (change)="checkBooleanField(i)">
+      <select class="m-l-2 m-r-2" [(ngModel)]="filters[i].field" (change)="checkBooleanField(i)">
         <option value="userName">{{'commonCaptions.userName' | translate}}</option>
         <option value="userFullName">{{'commonCaptions.userFullName' | translate}}</option>
-        <option value="userDeptCode">{{'commonCaptions.userDeptCode' | translate}}</option>
-        <option value="userTitleCode">{{'commonCaptions.userTitleCode' | translate}}</option>
-        <option value="userEmail">{{'commonCaptions.userEmail' | translate}}</option>
-        <option value="userEnabled">{{'commonCaptions.userEnabled' | translate}}</option>
-        <option value="userFailedLoginCount">{{'commonCaptions.userFailedLoginCount' | translate}}</option>
       </select>
 
-      <select class="m-l-2 m-r-2" [(ngModel)]="conditionSet[i].comparisonType">
-        <option value="contain" *ngIf="!conditionSet[i].booleanField">{{'filterComparison.contain' | translate}}</option>
+      <select class="m-l-2 m-r-2" [(ngModel)]="filters[i].comparisonType">
+        <option value="contain" *ngIf="!filters[i].booleanField">{{'filterComparison.contain' | translate}}</option>
         <option value="equal">{{'filterComparison.equal' | translate}}</option>
-        <option value="notcontain" *ngIf="!conditionSet[i].booleanField">{{'filterComparison.notContain' | translate}}</option>
+        <option value="notcontain" *ngIf="!filters[i].booleanField">{{'filterComparison.notContain' | translate}}</option>
         <option value="notequal">{{'filterComparison.notEqual' | translate}}</option>
       </select>
-      <input class="m-l-2 m-r-2" [(ngModel)]="conditionSet[i].filterValue" *ngIf="!conditionSet[i].booleanField" />
-      <select class="m-l-2 m-r-2" [(ngModel)]="conditionSet[i].filterValue" *ngIf="conditionSet[i].booleanField">
+      <input class="m-l-2 m-r-2" [(ngModel)]="filters[i].filterValue" *ngIf="!filters[i].booleanField" />
+      <select class="m-l-2 m-r-2" [(ngModel)]="filters[i].filterValue" *ngIf="filters[i].booleanField">
         <option value="true">{{'commonCaptions.enabledtrue' | translate}}</option>
         <option value="false">{{'commonCaptions.enabledfalse' | translate}}</option>
       </select>
 
     </div>
-  </div>-->
+  </div>
   <div class="command-bar flex-m">
-    <!--<div class="btn btn-success m-t-3 m-b-3 m-l-3 m-r-3 fs-07-rem" (click)="clearSort()">
+    <div class="btn btn-success m-t-3 m-b-3 m-l-3 m-r-3 fs-07-rem" (click)="clearSort()">
       <i class="fas fa-undo-alt"></i>&nbsp;&nbsp;
       {{ 'commonCaptions.clearSort' | translate }}
-    </div>-->
+    </div>
     <div class="btn btn-success m-t-3 m-b-3 m-l-3 m-r-3 fs-07-rem" (click)="refresh()">
       <span><i class="fas fa-sync-alt"></i>&nbsp;&nbsp;{{'commonCaptions.refreshCommand' | translate}}</span>
     </div>
@@ -103,8 +98,8 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col" sortable="userName" priority="">{{'commonCaptions.userName' | translate}}</th>
-          <th scope="col" sortable="userFullName" priority="">{{'commonCaptions.userFullName' | translate}}</th>
+          <th scope="col" sortable="userName" priority="" (sort)="onSort($event)">{{'commonCaptions.userName' | translate}}</th>
+          <th scope="col" sortable="userFullName" priority="" (sort)="onSort($event)">{{'commonCaptions.userFullName' | translate}}</th>
           <th scope="col" priority="" *ngFor="let leavecode of leavecodes">{{'leaveCode.leaveCode' + leavecode | translate}}</th>
           
         </tr>
@@ -113,7 +108,7 @@
         <tr *ngFor="let detail of summary; index as i">
           <th scope="row">
             <div class="flex-c-m">
-              <div class="p-l-7 p-r-7 p-t-5 p-b-5 hov-pointer table-line-command">
+              <div class="p-l-7 p-r-7 p-t-5 p-b-5 hov-pointer table-line-command" (click)="openEditFunction(detail,i)">
                 <i class="fas fa-edit"></i>
               </div>
             </div>
@@ -135,5 +130,5 @@
     {{leavecodes | json}}-->
   </div>
 </div>
-<!--<app-edit-user-info></app-edit-user-info>-->
+<app-adjust-leave-limit></app-adjust-leave-limit>
 <!--<app-change-user-password></app-change-user-password>-->

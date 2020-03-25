@@ -43,13 +43,14 @@ import { JsonToCsvService } from '@app/_common/json-to-csv/json-to-csv.service'
 //các chức năng của accountMaintenance
 import {AccountInformationComponent} from './account-maintenance/account-information/account-information.component'
 import {ChangePasswordComponent} from './account-maintenance/change-password/change-password.component'
-import { ListAllUserComponent, NgbdSortableHeader } from './user-maintenance/list-all-user/list-all-user.component';
+import { ListAllUserComponent} from './user-maintenance/list-all-user/list-all-user.component';
 import { AddNewUserComponent } from './user-maintenance/add-new-user/add-new-user.component';
 import { EditUserInfoComponent } from './user-maintenance/list-all-user/edit-user-info/edit-user-info.component';
 import { ChangeUserPasswordComponent } from './user-maintenance/list-all-user/change-user-password/change-user-password.component';
 
 import { SystemSettingModule } from '@app/module/system-setting/system-setting.module'
 import { LeaveManagementModule } from '@app/module/leave-management/leave-management.module'
+import { SortableHeaderModule } from '@app/module/shared-module/sortable-header.module'
 
 @NgModule({
   declarations: [
@@ -62,7 +63,7 @@ import { LeaveManagementModule } from '@app/module/leave-management/leave-manage
     SideMenuComponent, SubGroupComponent,
     AccountInformationComponent,
     ChangePasswordComponent,
-    ListAllUserComponent, NgbdSortableHeader,
+    ListAllUserComponent,
     AddNewUserComponent,
     EditUserInfoComponent,
     ChangeUserPasswordComponent
@@ -101,7 +102,8 @@ import { LeaveManagementModule } from '@app/module/leave-management/leave-manage
     MatToolbarModule,
     MatSlideToggleModule,
     SystemSettingModule,
-    LeaveManagementModule
+    LeaveManagementModule,
+    SortableHeaderModule
   ],
   providers: [
     {

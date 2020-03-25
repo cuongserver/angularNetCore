@@ -12,24 +12,25 @@ import { saveAs } from 'file-saver'
 import { map } from 'rxjs/operators';
 import { JsonToCsvService } from '@app/_common/json-to-csv/json-to-csv.service';
 import { TranslateService } from '@ngx-translate/core';
+import { NgbdSortableHeader, rotate, compare, SortDirection, SortEvent } from '@app/module/shared-module/sortable-header.module'
 
-@Directive({
-  selector: 'th[sortable]'
-})
-export class NgbdSortableHeader {
-  @Input() sortable: string;
-  @Input() direction: SortDirection = '';
-  @Output() sort = new EventEmitter<SortEvent>();
+//@Directive({
+//  selector: 'th[sortable]'
+//})
+//export class NgbdSortableHeader {
+//  @Input() sortable: string;
+//  @Input() direction: SortDirection = '';
+//  @Output() sort = new EventEmitter<SortEvent>();
 
-  @HostBinding('attr.priority') public priority: number = 0;
-  @HostBinding('class.asc') get aSortActive() { return this.direction === 'asc'; }
-  @HostBinding('class.desc') get dSortActive() { return this.direction === 'desc'; }
-  @HostListener('click')
-  rotate() {
-    this.direction = rotate[this.direction];
-    this.sort.emit({ column: this.sortable, direction: this.direction, hostObject: this });
-  }
-}
+//  @HostBinding('attr.priority') public priority: number = 0;
+//  @HostBinding('class.asc') get aSortActive() { return this.direction === 'asc'; }
+//  @HostBinding('class.desc') get dSortActive() { return this.direction === 'desc'; }
+//  @HostListener('click')
+//  rotate() {
+//    this.direction = rotate[this.direction];
+//    this.sort.emit({ column: this.sortable, direction: this.direction, hostObject: this });
+//  }
+//}
 
 
 
@@ -101,7 +102,6 @@ export class ListAllUserComponent implements OnDestroy {
 
     x.forEach(header => {
       if (header.priority > 0) {
-        console.log(header.direction + ':' + header.priority);
         this.users = [...this.users].sort((a, b) => {
           var res: number = compare(a[header.sortable], b[header.sortable]);
           return header.direction === 'asc' ? res : -res;
@@ -109,6 +109,7 @@ export class ListAllUserComponent implements OnDestroy {
       };
     });
   }
+
   clearSort() {
     this.headers.forEach(header => {
       header.direction = '';
@@ -251,16 +252,17 @@ export class ListAllUserComponent implements OnDestroy {
     condition.comparisonType = 'contain'
     this.conditionSet.push(condition);
   }
+
   trackByIndex(index: number, obj: any): any {
     return index;
   }
+
   removeCondition(index: number) {
     var x = this.conditionSet.length;
     this.conditionSet.splice(index, 1);
     if (x > 1) {
       this.conditionSet[0].phraseOperator = 'and'
     };
-
   }
   checkBooleanField(index: number) {
     let x: FilterCondition = this.conditionSet[index]
@@ -401,16 +403,16 @@ export interface User {
   userFailedLoginCount: number
 }
 
-export type SortDirection = 'asc' | 'desc' | '';
-const rotate: { [key: string]: SortDirection } = { 'asc': 'desc', 'desc': 'asc', '': 'asc' };
-export function compare(v1: any, v2: any): number {
-  return v1 < v2 ? -1 : (v1 > v2 ? 1 : 0)
-};
-export interface SortEvent {
-  column: string;
-  direction: SortDirection;
-  hostObject: NgbdSortableHeader;
-}
+//export type SortDirection = 'asc' | 'desc' | '';
+//export const rotate: { [key: string]: SortDirection } = { 'asc': 'desc', 'desc': 'asc', '': 'asc' };
+//export function compare(v1: any, v2: any): number {
+//  return v1 < v2 ? -1 : (v1 > v2 ? 1 : 0)
+//};
+//export interface SortEvent {
+//  column: string;
+//  direction: SortDirection;
+//  hostObject: NgbdSortableHeader;
+//}
 
 export interface FilterCondition {
   phraseOperator: string;

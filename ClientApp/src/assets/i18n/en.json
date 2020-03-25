@@ -93,7 +93,9 @@
     "confirm": "Confirm",
     "date": "Date",
     "descriptionCommon": "Description",
-    "unlimited": "Unlimited"
+    "unlimited": "Unlimited",
+    "numberOrBlank": "Number or blank only"
+
   },
   "responseErrors": {
     "serverError": "Error at server ({{message}})",
