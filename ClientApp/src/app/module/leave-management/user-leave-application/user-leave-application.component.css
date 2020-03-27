@@ -36,3 +36,20 @@
   position: relative;
   height: 35px;
 }
+b {
+  color: darkgreen
+}
+.icon {
+  position: absolute;
+  font-size: 1.2rem;
+  right: 5px;
+}
+
+.input-area.text-area-included {
+  height: auto;
+}
+
+.input-area textarea{
+    resize: none;
+    height: 100px;
+}

@@ -86,5 +86,30 @@ namespace AngularNETcore.Controllers
             if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
             return Ok(_obj);
         }
+
+        [HttpPost("userleaveapplication")]
+        [Authorize(Roles = "0002, 0003")]
+        public async Task<IActionResult> UserLeaveApplication([FromBody]User model)
+        {
+
+            string _userName = model.userName;
+            var _obj = await dal.GetLeaveApplication(_userName);
+            string[] OkStatusList = { "000", "-001" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpPost("submitleaveapplication")]
+        [Authorize(Roles = "0002, 0003")]
+        public async Task<IActionResult> SubmitLeaveApplication([FromBody]LeaveApplication model)
+        {
+
+
+            //var _obj = await dal.GetLeaveApplication(_userName);
+            var _obj = new { status = "004" };
+            string[] OkStatusList = { "000", "004" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
     }
 }

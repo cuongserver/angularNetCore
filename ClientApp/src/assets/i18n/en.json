@@ -101,7 +101,16 @@
     "date": "Date",
     "descriptionCommon": "Description",
     "unlimited": "Unlimited",
-    "numberOrBlank": "Number or blank only"
+    "numberOrBlank": "Number or blank only",
+    "fromTime": "From Time",
+    "toTime": "To Time",
+    "progress": {
+      "caption": "Progress",
+      "0000": "Draft",
+      "0001": "Summitted",
+      "0002": "Completed"
+    },
+    "timeConsumed": "Requested time: {{timeConsumed}} hour(s)"
 
   },
   "responseErrors": {
@@ -122,7 +131,9 @@
     "userEmailRequired": "Email must not be blank",
     "userEmailPattern": "Email address is not valid",
     "userFailedLoginCountPattern": "Must be non-blank and non-negative integer",
-    "invalidDateFormat": "Date format must be yyyy/mm/dd"
+    "invalidDateFormat": "Date format must be yyyy/mm/dd",
+    "invalidTimeFormat": "Time format must be yyyy/mm/dd hh:MM",
+    "leaveCodeRequired": "Leave reason must not be blank"
   },
   "databaseErrors": {
     "userName2627": "Account is occupied"
@@ -158,6 +169,7 @@
     "000adjustleavelimit": "Leave limit of account {{userName}} is updated"
   },
   "leaveCode": {
+    "caption": "Leave Reason",
     "leaveCode0000": "Annual",
     "leaveCode0001": "Unpaid",
     "leaveCode0002": "Self Marriage",
@@ -166,6 +178,10 @@
     "leaveCode0005": "Compensation",
     "leaveCode0006": "Bereavement",
     "leaveCode0007": "Special"
+  },
+  "submitLeaveAppStatus": {
+    "000submitLeaveApp": "Leave app {{trackingRef}} is submitted",
+    "004submitLeaveApp": "Leave app {{trackingRef}} is invalid"
   }
 
 }

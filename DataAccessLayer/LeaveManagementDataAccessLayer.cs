@@ -188,5 +188,100 @@ namespace AngularNETcore.DataAccessLayer
             
             return _obj;
         }
+
+        public async Task<LeaveApplicationResponse> GetLeaveApplication(string userName)
+        {
+            LeaveApplicationResponse _obj = new LeaveApplicationResponse();
+            LeaveApplication app = new LeaveApplication();
+            List<string> leaveCodes = new List<string>();
+            List<SysParam> sysParams = new List<SysParam>();
+            List<Holiday> holidays = new List<Holiday>();
+            using (SqlConnection con = SqlCon())
+            {
+                SqlCommand cmd = SqlCmd(con);
+                cmd.CommandText = "InitializeLeaveApplication";
+                cmd.Parameters.AddWithValue("@applicantUserName", userName);
+
+
+                DataSet ds = new DataSet();
+                DataTable dt0 = new DataTable();
+                DataTable dt1 = new DataTable();
+                DataTable dt2 = new DataTable();
+                DataTable dt3 = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                try
+                {
+                    con.Open();
+                    da.Fill(ds);
+                    dt0 = ds.Tables[0];
+                    dt1 = ds.Tables[1];
+                    dt2 = ds.Tables[2];
+                    dt3 = ds.Tables[3];
+                    _obj.status = "000";
+
+                    foreach(DataRow dr in dt0.Rows)
+                    {
+                        app.trackingRef = (string)dr[nameof(app.trackingRef)];
+                        app.createdAt = (string)dr[nameof(app.createdAt)];
+                        app.applicantUserName = (string)dr[nameof(app.applicantUserName)];
+                        app.applicantDeptCode = (string)dr[nameof(app.applicantDeptCode)];
+                        app.applicantTitleCode = (string)dr[nameof(app.applicantTitleCode)];
+                        app.fromTime = (dr[nameof(app.fromTime)] as string) ?? String.Empty;
+                        app.toTime = (dr[nameof(app.toTime)] as string) ?? String.Empty;
+                        app.timeConsumed = (dr[nameof(app.timeConsumed)] as int?) ?? 0;
+                        app.applicantDescription = (dr[nameof(app.applicantDescription)] as string) ?? String.Empty;
+                        app.leaveCode = (dr[nameof(app.leaveCode)] as string) ?? String.Empty;
+                        app.isValid = (bool)dr[nameof(app.isValid)];
+                        app.progress = (string)dr[nameof(app.progress)];
+                        app.approverUserName = (dr[nameof(app.approverUserName)] as string) ?? String.Empty;
+                        app.approverDescription = (dr[nameof(app.approverDescription)] as string) ?? String.Empty;
+                        app.createdByAdmin = (bool)dr[nameof(app.createdByAdmin)];
+                        app.approverUserName = (dr[nameof(app.approverUserName)] as string) ?? String.Empty;
+                        app.finalStatus = (bool)dr[nameof(app.finalStatus)];
+                        app.applicantUserFullName = (string)dr[nameof(app.applicantUserFullName)];
+                        //app.approverUserFullName = (string)dr[nameof(app.approverUserFullName)];
+                    }
+                    _obj.application = app;
+
+                    foreach(DataRow dr in dt1.Rows)
+                    {
+                        leaveCodes.Add((string)dr[0]);
+                    }
+                    _obj.leaveCodes = leaveCodes;
+
+                    foreach(DataRow dr in dt3.Rows)
+                    {
+                        SysParam param = new SysParam();
+                        param.paramKey = (string)dr[nameof(param.paramKey)];
+                        param.paramValue = (string)dr[nameof(param.paramValue)];
+                        sysParams.Add(param);
+                    }
+                    _obj.sysParams = sysParams;
+                    foreach (DataRow dr in dt2.Rows)
+                    {
+                        Holiday holiday = new Holiday();
+                        holiday.holidayDate = (string)dr[nameof(holiday.holidayDate)];
+                        holidays.Add(holiday);
+                    }
+                    _obj.holidays = holidays;
+                }
+                catch (SqlException ex)
+                {
+                    _obj.status = ex.Number.ToString();
+                    _obj.message = ex.Message;
+                }
+                finally
+                {
+                    dt0.Dispose();
+                    dt1.Dispose();
+                    ds.Dispose();
+                    da.Dispose();
+                    if (con.State == System.Data.ConnectionState.Open) con.Close();
+                    cmd.Dispose();
+                }
+            }
+
+            return _obj;
+        }
     }
 }

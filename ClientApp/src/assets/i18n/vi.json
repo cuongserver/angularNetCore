@@ -101,7 +101,16 @@
     "date": "Ngày",
     "descriptionCommon": "Diễn giải",
     "unlimited": "không giới hạn",
-    "numberOrBlank": "Chỉ bao gồm số hoặc để trống"
+    "numberOrBlank": "Chỉ bao gồm số hoặc để trống",
+    "fromTime": "Từ lúc",
+    "toTime": "Đến lúc",
+    "progress": {
+      "caption": "Tiến độ",
+      "0000": "Nháp",
+      "0001": "Đã gửi yêu cầu",
+      "0002": "Hoàn thành"
+    },
+    "timeConsumed": "Thời gian yêu cầu: {{timeConsumed}} giờ"
 
   },
   "responseErrors": {
@@ -121,7 +130,9 @@
     "userEmailRequired": "Địa chỉ thư không được trống",
     "userEmailPattern": "Địa chỉ thư không hợp lệ",
     "userFailedLoginCountPattern": "Không được để trống và phải là số nguyên không âm",
-    "invalidDateFormat": "Định dạng ngày phải là yyyy/mm/dd"
+    "invalidDateFormat": "Định dạng ngày phải là yyyy/mm/dd",
+    "invalidTimeFormat": "Định dạng thời gian phải là yyyy/mm/dd hh:MM",
+    "leaveCodeRequired": "Lí do nghỉ không được trống"
   },
   "databaseErrors": {
     "userName2627": "Tài khoản đã tồn tại"
@@ -158,6 +169,7 @@
     "000adjustleavelimit": "Tài khoản {{userName}} đã được cập nhật hạn mức nghỉ"
   },
   "leaveCode": {
+    "caption": "Lí do nghỉ",
     "leaveCode0000": "Phép năm",
     "leaveCode0001": "Không lương",
     "leaveCode0002": "Cưới (bản thân)",
@@ -166,5 +178,9 @@
     "leaveCode0005": "Nghỉ bù",
     "leaveCode0006": "Tang chế",
     "leaveCode0007": "Đặc biệt"
+  },
+  "submitLeaveAppStatus": {
+    "000submitLeaveApp": "Đơn xin nghỉ {{trackingRef}} đã được nộp",
+    "004submitLeaveApp": "Đơn xin nghỉ {{trackingRef}} không hợp lệ"
   }
 }

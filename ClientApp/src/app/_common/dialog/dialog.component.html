@@ -103,6 +103,20 @@
   </div>
 
   <!-- dialog phần cập nhật hạn mức nghỉ (hết)-->
+  <!-- dialog phần nộp đơn -->
+  <div class="message" *ngIf="message == '000'+ 'submitLeaveApp'">
+    <div>
+      {{'submitLeaveAppStatus.' + message | translate: {trackingRef: extraInfo} }}
+    </div>
+  </div>
+  <div class="message" *ngIf="message == '004'+ 'submitLeaveApp'">
+    <div>
+      {{'submitLeaveAppStatus.' + message | translate: {trackingRef: extraInfo} }}
+    </div>
+  </div>
+
+
+  <!--dialog phần nộp đơn (hết)-->
   <div class="info" *ngIf="information !== ''">
     <p>{{information}}</p>
   </div>

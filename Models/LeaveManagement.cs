@@ -28,4 +28,44 @@ namespace AngularNETcore.Models
         public long collectionSize { get; set; }
         public long activePage { get; set; }
     }
+
+    public class LeaveApplication
+    {
+        public string trackingRef { get; set; }
+        public string createdAt { get; set; }
+        public string applicantUserName { get; set; }
+        public string applicantDeptCode { get; set; }
+        public string applicantTitleCode { get; set; }
+        public string fromTime { get; set; }
+        public string toTime { get; set; }
+        public int timeConsumed { get; set; }
+        public string applicantDescription { get; set; }
+        public string leaveCode { get; set; }
+        public bool isValid { get; set; }
+        public string progress { get; set; }
+        public string approverUserName { get; set; }
+        public string approverDescription { get; set; }
+        public bool createdByAdmin { get; set; }
+        public bool finalStatus { get; set; }
+
+        public string applicantUserFullName { get; set; }
+        public string approverUserFullName { get; set; }
+    }
+
+    public class LeaveApplicationResponse
+    {
+        public LeaveApplication application { get; set; }
+        public string status { get; set; }
+        public string message { get; set; }
+        public List<string> leaveCodes { get; set; }
+        public List<SysParam> sysParams { get; set; }
+        public List<Holiday> holidays { get; set; }
+    }
+
+    public class SysParam
+    {
+        public string paramKey { get; set; }
+        public string paramValue { get; set; }
+    }
+
 }
