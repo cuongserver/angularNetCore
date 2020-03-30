@@ -4,7 +4,7 @@
     "profile" : "default",
     "region"  : "us-east-2",
     "application" : "AngularNETcore",
-    "environment" : "AngularNETcore-dev",
+    "environment" : "Angularnetcore-env",
     "cname"       : "angularnetcoredemo",
     "solution-stack" : "64bit Windows Server 2016 v2.5.1 running IIS 10.0",
     "environment-type" : "SingleInstance",
