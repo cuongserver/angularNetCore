@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoaderService } from '@app/_common/loader/loader.service';
 declare var $: any
 
+import { apiLink, domain } from '@app/_common/const/apilink'
 @Component({
   selector: 'app-user-leave-application',
   templateUrl: './user-leave-application.component.html',
@@ -17,16 +18,17 @@ declare var $: any
 })
 /** user-leave-application component*/
 export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
-  private transitionState: string = 'in';
-  private dataLoading = new Subject<any>();
-  private subscription1: Subscription; private subscription2: Subscription;
-  private subscription3: Subscription; private subscription4: Subscription;
-  private thisForm: FormGroup;
-  private userName: string;
-  private leaveCodes: string[];
-  private sysParams: SysParam[];
-  private holidays: Holiday[];
-  private app: LeaveApplication = {
+  public transitionState: string = 'in';
+  public dataLoading = new Subject<any>();
+  public subscription1: Subscription; public subscription2: Subscription;
+  public subscription3: Subscription; public subscription4: Subscription;
+  public submitSuccess: boolean = false;
+  public thisForm: FormGroup;
+  public userName: string;
+  public leaveCodes: string[];
+  public sysParams: SysParam[];
+  public holidays: Holiday[];
+  public app: LeaveApplication = {
     trackingRef: '',
     createdAt: '',
     applicantUserName: '',
@@ -40,6 +42,7 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
     isValid: false,
     progress: '',
     approverUserName: '',
+    approverCommand: '',
     approverDescription: '',
     createdByAdmin: false,
     finalStatus: true,
@@ -48,7 +51,7 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
   }
 
 
-  private KVpair: { [key: string]: any } = {
+  public KVpair: { [key: string]: any } = {
     leaveCodeV: [Validators.required],
     fromTimeV: [Validators.required, Validators.pattern("^((\\d\\d\\d\\d)\\-([0]{0,1}[1-9]|1[012])\\-([1-9]|([012][0-9])|(3[01])))\\s(([0-1]?[0-9]|2?[0-3]):([0-5]\\d))$")],
     toTimeV: [Validators.required, Validators.pattern("^((\\d\\d\\d\\d)\\-([0]{0,1}[1-9]|1[012])\\-([1-9]|([012][0-9])|(3[01])))\\s(([0-1]?[0-9]|2?[0-3]):([0-5]\\d))$")],
@@ -59,8 +62,8 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
   };
 
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, private jwtService: JwtHelperService,
-    private dialogService: DialogService, private dialog: MatDialog, private loader: LoaderService) {
+  constructor(public http: HttpClient, public formBuilder: FormBuilder, public jwtService: JwtHelperService,
+    public dialogService: DialogService, public dialog: MatDialog, public loader: LoaderService) {
     this.thisForm = this.formBuilder.group({
       leaveCode: ['', this.KVpair['leaveCodeV']],
       fromTime: ['', this.KVpair['fromTimeV']],
@@ -72,7 +75,7 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
     this.userName = extractFromToken('unique_name', jwtService);
     let _obj = { userName: this.userName };
     let data = JSON.stringify(_obj);    
-    this.http.post('/LeaveManagement/UserLeaveApplication', data, res.moduleHttpOptions).subscribe(
+    this.http.post(apiLink + '/LeaveManagement/UserLeaveApplication', data, res.moduleHttpOptions).subscribe(
       response => {
         let result = JSON.parse(JSON.stringify(response));
         this.app = result['application'] as LeaveApplication;
@@ -80,7 +83,7 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
         this.holidays = result['holidays'] as Holiday[];
         this.sysParams = result['sysParams'];
         this.initDatetimePicker();
-        this.initLeaveTimeCalculator();
+        
       },
       error => {
 
@@ -89,7 +92,7 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
 
   }
 
-  private initLeaveTimeCalculator(): void {
+  public initLeaveTimeCalculator(): void {
     checkInTime = this.sysParams.find(x => x.paramKey == 'StartTime').paramValue;
     checkOutTime = this.sysParams.find(x => x.paramKey == 'EndTime').paramValue
     breakStartTime = this.sysParams.find(x => x.paramKey == 'BreakStart').paramValue
@@ -102,7 +105,7 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
     this.holidays.forEach(x => myArray2.push(x.holidayDate));
     publicDayOff = myArray2;
 
-    $("body").on("change", 'input[datetimepicker="lower"], input[datetimepicker="upper"]',  () => {
+    $('input[datetimepicker="lower"], input[datetimepicker="upper"]').on("change", () => {
       var startTime = $('input[datetimepicker="lower"]').eq(0).val();
       var endTime = $('input[datetimepicker="upper"]').eq(0).val();
       if (startTime == null || startTime == undefined || startTime == '') {
@@ -126,9 +129,10 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
     });
   }
   ngAfterViewInit() {
-
+    
   }
-  private initDatetimePicker(): void {
+  public initDatetimePicker(): void {
+
     $('input[datetimepicker]').datetimepicker({
       theme: 'dark',
       timepicker: true,
@@ -143,19 +147,20 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
         $.datetimepicker.setLocale(x);
       }
     });
+    this.initLeaveTimeCalculator();
   }
   ngOnDestroy() {
     $('input[datetimepicker]').datetimepicker('destroy')
-    $('input[datetimepicker]').unbind();
+    $('input[datetimepicker="lower"], input[datetimepicker="upper"]').unbind();
     if (this.subscription1) this.subscription1.unsubscribe();
     if (this.subscription2) this.subscription1.unsubscribe();
   }
 
-  private resetValidity(fieldName: string): void {
+  public resetValidity(fieldName: string): void {
     this.KVpair[fieldName + 'S'] = false;
   }
 
-  private getModelError(key: string): boolean {
+  public getModelError(key: string): boolean {
     if (key == 'leaveCode' + 'Required') return this.ctls['leaveCode']?.errors?.required && this.KVpair['leaveCode' + 'S']
 
     if (key == 'fromTime' + 'Required') return this.ctls['fromTime']?.errors?.required && this.KVpair['fromTime' + 'S']
@@ -168,7 +173,7 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
       && this.ctls['toTime']?.errors?.pattern
   }
 
-  private submitForm(): void {
+  public submitForm(): void {
     this.syncData();
     if (this.ctls['leaveCode'].invalid) this.KVpair['leaveCode' + 'S'] = true;
     if (this.ctls['fromTime'].invalid) this.KVpair['fromTime' + 'S'] = true;
@@ -177,7 +182,7 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
 
     this.setEventListenerAfterSubmit();
     let data = JSON.stringify(this.app);
-    this.http.post('/LeaveManagement/SubmitLeaveApplication', data, res.moduleHttpOptions).subscribe(
+    this.http.post(apiLink + '/LeaveManagement/SubmitLeaveApplication', data, res.moduleHttpOptions).subscribe(
       response => {
         let result = JSON.parse(JSON.stringify(response));
         let message1 = result['status'];
@@ -188,9 +193,10 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
           this.app.fromTime = '';
           this.app.toTime = '';
           this.app.applicantDescription = '';
+          
         }
-        if (message1 == '004') {
-          this.dialogService.sendMessage('004' + 'submitLeaveApp', this.app.trackingRef);
+        if (message1 == '002') {
+          this.dialogService.sendMessage('002' + 'submitLeaveApp', this.app.trackingRef);
         }
       },
       error => {
@@ -204,7 +210,7 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
   get ctls() {
     return this.thisForm.controls
   }
-  private syncData(): void {
+  public syncData(): void {
     this.app.fromTime = $('input[datetimepicker="lower"]').eq(0).val();
     this.app.toTime = $('input[datetimepicker="upper"]').eq(0).val();
     this.ctls['leaveCode'].setValue(this.app.leaveCode);
@@ -212,17 +218,36 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
     this.ctls['toTime'].setValue(this.app.toTime);
 
   }
-  private setEventListenerAfterSubmit(): void {
+  public setEventListenerAfterSubmit(): void {
     this.subscription1 = this.dialogService.getMessage().subscribe(message => {
       this.subscription2 = this.loader.loaderDeactivated.subscribe(() => {
         var x = DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
           MessageBoxButton.Ok, false, MessageBoxStyle.Simple).subscribe(result => {
+            if (message.text == '000' + 'submitLeaveApp') this.submitSuccess = true;
             this.subscription1.unsubscribe();
             this.subscription2.unsubscribe();
           });
       });
     });
   }
+
+  public newApplication(): void {
+    let _obj = { userName: this.userName };
+    let data = JSON.stringify(_obj);
+    this.http.post(apiLink + '/LeaveManagement/UserLeaveApplication', data, res.moduleHttpOptions).subscribe(
+      response => {
+        let result = JSON.parse(JSON.stringify(response));
+        this.app = result['application'] as LeaveApplication;
+        this.leaveCodes = result['leaveCodes'];
+        this.holidays = result['holidays'] as Holiday[];
+        this.sysParams = result['sysParams'];
+        this.submitSuccess = false
+      },
+      error => {
+      }
+    )
+  }
+
 }
 
 export function tokenGetter() {
@@ -248,6 +273,7 @@ export interface LeaveApplication {
   isValid: boolean
   progress: string
   approverUserName: string
+  approverCommand: string
   approverDescription: string
   createdByAdmin: boolean
   finalStatus: boolean

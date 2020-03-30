@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { trigger, style, state, transition, animate } from '@angular/animations';
 import { fadeAnimation } from '../../_common/const/animation';
+import { apiLink, domain } from '@app/_common/const/apilink'
 
 @Component({
   selector: 'app-account-information',
@@ -12,26 +13,26 @@ import { fadeAnimation } from '../../_common/const/animation';
 })
 /** AccountInformation component*/
 export class AccountInformationComponent {
-  private userName
-  private userFullName
-  private userDeptCode
-  private userTitleCode
-  private userEnabled
-  private userFailedLoginCount
-  private titleDesc
-  private deptDesc
-  private userEmail
-  private status
+  public userName
+  public userFullName
+  public userDeptCode
+  public userTitleCode
+  public userEnabled
+  public userFailedLoginCount
+  public titleDesc
+  public deptDesc
+  public userEmail
+  public status
   transitionState: string = 'in';
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
+  constructor(public http: HttpClient, public jwtHelper: JwtHelperService) {
     this.refresh();
   }
 
-  private refresh(): void {
+  public refresh(): void {
     let token = this.jwtHelper.tokenGetter();
     let decodedInfo = this.jwtHelper.decodeToken(token);
     let userID = decodedInfo.unique_name;
-    this.http.get('/User/UserInformation',
+    this.http.get(apiLink + '/User/UserInformation',
       {
         params: {
           userName: userID

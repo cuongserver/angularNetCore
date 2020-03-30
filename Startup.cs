@@ -8,6 +8,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using System.Text;
 using AngularNETcore.Common;
+using System.IO;
+using Microsoft.AspNetCore.HttpOverrides;
+
 //using AngularNETcore.Common;
 namespace AngularNETcore
 {
@@ -23,6 +26,7 @@ namespace AngularNETcore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllersWithViews();
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("SecuritySettings").GetSection("Secret").Value);
 
@@ -30,7 +34,7 @@ namespace AngularNETcore
             services.ConfigureJwtValidationProcess(Configuration);
             services.AddSession();
             services.AddControllers().AddNewtonsoftJson();
-
+            services.Configure<IISOptions>(options => { });
             // In production, the Angular files will be served from this directory
 
             services.AddSpaStaticFiles(configuration =>
@@ -54,18 +58,35 @@ namespace AngularNETcore
             }
             else
             {
+                //app.Use(async (context, next) =>
+                //{
+                //    await next();
+                //    if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
+                //    {
+                //        context.Request.Path = "/index.html";
+                //        await next();
+                //    }
+                //});
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
-            
-            app.UseHttpsRedirection();
+            //app.UseDefaultFiles();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
             }
+            app.UseCors(options =>
+            options.AllowAnyOrigin()
+                .AllowAnyMethod().AllowAnyHeader());
+            app.UseHttpsRedirection();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            });
+
+
 
             app.UseRouting();
             app.UseAuthentication();

@@ -106,8 +106,145 @@ namespace AngularNETcore.Controllers
 
 
             //var _obj = await dal.GetLeaveApplication(_userName);
-            var _obj = new { status = "004" };
-            string[] OkStatusList = { "000", "004" };
+            var _obj = await dal.SubmitLeaveApplication(model);
+            string[] OkStatusList = { "000", "002" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpGet("pendingleaveapplication")]
+        [Authorize(Roles = "0001, 0002")]
+        public async Task<IActionResult> PendingLeaveApplication()
+        {
+
+            var claims = HttpContext.User.Claims;
+            string userName = claims.Single(x => x.Type == ClaimTypes.Name).Value;
+            //var _obj = await dal.GetLeaveApplication(_userName);
+            var _obj = await dal.PendingLeaveApplication(userName);
+            string[] OkStatusList = { "000", "005" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpPost("leaveapprovalconfirm")]
+        [Authorize(Roles = "0001, 0002")]
+        public async Task<IActionResult> LeaveApprovalConfirm(LeaveApplication model)
+        {
+
+            LeaveApplication _model = model;
+            var claims = HttpContext.User.Claims;
+            _model.approverUserName = claims.Single(x => x.Type == ClaimTypes.Name).Value;
+
+            var _obj = await dal.ApproveLeaveApplication(_model);
+            string[] OkStatusList = { "000", "002" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpGet("leavebalance")]
+        [Authorize(Roles = "0001, 0002, 0003")]
+        public async Task<IActionResult> LeaveBalance(string reportYear)
+        {
+
+            var claims = HttpContext.User.Claims;
+            string _userName = claims.Single(x => x.Type == ClaimTypes.Name).Value;
+            LeaveBalance model = new LeaveBalance
+            {
+                user = new User
+                {
+                    userName = _userName
+                },
+                reportYear = reportYear
+            };
+
+            var _obj = await dal.ShowLeaveBalance(model);
+            string[] OkStatusList = { "000" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpPost("getsingleapplicationlist")]
+        //[AllowAnonymous]
+        [Authorize(Roles = "0001, 0002, 0003")]
+        public async Task<IActionResult> GetSingleApplicationList([FromBody]SearchCondition filters)
+        {
+            var claims = HttpContext.User.Claims;
+            string _applicantUserName = claims.Single(x => x.Type == ClaimTypes.Name).Value;
+            //string _applicantUserName = "user01";
+            long _pageSize = filters.pageSize <= 0 ? DefautltPageSize : filters.pageSize;
+            long _requestPage = filters.requestPage <= 0 ? DefaultRequestPage : filters.requestPage;
+            var _obj = await dal.GetSingleLeaveAppplication(_applicantUserName, _pageSize, _requestPage, filters, "no");
+            string[] OkStatusList = { "000" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpPost("singleapplicationlistdownload")]
+        //[AllowAnonymous]
+        [Authorize(Roles = "0001, 0002, 0003")]
+        public async Task<IActionResult> SingleApplicationListDownload([FromBody]SearchCondition filters)
+        {
+            var claims = HttpContext.User.Claims;
+            string _applicantUserName = claims.Single(x => x.Type == ClaimTypes.Name).Value;
+            //string _applicantUserName = "user01";
+            long _pageSize = 1;
+            long _requestPage = 1;
+            var _obj = await dal.GetSingleLeaveAppplication(_applicantUserName, _pageSize, _requestPage, filters, "yes");
+            string[] OkStatusList = { "000" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpPost("getfullleaveapplicationlist")]
+        [Authorize(Roles = "0000")]
+        public async Task<IActionResult> GetFullLeaveApplicationlist([FromBody]SearchCondition filters)
+        {
+            long _pageSize = filters.pageSize <= 0 ? DefautltPageSize : filters.pageSize;
+            long _requestPage = filters.requestPage <= 0 ? DefaultRequestPage : filters.requestPage;
+            var _obj = await dal.GetFullLeaveAppplication(_pageSize, _requestPage, filters, "no");
+            string[] OkStatusList = { "000" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpPost("fullleaveapplicationlistdownload")]
+        [Authorize(Roles = "0000")]
+        public async Task<IActionResult> FullLeaveApplicationListDownload([FromBody]SearchCondition filters)
+        {
+            long _pageSize = filters.pageSize <= 0 ? DefautltPageSize : filters.pageSize;
+            long _requestPage = filters.requestPage <= 0 ? DefaultRequestPage : filters.requestPage;
+            var _obj = await dal.GetFullLeaveAppplication(_pageSize, _requestPage, filters, "yes");
+            string[] OkStatusList = { "000" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpPost("disableleaveapplication")]
+        [Authorize(Roles = "0000")]
+        public async Task<IActionResult> DisableLeaveApplication([FromBody]LeaveApplication model)
+        {
+            var _obj = await dal.DisableLeaveApplication(model);
+            string[] OkStatusList = { "000", "002" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpGet("getdatafordirectleavededuction")]
+        [Authorize(Roles = "0000")]
+        public async Task<IActionResult> GetDataForDirectLeaveDeduction()
+        {
+            var _obj = await dal.PrepareDataForDirectLeaveDeduction();
+            string[] OkStatusList = { "000" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            return Ok(_obj);
+        }
+
+        [HttpPost("directleavededuction")]
+        [Authorize(Roles = "0000")]
+        public async Task<IActionResult> DirectLeaveDeduction(LeaveApplication model)
+        {
+            var _obj = await dal.DirectLeaveDeduction(model);
+            string[] OkStatusList = { "000", "001", "002" };
             if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
             return Ok(_obj);
         }

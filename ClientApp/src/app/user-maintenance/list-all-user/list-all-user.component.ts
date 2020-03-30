@@ -14,24 +14,7 @@ import { JsonToCsvService } from '@app/_common/json-to-csv/json-to-csv.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbdSortableHeader, rotate, compare, SortDirection, SortEvent } from '@app/module/shared-module/sortable-header.module'
 
-//@Directive({
-//  selector: 'th[sortable]'
-//})
-//export class NgbdSortableHeader {
-//  @Input() sortable: string;
-//  @Input() direction: SortDirection = '';
-//  @Output() sort = new EventEmitter<SortEvent>();
-
-//  @HostBinding('attr.priority') public priority: number = 0;
-//  @HostBinding('class.asc') get aSortActive() { return this.direction === 'asc'; }
-//  @HostBinding('class.desc') get dSortActive() { return this.direction === 'desc'; }
-//  @HostListener('click')
-//  rotate() {
-//    this.direction = rotate[this.direction];
-//    this.sort.emit({ column: this.sortable, direction: this.direction, hostObject: this });
-//  }
-//}
-
+import { apiLink, domain } from '@app/_common/const/apilink'
 
 
 @Component({
@@ -42,6 +25,7 @@ import { NgbdSortableHeader, rotate, compare, SortDirection, SortEvent } from '@
 })
 /** user-list-table component*/
 export class ListAllUserComponent implements OnDestroy {
+  transitionState: string = 'in';
   users: Array<User> = new Array<User>();
   usersOriginal: Array<User> = new Array<User>();
   sortPriority: number = 0;
@@ -63,15 +47,15 @@ export class ListAllUserComponent implements OnDestroy {
   pager: Array<number> = new Array<number>();
   visiblePages: Array<number> = new Array<number>();
   pageSizeOptions = [3, 6, 9];
-  private dataLoading = new Subject<any>();
+  public dataLoading = new Subject<any>();
 
   conditionSet: Array<FilterCondition> = new Array<FilterCondition>();
   editMode: boolean;
-  private subscription1: Subscription; private subscription2: Subscription;
-  private subscription3: Subscription; private subscription4: Subscription;
+  public subscription1: Subscription; public subscription2: Subscription;
+  public subscription3: Subscription; public subscription4: Subscription;
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private infoservice: UserInfoService,
-    private jsonToCsv: JsonToCsvService, private translate: TranslateService) {
+  constructor(public http: HttpClient, public fb: FormBuilder, public infoservice: UserInfoService,
+    public jsonToCsv: JsonToCsvService, public translate: TranslateService) {
     this.pageSize = this.pageSizeOptions[0]; this.requestPage = 1;
     this.navigateToPage = 1;
     this.getData(this.pageSize, this.requestPage);
@@ -165,7 +149,7 @@ export class ListAllUserComponent implements OnDestroy {
       filters: this.conditionSet
     }
     let data = JSON.stringify(x);
-    this.http.post('/User/ListAllUser', data, httpOptions)
+    this.http.post(apiLink + '/User/ListAllUser', data, httpOptions)
       .subscribe(
         response => {
           let result = JSON.parse(JSON.stringify(response));
@@ -323,7 +307,7 @@ export class ListAllUserComponent implements OnDestroy {
       filters: this.conditionSet
     }
     let data = JSON.stringify(x);
-    this.http.post('/User/DownloadAllUser', data, httpOptions)
+    this.http.post(apiLink + '/User/DownloadAllUser', data, httpOptions)
       .subscribe(
         response => {
           let x: string[] = this.transformHeader();
@@ -372,24 +356,6 @@ export class ListAllUserComponent implements OnDestroy {
   }
 
 
-  //private downloadCsv1() {
-  //  let form: HTMLElement = document.createElement('form');
-  //  let input: HTMLElement = document.createElement('input');
-  //  let submit: HTMLElement = document.createElement('input');
-  //  form.setAttribute('method', 'post');
-  //  form.setAttribute('action', '/User/DownloadUserList');
-  //  form.setAttribute('target', '_blank');
-  //  input.setAttribute('type', 'hidden');
-  //  input.setAttribute('name', 'jwt');    
-  //  submit.setAttribute('type', 'submit');
-  //  form.appendChild(input);
-  //  form.appendChild(submit);
-  //  document.getElementsByTagName('body')[0].appendChild(form);
-  //  input.setAttribute('value', sessionStorage.getItem('jwt'));
-  //  submit.click();
-  //  form.remove();
-  //}
-
 
 }
 
@@ -403,16 +369,6 @@ export interface User {
   userFailedLoginCount: number
 }
 
-//export type SortDirection = 'asc' | 'desc' | '';
-//export const rotate: { [key: string]: SortDirection } = { 'asc': 'desc', 'desc': 'asc', '': 'asc' };
-//export function compare(v1: any, v2: any): number {
-//  return v1 < v2 ? -1 : (v1 > v2 ? 1 : 0)
-//};
-//export interface SortEvent {
-//  column: string;
-//  direction: SortDirection;
-//  hostObject: NgbdSortableHeader;
-//}
 
 export interface FilterCondition {
   phraseOperator: string;

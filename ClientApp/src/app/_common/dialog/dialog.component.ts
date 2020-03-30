@@ -66,7 +66,7 @@ export enum MessageBoxStyle {
 
 @Injectable()
 export class DialogService {
-  private message = new Subject<any>();
+  public message = new Subject<any>();
   constructor() {
   }
   sendMessage(message: string, extraInfo: string, type = 1) {

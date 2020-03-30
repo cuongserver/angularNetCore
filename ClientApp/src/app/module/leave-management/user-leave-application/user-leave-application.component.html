@@ -189,9 +189,12 @@
     </div>
   </div>
 
-  <div class="">
-    <button class="btn btn-success" type="submit" (click)="submitForm()">
+  <div class="flex-m">
+    <button class="btn btn-success m-r-0" (click)="submitForm()" *ngIf="!submitSuccess">
       {{'commonCaptions.submit' | translate}}
+    </button>
+    <button class="btn btn-success" (click)="newApplication()" *ngIf="submitSuccess">
+      {{'commonCaptions.anotherRequest' | translate}}
     </button>
   </div>
   <!--</form>-->

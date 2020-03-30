@@ -48,7 +48,12 @@
         "caption": "Quản lý nghỉ phép",
         "functions": {
           "leaveLimitSummary": "Tổng hợp hạn mức",
-          "userLeaveApplication": "Đăng ký nghỉ"
+          "userLeaveApplication": "Đăng ký nghỉ",
+          "approveLeaveApplication": "Duyệt phép",
+          "leaveBalance": "Xem phép tồn",
+          "leaveApplicationList": "Xem danh sách yêu cầu",
+          "allApplicationList": "Xem toàn bộ yêu cầu",
+          "directLeaveDeduction": "Trừ phép trực tiếp"
         }
       }
     }
@@ -100,7 +105,7 @@
     "confirm": "Xác nhận",
     "date": "Ngày",
     "descriptionCommon": "Diễn giải",
-    "unlimited": "không giới hạn",
+    "unlimited": "Không giới hạn",
     "numberOrBlank": "Chỉ bao gồm số hoặc để trống",
     "fromTime": "Từ lúc",
     "toTime": "Đến lúc",
@@ -110,7 +115,20 @@
       "0001": "Đã gửi yêu cầu",
       "0002": "Hoàn thành"
     },
-    "timeConsumed": "Thời gian yêu cầu: {{timeConsumed}} giờ"
+    "timeConsumed": "Thời gian yêu cầu: {{timeConsumed}} giờ",
+    "anotherRequest": "Yêu cầu mới",
+    "timeComsumedCaption": "Thời gian yêu cầu (giờ)",
+    "approve": "Duyệt",
+    "reject": "Không duyệt",
+    "approverDescription": "Diễn giải của người duyệt",
+    "limit": "Giới hạn (giờ)",
+    "used": "Đã sử dụng (giờ)",
+    "pending": "Chờ duyệt(giờ)",
+    "balance": "Còn tồn (giờ)",
+    "trueFalse": {
+      "commontrue": "Có",
+      "commonfalse": "Không"
+    }
 
   },
   "responseErrors": {
@@ -181,6 +199,39 @@
   },
   "submitLeaveAppStatus": {
     "000submitLeaveApp": "Đơn xin nghỉ {{trackingRef}} đã được nộp",
-    "004submitLeaveApp": "Đơn xin nghỉ {{trackingRef}} không hợp lệ"
+    "002submitLeaveApp": "Đơn xin nghỉ {{trackingRef}} không hợp lệ"
+  },
+  "approval": {
+    "approval0000": "Đã duyệt",
+    "approval0001": "Đã từ chối"
+  },
+  "approvalStatus": {
+    "000approval": "Đơn xin nghỉ {{trackingRef}} đã được xử lý",
+    "002approval": "Đơn xin nghỉ {{trackingRef}} không tồn tại hoặc đã xử lý"
+  },
+  "leaveApplicationHeaders": {
+    "applicantUserName": "Tài khoản người yêu cầu",
+    "applicantUserFullName": "Tên người yêu cầu",
+    "applicantDeptCode": "Mã bộ phận người yêu cầu",
+    "applicantTitleCode": "Mã chức vụ người yêu cầu",
+    "applicantDescription": "Người yêu cầu diễn giải",
+    "createdAt": "Thời điểm khởi tạo",
+    "fromTime": "Từ lúc",
+    "toTime": "Tới lúc",
+    "timeConsumed": "Số giờ yêu cầu",
+    "leaveCode": "Lí do nghỉ",
+    "isValid": "Yêu cầu hợp lệ",
+    "progress": "Tiến độ",
+    "approverUserName": "Tài khoản người duyệt",
+    "approverUserFullName": "Tên người duyệt",
+    "approverCommand": "Chỉ thị người duyệt",
+    "approverDescription": "Người duyệt diễn giải",
+    "createdByAdmin": "Khởi tạo bởi quản trị viên",
+    "finalStatus": "Tình trạng"
+  },
+  "directLeaveDeduction": {
+    "000directLeaveDeduction": "Thành công, số hiệu theo dõi là {{trackingRef}}",
+    "001directLeaveDeduction": "Không tìm được tài khoản",
+    "002directLeaveDeduction": "Không đủ phép tồn"
   }
 }

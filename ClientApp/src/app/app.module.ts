@@ -20,10 +20,6 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 //
 
 import { AppComponent } from './app.component';
-//import { NavMenuComponent } from './nav-menu/nav-menu.component';
-//import { HomeComponent } from './home/home.component';
-//import { CounterComponent } from './counter/counter.component';
-//import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent, HideDropDownWhenClickAwayDirective } from './dashboard/dashboard.component';
 import { SideMenuComponent } from './dashboard/dashboard-side-menu/sidemenu.component';
@@ -51,6 +47,8 @@ import { ChangeUserPasswordComponent } from './user-maintenance/list-all-user/ch
 import { SystemSettingModule } from '@app/module/system-setting/system-setting.module'
 import { LeaveManagementModule } from '@app/module/leave-management/leave-management.module'
 import { SortableHeaderModule } from '@app/module/shared-module/sortable-header.module'
+
+import {apiLink, domain} from '@app/_common/const/apilink'
 
 @NgModule({
   declarations: [
@@ -83,7 +81,7 @@ import { SortableHeaderModule } from '@app/module/shared-module/sortable-header.
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ["localhost:44300"],
+        whitelistedDomains: [domain],
         blacklistedRoutes: []
       }
     }),

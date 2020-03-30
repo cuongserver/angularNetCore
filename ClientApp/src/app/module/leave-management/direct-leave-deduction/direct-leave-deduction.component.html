@@ -1,0 +1,238 @@
+<div class="component-container max-w-450" [@fadeAnimation]=transitionState>
+  <h3>{{'dashboard.menuGroup.leaveManagement.functions.directLeaveDeduction' | translate}}</h3>
+  <!--<form class="" (ngSubmit)="submitForm()">-->
+  <div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>ID: &nbsp;<b class="fs-09-rem">{{app.trackingRef}} ({{app.createdAt}})</b></span>
+    </div>
+  </div>
+  <div class="textbox-section m-t-5 m-b-5" flex-m>
+    <div class="field-caption">
+      <span>{{'commonCaptions.userName' | translate}}: &nbsp;</span>
+    </div>
+    <div class="input-area bo-r-5" (click)="resetValidity('userFullName')">
+      <!--<div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userFullNameRequired')">
+        {{'validationErrors.userNameRequired' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userFullNamePattern')">
+        {{'validationErrors.userNamePattern' | translate: {minlength: '1', maxlength: '20'} }}
+      </div>-->
+      <div class="flex-m h-full">
+        <input class="textbox sizefull bo-r-5 dropdown-input" autocomplete="off" [(ngModel)]="app.applicantUserName" (keyup)="onUserNameChange()">
+        <div class="btn btn-success dropdown-toggle-button flex-m p-l-7 p-r-7" (click)="dropdownOpen = !dropdownOpen">
+          <span class="fas fa-search"></span>
+        </div>
+      </div>
+      <div class="dropdown-container" [ngClass]="{'dropdown-container-open': dropdownOpen }">
+        <input class="textbox sizefull" [(ngModel)]="criteria" (keyup)="filterUserName()"/>
+        <div *ngFor="let user of users">
+          <span dropdown-option [user]="user" (select)="fetchUser($event)">{{user.userName}} - {{user.userFullName}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'commonCaptions.userFullName' | translate}}: &nbsp;<b class="fs-09-rem">{{app.applicantUserFullName}}</b></span>
+    </div>
+  </div>
+  <div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>
+        {{'commonCaptions.deptDesc.caption' | translate}}: &nbsp;
+        <b class="fs-09-rem" *ngIf="app.applicantDeptCode != '' && app.applicantDeptCode">
+          {{'commonCaptions.deptDesc.' + app.applicantDeptCode | translate}} - {{app.applicantDeptCode}}
+        </b>
+      </span>
+    </div>
+  </div>
+  <div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>
+        {{'commonCaptions.titleDesc.caption' | translate}}: &nbsp;
+        <b class="fs-09-rem" *ngIf="app.applicantTitleCode != '' && app.applicantTitleCode">
+          {{'commonCaptions.titleDesc.' + app.applicantTitleCode | translate}} - {{app.applicantTitleCode}}
+        </b>
+      </span>
+    </div>
+  </div>
+  <!--<div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'commonCaptions.progress.caption' | translate}}: &nbsp;<b class="fs-09-rem">{{'commonCaptions.progress.' + app.progress | translate}}</b></span>
+    </div>
+  </div>-->
+  <!--<div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'commonCaptions.userFullName' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5" (click)="resetValidity('userFullName')">
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userFullNameRequired')">
+        {{'validationErrors.userFullNameRequired' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userFullNamePattern')">
+        {{'validationErrors.userFullNamePattern' | translate: {minlength: '1', maxlength: '20'} }}
+      </div>
+      <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userFullName">
+    </div>
+  </div>-->
+  <!--<div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'commonCaptions.userPass' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5" (click)="resetValidity('userPass')">
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userPass' + 'Required')">
+        {{'login.userPassBlankValidation' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userPass' + 'Pattern')">
+        {{'validationErrors.userPassRegexValidation' | translate: {minlength: '6', maxlength: '20'} }}
+      </div>
+      <input class="textbox sizefull bo-r-5 text-disk" autocomplete="off" formControlName="userPass">
+    </div>
+  </div>-->
+  <!--<div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'commonCaptions.confirmPassword' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5" (click)="resetValidity('userPassConfirm')">
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userPassConfirm' + 'Required')">
+        {{'login.userPassBlankValidation' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userPassConfirm' + 'Pattern')">
+        {{'validationErrors.userPassRegexValidation' | translate: {minlength: '6', maxlength: '20'} }}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userPassConfirm' + 'Mismatch')">
+        {{'validationErrors.passwordMismatch' | translate }}
+      </div>
+      <input class="textbox sizefull bo-r-5 text-disk" autocomplete="off" formControlName="userPassConfirm">
+    </div>
+  </div>-->
+
+  <div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'leaveCode.caption' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5" (click)="resetValidity('leaveCode')">
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('leaveCode' + 'Required')">
+        {{'validationErrors.leaveCodeRequired' | translate}}
+      </div>
+      <select class="textbox sizefull bo-r-5" autocomplete="off" [(ngModel)]="app.leaveCode">
+        <option class="font-b" value="" selected>
+          --&nbsp;{{'commonCaptions.pleasePickOne' | translate}}&nbsp;--
+        </option>
+        <option *ngFor="let leaveCode of leaveCodes" value="{{leaveCode}}">
+          {{leaveCode}}&nbsp;-&nbsp;{{'leaveCode.leaveCode' + leaveCode | translate}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <!--<div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'commonCaptions.userEmail' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5" (click)="resetValidity('userEmail')">
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userEmail' + 'Required')">
+        {{'validationErrors.userEmailRequired' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('userEmail' + 'Pattern')">
+        {{'validationErrors.userEmailPattern' | translate}}
+      </div>
+      <input class="textbox sizefull bo-r-5" autocomplete="off" formControlName="userEmail">
+    </div>
+  </div>-->
+  <!--<div class="textbox-section m-t-5 m-b-5">
+  <div class="field-caption">
+    <span class="field-caption">{{'commonCaptions.newPassword' | translate}}</span>
+  </div>
+  <div class="input-area bo-r-5" (click)="resetValidity('userPassNewSubmitted')">
+    <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="this.KVpair['userPassNewSubmitted'] && f.userPassNew?.errors?.required">
+      {{'login.userPassBlankValidation' | translate}}
+    </div>
+    <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="this.KVpair['userPassNewSubmitted'] && !f.userPassNew.errors.required && f.userPassNew?.errors?.pattern">
+      {{'validationErrors.userPassRegexValidation' | translate: {minlength: '6', maxlength: '20'} }}
+    </div>
+    <input class="textbox sizefull bo-r-5 text-disk" autocomplete="off" formControlName="userPassNew">
+    </div>
+    </div>-->
+  <!--<div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'commonCaptions.confirmPassword' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5" (click)="resetValidity('userPassConfirmSubmitted')">
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="(this.thisForm?.errors?.passwordMisMatch) && this.KVpair['userPassConfirmSubmitted']">
+        {{'validationErrors.passwordMismatch' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="this.KVpair['userPassConfirmSubmitted'] && f.userPassConfirm?.errors?.required && (!this.thisForm?.errors?.passwordMisMatch)">
+        {{'login.userPassBlankValidation' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="this.KVpair['userPassConfirmSubmitted'] && !f.userPassConfirm?.errors?.required
+                      && f.userPassConfirm?.errors?.pattern && (!this.thisForm?.errors?.passwordMisMatch)">
+        {{'validationErrors.userPassRegexValidation' | translate: {minlength: '6', maxlength: '20'} }}
+      </div>
+      <input class="textbox sizefull bo-r-5 text-disk" autocomplete="off" formControlName="userPassConfirm">
+    </div>
+  </div>-->
+  <div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'commonCaptions.fromTime' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5 flex-m" (click)="resetValidity('fromTime')">
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('fromTime' + 'Required')">
+        {{'validationErrors.invalidTimeFormat' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('fromTime' + 'Pattern')">
+        {{'validationErrors.invalidTimeFormat' | translate}}
+      </div>
+      <input datetimepicker="lower" class="textbox sizefull bo-r-5" autocomplete="off" [(ngModel)]="app.fromTime">
+      <span class="fas fa-calendar-alt icon"></span>
+    </div>
+  </div>
+
+  <div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'commonCaptions.toTime' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5 flex-m" (click)="resetValidity('toTime')">
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('toTime' + 'Required')">
+        {{'validationErrors.invalidTimeFormat' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('toTime' + 'Pattern')">
+        {{'validationErrors.invalidTimeFormat' | translate}}
+      </div>
+      <input datetimepicker="upper" class="textbox sizefull bo-r-5" autocomplete="off" [(ngModel)]="app.toTime">
+      <span class="fas fa-calendar-alt icon"></span>
+    </div>
+  </div>
+
+  <div class="textbox-section m-t-5 m-b-5" *ngIf="app.timeConsumed && app.timeConsumed > 0">
+    <div class="field-caption">
+      <span>{{'commonCaptions.timeConsumed' | translate : {timeConsumed: app.timeConsumed} }}</span>
+    </div>
+  </div>
+
+  <div class="textbox-section m-t-5 m-b-5">
+    <div class="field-caption">
+      <span>{{'commonCaptions.descriptionCommon' | translate}}</span>
+    </div>
+    <div class="input-area bo-r-5 flex-m text-area-included" (click)="resetValidity('holidayDate')">
+      <!--<div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('holidayDate' + 'Required')">
+        {{'validationErrors.invalidDateFormat' | translate}}
+      </div>
+      <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('holidayDate' + 'Pattern')">
+        {{'validationErrors.invalidDateFormat' | translate}}
+      </div>-->
+      <textarea class="textbox sizefull bo-r-5" autocomplete="off" [(ngModel)]="app.applicantDescription"></textarea>
+    </div>
+  </div>
+
+  <div class="flex-m">
+    <button class="btn btn-success m-r-0" (click)="submitForm()" *ngIf="!submitSuccess">
+      {{'commonCaptions.submit' | translate}}
+    </button>
+    <button class="btn btn-success" (click)="newApplication()" *ngIf="submitSuccess">
+      {{'commonCaptions.anotherRequest' | translate}}
+    </button>
+  </div>
+  <!--</form>-->
+
+</div>

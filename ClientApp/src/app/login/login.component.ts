@@ -12,6 +12,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoaderComponent } from '../_common/loader/loader.component';
 import { LoaderService } from '../_common/loader/loader.service';
 import { LoaderInterceptorService } from '../_common/loader/loaderinterceptor.service';
+import { apiLink } from '@app/_common/const/apilink'
 
 @Component({
   selector: 'app-login',
@@ -24,24 +25,24 @@ import { LoaderInterceptorService } from '../_common/loader/loaderinterceptor.se
 /** login component*/
 
 export class LoginComponent extends RootComponent implements OnInit {
-  private thisForm: FormGroup;
-  private httpOptions = {
+  thisForm: FormGroup;
+  public httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
-  private KVpair: { [key: string]: any } = {
+  KVpair: { [key: string]: any } = {
     userNameValidator: [Validators.required, Validators.pattern(/^[a-zA-Z0-9]{6,20}$/i)],
     userPassValidator: [Validators.required, Validators.pattern(/^[a-zA-Z0-9]{1,20}$/i)],
     userNameSubmitted : false,
     userPassSubmitted : false
   };
-  private subscriber: Subscription;
-  private subscriber2: Subscription;
+  public subscriber: Subscription;
+  public subscriber2: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private thisTranslate: TranslateService,
-    private http: HttpClient,
-    private thisRouter: Router, private jwtHelper: JwtHelperService,
-    private dialogService: DialogService,
-    private dialog: MatDialog, private loader: LoaderService) {
+  constructor(public formBuilder: FormBuilder, public thisTranslate: TranslateService,
+    public http: HttpClient,
+    public thisRouter: Router, public jwtHelper: JwtHelperService,
+    public dialogService: DialogService,
+    public dialog: MatDialog, public loader: LoaderService) {
     super(thisTranslate);
     this.thisForm = this.formBuilder.group({
       userName: ['', this.KVpair['userNameValidator']],
@@ -87,7 +88,7 @@ export class LoginComponent extends RootComponent implements OnInit {
     var result, message1, message2;
     this.subscribeAfterLogin();
     
-    this.http.post('/User/Login', data, this.httpOptions).subscribe(
+    this.http.post(apiLink + '/User/Login', data, this.httpOptions).subscribe(
       (response) => {
           result = JSON.parse(JSON.stringify(response));
           message1 = result['validateResult'];

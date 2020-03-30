@@ -44,7 +44,12 @@ namespace AngularNETcore.Controllers
             jwtService = _jwtService;
             dal = new UserDataAccessLayer(ConnectionString);
         }
-
+        [AllowAnonymous]
+        [HttpGet("test")]
+        public async Task<IActionResult> Test()
+        {
+            return Ok("test success");
+        }
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] User model)
@@ -58,7 +63,7 @@ namespace AngularNETcore.Controllers
             return Ok(_status);
         }
 
-        [HttpPut("changepassword")] 
+        [HttpPost("changepassword")] 
         [Authorize(Roles = "0000, 0001, 0002, 0003")]
         public async Task<IActionResult> ChangePassword([FromBody] User model)
         {

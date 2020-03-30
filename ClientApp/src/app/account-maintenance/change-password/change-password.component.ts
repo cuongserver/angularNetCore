@@ -9,7 +9,7 @@ import { LoaderService } from '../../_common/loader/loader.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-
+import { apiLink } from '@app/_common/const/apilink'
 
 @Component({
   selector: 'app-change-password',
@@ -18,8 +18,8 @@ import { take } from 'rxjs/operators';
   animations: fadeAnimation
 })
 export class ChangePasswordComponent implements OnInit, OnDestroy {
-  private thisForm: FormGroup;
-  private KVpair: { [key: string]: any } = {
+  public thisForm: FormGroup;
+  public KVpair: { [key: string]: any } = {
     userPassValidator: [Validators.pattern(/^[a-zA-Z0-9]{6,20}$/i), Validators.required],
     userPassOldSubmitted: false,
     userPassNewSubmitted: false,
@@ -27,13 +27,13 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   };
   transitionState: string = 'in';
 
-  private subscription1: Subscription;
-  private subscription2: Subscription;
+  public subscription1: Subscription;
+  public subscription2: Subscription;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient,
-    private router: Router, private jwtHelper: JwtHelperService,
-    private dialogService: DialogService,
-    private dialog: MatDialog, private loader: LoaderService) {
+  constructor(public formBuilder: FormBuilder, public http: HttpClient,
+    public router: Router, public jwtHelper: JwtHelperService,
+    public dialogService: DialogService,
+    public dialog: MatDialog, public loader: LoaderService) {
     this.thisForm = this.formBuilder.group({
       userPassOld: [''],
       userPassNew: ['', this.KVpair['userPassValidator']],
@@ -69,7 +69,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
 
     let data = JSON.stringify(obj);
     this.setEventListenerAfterSubmit();
-    this.http.put('/User/ChangePassword', data, httpOptions).subscribe(
+    this.http.post(apiLink + '/User/ChangePassword', data, httpOptions).subscribe(
       (response) => {
         let result = JSON.parse(JSON.stringify(response));
         let message1 = result['validateResult'];

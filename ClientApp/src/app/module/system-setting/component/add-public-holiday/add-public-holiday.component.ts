@@ -8,7 +8,7 @@ import { DialogService, DialogController, MessageBoxButton, MessageBoxStyle } fr
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderService } from '@app/_common/loader/loader.service';
 import { Subscription } from 'rxjs';
-
+import { apiLink, domain } from '@app/_common/const/apilink'
 //để sử dụng được jquery + plugin, khai báo như bên dưới
 declare var $: any
 
@@ -22,21 +22,21 @@ declare var $: any
 })
 /** AddPublicHoliday component*/
 export class AddPublicHolidayComponent implements OnDestroy, AfterViewInit{
-  private transitionState: string = 'in';
-  private thisForm: FormGroup;
-  private subscription1: Subscription;
-  private subscription2: Subscription;
-  private KVpair: { [key: string]: any } = {
+  public transitionState: string = 'in';
+  public thisForm: FormGroup;
+  public subscription1: Subscription;
+  public subscription2: Subscription;
+  public KVpair: { [key: string]: any } = {
     holidayDateV: [Validators.required, Validators.pattern(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/)],    
     holidayDateS: false,
     descriptionS: false
   };
 
-  constructor(private formBuilder: FormBuilder,
-    private http: HttpClient,
-    private router: Router, private jwtHelper: JwtHelperService,
-    private dialogService: DialogService,
-    private dialog: MatDialog, private loader: LoaderService) {
+  constructor(public formBuilder: FormBuilder,
+    public http: HttpClient,
+    public router: Router, public jwtHelper: JwtHelperService,
+    public dialogService: DialogService,
+    public dialog: MatDialog, public loader: LoaderService) {
     this.thisForm = this.formBuilder.group({
       holidayDate: ['', this.KVpair['holidayDateV']],
       description: ['']
@@ -91,7 +91,7 @@ export class AddPublicHolidayComponent implements OnDestroy, AfterViewInit{
 
     let data = JSON.stringify(_obj);
     this.setEventListenerAfterSubmit()
-    this.http.post('/SystemSetting/AddNewHoliday', data, moduleHttpOptions).subscribe(
+    this.http.post(apiLink + '/SystemSetting/AddNewHoliday', data, moduleHttpOptions).subscribe(
       response => {
         let result = JSON.parse(JSON.stringify(response));
         let message1 = result['status'];

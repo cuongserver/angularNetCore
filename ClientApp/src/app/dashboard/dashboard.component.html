@@ -66,18 +66,28 @@
           <!---->
           <sub-group header="dashboard.menuGroup.leaveManagement.caption" *ngIf="['0000','0001','0002','0003'].indexOf(userRole) >= 0">
             <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngIf="['0000'].indexOf(userRole) >= 0" [routerLink]="['leave-limit-summary']">
-              <a>{{'dashboard.menuGroup.leaveManagement.functions.leaveLimitSummary' | translate}}</a>
+              {{'dashboard.menuGroup.leaveManagement.functions.leaveLimitSummary' | translate}}&nbsp;
             </div>
             <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngIf="['0002','0003'].indexOf(userRole) >= 0" [routerLink]="['user-leave-application']">
-              <a>{{'dashboard.menuGroup.leaveManagement.functions.userLeaveApplication' | translate}}</a>
+              {{'dashboard.menuGroup.leaveManagement.functions.userLeaveApplication' | translate}}&nbsp;
+            </div>
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngIf="['0001','0002'].indexOf(userRole) >= 0" [routerLink]="['approve-leave-application']">
+              {{'dashboard.menuGroup.leaveManagement.functions.approveLeaveApplication' | translate}}&nbsp;
+            </div>
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngIf="['0001','0002','0003'].indexOf(userRole) >= 0" [routerLink]="['leave-balance']">
+              {{'dashboard.menuGroup.leaveManagement.functions.leaveBalance' | translate}}&nbsp;
+            </div>
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngIf="['0001','0002','0003'].indexOf(userRole) >= 0" [routerLink]="['leave-application-list']">
+              {{'dashboard.menuGroup.leaveManagement.functions.leaveApplicationList' | translate}}&nbsp;
+            </div>
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngIf="['0000'].indexOf(userRole) >= 0" [routerLink]="['all-application-list']">
+              {{'dashboard.menuGroup.leaveManagement.functions.allApplicationList' | translate}}&nbsp;
+            </div>
+            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngIf="['0000'].indexOf(userRole) >= 0" [routerLink]="['direct-leave-deduction']">
+              {{'dashboard.menuGroup.leaveManagement.functions.directLeaveDeduction' | translate}}&nbsp;
             </div>
           </sub-group>
-          <!---->
-          <sub-group header="Villains" *ngIf="userRole == '0000'">
-            <div class="subgroup-content p-l-10 p-t-5 p-b-5 hov-pointer" *ngFor="let villain of villains">
-              <a>{{villain.name}}</a>
-            </div>
-          </sub-group>
+          <!---->          
         </app-side-menu>
       </div>
     </div>

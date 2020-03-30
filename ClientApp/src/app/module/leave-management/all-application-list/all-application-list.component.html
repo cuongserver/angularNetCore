@@ -1,0 +1,266 @@
+<div class="component-container" [@fadeAnimation]=transitionState [ngClass]="{'edit-mode': onConfirmation}">
+  <h3>{{'dashboard.menuGroup.leaveManagement.functions.allApplicationList' | translate}}</h3>
+  <div class="search-bar fs-08-rem m-b-7 p-b-7">
+    <div class="btn btn-success m-t-3 m-b-3 m-l-3 m-r-3 fs-07-rem" (click)="addCondition()">
+      <i class="fas fa-filter"></i>&nbsp;&nbsp;
+      <span>{{'commonCaptions.add' | translate}}</span>
+    </div>
+    <div class="search-term flex-m m-t-2 m-b-2" *ngFor="let filter of filters; index as i; trackBy:trackByIndex;">
+        <div class="m-l-5 m-r-10 font-b filter-button hov-pointer fs-09-rem" (click)="removeCondition(i)">
+            <span>{{'commonCaptions.remove' | translate}}</span>
+        </div>
+        <select class="m-l-2 m-r-2" [(ngModel)]="filters[i].phraseOperator">
+            <option value="and">And</option>
+            <option value="or" *ngIf="i!=0">Or</option>
+        </select>
+        <select class="m-l-2 m-r-2" [(ngModel)]="filters[i].field" (change)="checkBooleanField(i); checkFixedOptionField(i)">
+          <option value="trackingRef">ID</option>
+          <option value="applicantUserName">{{'leaveApplicationHeaders.applicantUserName' | translate}}</option>
+          <option value="applicantUserFullName">{{'leaveApplicationHeaders.applicantUserFullName' | translate}}</option>
+          <option value="createdAt">{{'leaveApplicationHeaders.createdAt' | translate}}</option>
+          <option value="fromTime">{{'leaveApplicationHeaders.fromTime' | translate}}</option>
+          <option value="toTime">{{'leaveApplicationHeaders.toTime' | translate}}</option>
+          <option value="leaveCode">{{'leaveApplicationHeaders.leaveCode' | translate}}</option>
+          <option value="isValid">{{'leaveApplicationHeaders.isValid' | translate}}</option>
+          <option value="progress">{{'leaveApplicationHeaders.progress' | translate}}</option>
+          <option value="approverUserName">{{'leaveApplicationHeaders.approverUserName' | translate}}</option>
+          <option value="approverUserFullName">{{'leaveApplicationHeaders.approverUserFullName' | translate}}</option>
+          <option value="approverCommand">{{'leaveApplicationHeaders.approverCommand' | translate}}</option>
+          <option value="approverDescription">{{'leaveApplicationHeaders.approverDescription' | translate}}</option>
+          <option value="createdByAdmin">{{'leaveApplicationHeaders.createdByAdmin' | translate}}</option>
+          <option value="finalStatus">{{'leaveApplicationHeaders.finalStatus' | translate}}</option>
+        </select>
+
+        <div *ngIf="['progress', 'approverCommand'].indexOf(filters[i].field) < 0 || filters[i].field == null">
+            <select class="m-l-2 m-r-2" [(ngModel)]="filters[i].comparisonType">
+                <option value="contain" *ngIf="!filters[i].booleanField">{{'filterComparison.contain' | translate}}</option>
+                <option value="equal">{{'filterComparison.equal' | translate}}</option>
+                <option value="notcontain" *ngIf="!filters[i].booleanField">{{'filterComparison.notContain' | translate}}</option>
+                <option value="notequal">{{'filterComparison.notEqual' | translate}}</option>
+            </select>
+            <input class="m-l-2 m-r-2" [(ngModel)]="filters[i].filterValue" *ngIf="!filters[i].booleanField" />
+            <select class="m-l-2 m-r-2" [(ngModel)]="filters[i].filterValue" *ngIf="filters[i].booleanField">
+                <option value="true">{{'commonCaptions.trueFalse.commontrue' | translate}}</option>
+                <option value="false">{{'commonCaptions.trueFalse.commonfalse' | translate}}</option>
+            </select>
+        </div>
+
+        <div *ngIf="['progress', 'approverCommand'].indexOf(filters[i].field) >= 0">
+            <select class="m-l-2 m-r-2" [(ngModel)]="filters[i].comparisonType">
+                <option value="equal">{{'filterComparison.equal' | translate}}</option>
+                <option value="notequal">{{'filterComparison.notEqual' | translate}}</option>
+            </select>
+            <select class="m-l-2 m-r-2" [(ngModel)]="filters[i].filterValue" *ngIf="['progress'].indexOf(filters[i].field) >= 0">
+                <option value="0000">{{'commonCaptions.progress.0000' | translate}}</option>
+                <option value="0001">{{'commonCaptions.progress.0001' | translate}}</option>
+                <option value="0002">{{'commonCaptions.progress.0002' | translate}}</option>
+            </select>
+            <select class="m-l-2 m-r-2" [(ngModel)]="filters[i].filterValue" *ngIf="['approverCommand'].indexOf(filters[i].field) >= 0">
+                <option value="0000">{{'approval.approval0000' | translate}}</option>
+                <option value="0001">{{'approval.approval0001' | translate}}</option>
+            </select>
+        </div>
+
+    </div>
+  </div>
+
+
+  <div class="command-bar flex-m">
+    <div class="btn btn-success m-t-3 m-b-3 m-l-3 m-r-3 fs-07-rem" (click)="clearSort()">
+      <i class="fas fa-undo-alt"></i>&nbsp;&nbsp;
+      {{ 'commonCaptions.clearSort' | translate }}
+    </div>
+    <div class="btn btn-success m-t-3 m-b-3 m-l-3 m-r-3 fs-07-rem" (click)="refresh()">
+      <span><i class="fas fa-sync-alt"></i>&nbsp;&nbsp;{{'commonCaptions.refreshCommand' | translate}}</span>
+    </div>
+
+    <div>
+      <select class="custom-select w-auto fs-07-rem p-l-0 p-r-22" #options (change)="changePageSize(options.value)">
+        <option *ngFor="let pageSizeOption of pageSizeOptions" [value]="pageSizeOption" [selected]="pageSizeOption == pageSize">
+          {{pageSizeOption}} {{ 'commonCaptions.itemPerPage' | translate }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="data-display-section">
+
+      <div class="pager-bar d-flex justify-content-between p-2 fs-08-rem">
+          <ul class="pagination m-b-5" *ngIf="pageCount > 1 && collectionSize > 0">
+              <!--first page-->
+              <li class="page-item number-item" *ngIf="activePage !== 1" (click)="loadPage(1)">
+                  <span class="page-link"><i class="fas fa-fast-backward"></i></span>
+              </li>
+              <!--previous page-->
+              <li class="page-item number-item" *ngIf="activePage !== 1" (click)="loadPage(activePage - 1)">
+                  <span class="page-link"><i class="fas fa-angle-left"></i></span>
+              </li>
+              <!--lower tripple dot-->
+              <li class="page-item number-item" *ngIf="pageBlockIndex > 1" disabled>
+                  <span class="page-link" disabled><i class="fas fa-ellipsis-h"></i></span>
+              </li>
+
+              <li class="page-item number-item" *ngFor="let page of visiblePages" (click)="loadPage(page)" [ngClass]="{active: page == activePage}">
+                  <span class="page-link">{{page}}</span>
+              </li>
+
+              <!--upper tripple dot-->
+              <li class="page-item number-item" *ngIf="pageBlockIndex < upperPageBlockIndex" disabled>
+                  <span class="page-link" disabled><i class="fas fa-ellipsis-h"></i></span>
+              </li>
+              <!--next page-->
+              <li class="page-item number-item" *ngIf="activePage !== pageCount" (click)="loadPage(activePage + 1)">
+                  <span class="page-link"><i class="fas fa-angle-right"></i></span>
+              </li>
+              <!--last page-->
+              <li class="page-item number-item" *ngIf="activePage !== pageCount" (click)="loadPage(collectionSize)">
+                  <span class="page-link"><i class="fas fa-fast-forward"></i></span>
+              </li>
+          </ul>
+      </div>
+
+      <div class="fs-07-rem flex-m">
+          <span class="fas fa-download btn btn-success fs-07-rem" (click)="downloadCsv()">&nbsp;Download CSV</span> &nbsp;&nbsp;
+          {{lowerItem}} - {{upperItem}} / {{collectionSize}}
+      </div>
+
+      <table class="table table-striped fs-07-rem">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col" sortable="finalStatus" priority="" (sort)="onSort($event)">{{ 'leaveApplicationHeaders.finalStatus' | translate }}</th>
+              <th scope="col" sortable="progress" priority="" (sort)="onSort($event)">{{'leaveApplicationHeaders.progress' | translate}}</th>
+              <th scope="col" sortable="approverCommand" priority="" (sort)="onSort($event)">{{ 'leaveApplicationHeaders.approverCommand' | translate }}</th>
+              <th scope="col" sortable="trackingRef" priority="" (sort)="onSort($event)">ID</th>
+              <th scope="col" sortable="createdAt" priority="" (sort)="onSort($event)">{{ 'leaveApplicationHeaders.createdAt' | translate }}</th>
+              <th scope="col" sortable="applicantUserName" priority="" (sort)="onSort($event)">{{ 'leaveApplicationHeaders.applicantUserName' | translate }}</th>
+              <th scope="col" sortable="applicantUserFullName" priority="" (sort)="onSort($event)">{{ 'leaveApplicationHeaders.applicantUserFullName' | translate }}</th>
+
+              <th scope="col" sortable="applicantDeptCode" priority="" (sort)="onSort($event)">{{ 'leaveApplicationHeaders.applicantDeptCode' | translate }}</th>
+              <th scope="col" priority="">{{ 'commonCaptions.deptDesc.caption' | translate }}</th>
+              <th scope="col" sortable="applicantTitleCode" priority="" (sort)="onSort($event)">{{ 'leaveApplicationHeaders.applicantTitleCode' | translate }}</th>
+              <th scope="col" priority="">{{ 'commonCaptions.titleDesc.caption' | translate }}</th>
+
+
+              <th scope="col" sortable="fromTime" priority="" (sort)="onSort($event)">{{'leaveApplicationHeaders.fromTime' | translate}}</th>
+              <th scope="col" sortable="toTime" priority="" (sort)="onSort($event)">{{'leaveApplicationHeaders.toTime' | translate}}</th>
+              <th scope="col" priority="">{{ 'leaveApplicationHeaders.timeConsumed' | translate }}</th>
+
+              <th scope="col" sortable="applicantDescription" priority="" (sort)="onSort($event)">{{'leaveApplicationHeaders.applicantDescription' | translate}}</th>
+              <th scope="col" sortable="leaveCode" priority="" (sort)="onSort($event)">{{'leaveApplicationHeaders.leaveCode' | translate}}</th>
+              <th scope="col" sortable="isValid" priority="" (sort)="onSort($event)">{{'leaveApplicationHeaders.isValid' | translate}}</th>
+
+
+              <th scope="col" sortable="approverUserName" priority="" (sort)="onSort($event)">{{ 'leaveApplicationHeaders.approverUserName' | translate }}</th>
+              <th scope="col" sortable="approverUserFullName" priority="" (sort)="onSort($event)">{{ 'leaveApplicationHeaders.approverUserFullName' | translate }}</th>
+              <th scope="col" sortable="approverDescription" priority="" (sort)="onSort($event)">{{ 'leaveApplicationHeaders.approverDescription' | translate }}</th>
+              <th scope="col" sortable="createdByAdmin" priority="" (sort)="onSort($event)">{{ 'leaveApplicationHeaders.createdByAdmin' | translate }}</th>
+
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let app of apps; index as i">
+              <th scope="row" >
+                <div class="flex-c-m" *ngIf="app.finalStatus">
+                  <div class="p-l-7 p-r-7 p-t-5 p-b-5 hov-pointer table-line-command" title="{{'commonCaptions.cancel' | translate}}" (click)="disableLeaveApplication(i)">
+                    <i class="fas fa-trash-alt"></i>
+                  </div>
+                </div>
+              </th>
+              <td>
+                <span class="after-process p-l-3 p-r-3" *ngIf="app.finalStatus">
+                  {{ 'commonCaptions.enabledtrue' | translate }}
+                </span>
+                <span class="after-process p-l-3 p-r-3 negative" *ngIf="!app.finalStatus">
+                  {{ 'commonCaptions.enabledfalse' | translate }}
+                </span>
+              </td>
+              <td>
+                {{'commonCaptions.progress.' + app.progress | translate}}
+              </td>
+              <td>
+                <span class="after-process p-l-3 p-r-3" *ngIf="app.approverCommand != ''"
+                      [ngClass]="{'negative': app.approverCommand == '0001'}">
+                  {{ 'approval.approval' + app.approverCommand | translate}}
+                </span>
+              </td>
+              <td>
+                {{ app.trackingRef }}
+              </td>
+              <td>
+                {{ app.createdAt }}
+              </td>
+
+              <td>
+                {{ app.applicantUserName }}
+              </td>
+              <td>
+                {{ app.applicantUserFullName }}
+              </td>
+
+              <td>
+                {{ app.applicantDeptCode }}
+              </td>
+              <td>
+                {{'commonCaptions.deptDesc.' + app.applicantDeptCode | translate}}
+              </td>
+              <td>
+                {{ app.applicantTitleCode }}
+              </td>
+              <td>
+                {{'commonCaptions.titleDesc.' + app.applicantTitleCode | translate}}
+              </td>
+
+              <td>
+                {{app.fromTime}}
+              </td>
+              <td>
+                {{app.toTime }}
+              </td>
+              <td>
+                {{app.timeConsumed }}
+              </td>
+
+              <td>
+                {{app.applicantDescription }}
+              </td>
+
+              <td>
+                <span *ngIf="app.leaveCode != ''">
+                  {{ 'leaveCode.leaveCode' + app.leaveCode | translate }}
+                </span>
+              </td>
+              <td>
+                <span *ngIf="app.isValid">
+                  {{ 'commonCaptions.trueFalse.commontrue' | translate }}
+                </span>
+                <span *ngIf="!app.isValid">
+                  {{ 'commonCaptions.trueFalse.commonfalse' | translate }}
+                </span>
+              </td>
+              <td>
+                {{app.approverUserName }}
+              </td>
+              <td>
+                {{app.approverUserFullName }}
+              </td>
+              <td>
+                {{app.approverDescription }}
+              </td>
+
+              <td>
+                <span *ngIf="app.createdByAdmin">
+                  {{ 'commonCaptions.trueFalse.commontrue' | translate }}
+                </span>
+                <span *ngIf="!app.createdByAdmin">
+                  {{ 'commonCaptions.trueFalse.commonfalse' | translate }}
+                </span>
+              </td>
+
+
+
+            </tr>
+          </tbody>
+      </table>
+  </div>
+</div>

@@ -48,7 +48,12 @@
         "caption": "Leave Management",
         "functions": {
           "leaveLimitSummary": "Limit Summary",
-          "userLeaveApplication": "Apply for leave"
+          "userLeaveApplication": "Apply for leave",
+          "approveLeaveApplication": "Approve leave",
+          "leaveBalance": "Show leave balance",
+          "leaveApplicationList": "Show request list",
+          "allApplicationList": "Show all request",
+          "directLeaveDeduction": "Direct leave deduction"
         }
       }
     }
@@ -110,7 +115,21 @@
       "0001": "Summitted",
       "0002": "Completed"
     },
-    "timeConsumed": "Requested time: {{timeConsumed}} hour(s)"
+    "timeConsumed": "Requested time: {{timeConsumed}} hour(s)",
+    "anotherRequest": "Another Request",
+    "timeComsumedCaption": "Requested time (hours)",
+    "approve": "Approve",
+    "reject": "Reject",
+    "approverDescription": "Approver's comment",
+    "limit": "Limit(hrs)",
+    "used": "Used(hrs)",
+    "pending": "Pending(hrs)",
+    "balance": "Balance(hrs)",
+    "trueFalse": {
+      "commontrue": "Yes",
+      "commonfalse": "No"
+    }
+
 
   },
   "responseErrors": {
@@ -181,7 +200,41 @@
   },
   "submitLeaveAppStatus": {
     "000submitLeaveApp": "Leave app {{trackingRef}} is submitted",
-    "004submitLeaveApp": "Leave app {{trackingRef}} is invalid"
+    "002submitLeaveApp": "Leave app {{trackingRef}} is invalid"
+  },
+  "approval": {
+    "approval0000": "Approved",
+    "approval0001": "Rejected"
+  },
+  "approvalStatus": {
+    "000approval": "Leave app {{trackingRef}} is processed",
+    "002approval": "Leave app {{trackingRef}} does not exist or was processed before"
+  },
+  "leaveApplicationHeaders": {
+    "applicantUserName": "Username of Applicant",
+    "applicantUserFullName": "Name of Applicant",
+    "applicantDeptCode": "Applicant's Department Code",
+    "applicantTitleCode": "Applicant's Title Code",
+    "applicantDescription": "Applicant's Description",
+    "createdAt": "Created At",
+    "fromTime": "From Time",
+    "toTime": "To Time",
+    "timeConsumed": "Hours requested",
+    "leaveCode": "Reason for leave",
+    "isValid": "Valid Request",
+    "progress": "Progress",
+    "approverUserName": "Username of Approver",
+    "approverUserFullName": "Name of Approver",
+    "approverCommand": "Approver's Instruction",
+    "approverDescription": "Approver's Description",
+    "createdByAdmin": "Created by Admin",
+    "finalStatus": "Status"
+
+  },
+  "directLeaveDeduction": {
+    "000directLeaveDeduction": "Successful, tracking ID is {{trackingRef}}",
+    "001directLeaveDeduction": "Username not found",
+    "002directLeaveDeduction": "Not enough leave balance"
   }
 
 }

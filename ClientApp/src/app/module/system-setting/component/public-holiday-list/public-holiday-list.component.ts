@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { DialogService, DialogController, MessageBoxButton, MessageBoxStyle } from '@app/_common/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderService } from '@app/_common/loader/loader.service';
+import { apiLink, domain } from '@app/_common/const/apilink'
 
 @Component({
   selector: 'app-public-holiday-list',
@@ -19,10 +20,10 @@ import { LoaderService } from '@app/_common/loader/loader.service';
 })
 /** PublicHolidayList component*/
 export class PublicHolidayListComponent implements OnDestroy{
-  private transitionState: string = 'in';
-  private holidays: Array<Holiday> = new Array<Holiday>();
-  private subscription1: Subscription; private subscription2: Subscription;
-  private subscription3: Subscription; private subscription4: Subscription;
+  public transitionState: string = 'in';
+  public holidays: Array<Holiday> = new Array<Holiday>();
+  public subscription1: Subscription; public subscription2: Subscription;
+  public subscription3: Subscription; public subscription4: Subscription;
   activePage: number;
   pageSize: number;
   collectionSize: number;
@@ -39,13 +40,13 @@ export class PublicHolidayListComponent implements OnDestroy{
   pager: Array<number> = new Array<number>();
   visiblePages: Array<number> = new Array<number>();
   pageSizeOptions = [3, 6, 9];
-  private dataLoading = new Subject<any>();
+  public dataLoading = new Subject<any>();
   conditionSet: Array<any> = new Array<any>();
   editMode: boolean;
 
 
-  constructor(private http: HttpClient, private jsonToCsv: JsonToCsvService, private translate: TranslateService,
-    private dialogService: DialogService, private dialog: MatDialog, private loader: LoaderService) {
+  constructor(public http: HttpClient, public jsonToCsv: JsonToCsvService, public translate: TranslateService,
+    public dialogService: DialogService, public dialog: MatDialog, public loader: LoaderService) {
     this.getData();
   }
 
@@ -55,10 +56,10 @@ export class PublicHolidayListComponent implements OnDestroy{
     if (this.subscription3) this.subscription3.unsubscribe();
     if (this.subscription4) this.subscription4.unsubscribe();
   }
-  private removeFromDb(i: number): void {
+  public removeFromDb(i: number): void {
     let data = JSON.stringify(this.holidays[i]);
     this.setEventListenerAfterSubmit();
-    this.http.post('/SystemSetting/RemoveHoliday', data, res.moduleHttpOptions).subscribe(
+    this.http.post(apiLink + '/SystemSetting/RemoveHoliday', data, res.moduleHttpOptions).subscribe(
       response => {
         let result = JSON.parse(JSON.stringify(response));
         let message1 = result['status'];
@@ -78,8 +79,8 @@ export class PublicHolidayListComponent implements OnDestroy{
     )
   }
 
-  private getData(): void {
-    this.http.get('/SystemSetting/ListAllHoliday')
+  public getData(): void {
+    this.http.get(apiLink + '/SystemSetting/ListAllHoliday')
       .subscribe(
         response => {
           let result = JSON.parse(JSON.stringify(response));
@@ -112,8 +113,8 @@ export class PublicHolidayListComponent implements OnDestroy{
       )
   }
 
-  private downloadCsv() {
-    this.http.get('/SystemSetting/ListAllHoliday')
+  public downloadCsv() {
+    this.http.get(apiLink + '/SystemSetting/ListAllHoliday')
       .subscribe(
         response => {
           let x: string[] = this.transformHeader();
@@ -129,13 +130,13 @@ export class PublicHolidayListComponent implements OnDestroy{
   }
 
 
-  private transformHeader(): string[] {
+  public transformHeader(): string[] {
     var x: string[] = [];
     x.push(this.translate.instant('commonCaptions.date'))
     x.push(this.translate.instant('commonCaptions.descriptionCommon'))
     return x
   }
-  private transformResponse(data): Array<Holiday> {
+  public transformResponse(data): Array<Holiday> {
     let array = data as Array<any>;
     let x = new Array<Holiday>();
     for (var i = 0; i < array.length; i += 1) {

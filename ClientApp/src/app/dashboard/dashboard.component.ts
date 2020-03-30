@@ -32,49 +32,18 @@ export class HideDropDownWhenClickAwayDirective {
 })
 /** dashboard component*/
 export class DashboardComponent extends RootComponent {
-  private year: string = new Date().getFullYear().toString();
-  private givenName: string;
-  private userRole: string;
-  private pageLanguage: string;
-  private languageDropdownShowed: boolean = false;
-  private languageDropdownClick: boolean = false;
-  private sideMenuOpened: boolean = false;
+  public year: string = new Date().getFullYear().toString();
+  public givenName: string;
+  public userRole: string;
+  public pageLanguage: string;
+  public languageDropdownShowed: boolean = false;
+  public languageDropdownClick: boolean = false;
+  sideMenuOpened: boolean = false;
   @ContentChildren(SubGroupComponent, { descendants: true })
   groups!: QueryList<SubGroupComponent>;
-
-  heroes: any[] = [
-    { id: 1, name: 'Superman' },
-    { id: 2, name: 'Batman' },
-    { id: 5, name: 'BatGirl' },
-    { id: 3, name: 'Robin' },
-    { id: 4, name: 'Flash' },
-    { id: 6, name: 'Aquaman' },
-    { id: 7, name: 'Green Lantern' },
-    { id: 8, name: 'Shazam' },
-    { id: 9, name: 'Thor' },
-    { id: 10, name: 'Hulk' },
-    { id: 11, name: 'Captain America' },
-    { id: 13, name: 'Iron Man' },
-  ];
-
-  villains: any[] = [
-    { id: 1, name: 'Superman' },
-    { id: 2, name: 'Batman' },
-    { id: 5, name: 'BatGirl' },
-    { id: 3, name: 'Robin' },
-    { id: 4, name: 'Flash' },
-    { id: 6, name: 'Aquaman' },
-    { id: 7, name: 'Green Lantern' },
-    { id: 8, name: 'Shazam' },
-    { id: 9, name: 'Thor' },
-    { id: 10, name: 'Hulk' },
-    { id: 11, name: 'Captain America' },
-    { id: 13, name: 'Iron Man' },
-  ];
-
-  constructor(private jwtHelper: JwtHelperService,
-              private thisTranslate: TranslateService, private router: Router,
-              private sideMenuService: SideMenuClosingService) {
+  constructor(public jwtHelper: JwtHelperService,
+              public thisTranslate: TranslateService, public router: Router,
+              public sideMenuService: SideMenuClosingService) {
     super(thisTranslate);
     let token = this.jwtHelper.tokenGetter();
     let decodedInfo = this.jwtHelper.decodeToken(token);
@@ -88,26 +57,26 @@ export class DashboardComponent extends RootComponent {
 
 
 
-  private hideLanguageSwitcher(event: EventEmitter<any>) {
+  public hideLanguageSwitcher(event: EventEmitter<any>) {
     this.languageDropdownShowed = false;
   }
-  private toggleLanguageSwitcher(event) {
+  public toggleLanguageSwitcher(event) {
     var x = this.languageDropdownShowed;
     this.languageDropdownShowed = !x;
     event.stopPropagation();
   }
-  private updateDisplayLanguage() {
+  public updateDisplayLanguage() {
     this.pageLanguage = this.getCachedLanguage();
   }
-  private logOut() {
+  public logOut() {
     sessionStorage.removeItem('jwt');
     this.router.navigate(['./']);
   }
-  private toggleSideMenu() {
+  toggleSideMenu() {
     this.sideMenuOpened = !this.sideMenuOpened;
   }
 
-  private hideMenu() {
+  public hideMenu() {
     this.sideMenuOpened = false;
   }
 }

@@ -17,12 +17,26 @@ import { DialogService } from '@app/_common/dialog/dialog.component';
 import { LeaveLimitService } from '@app/module/leave-management/leave-limit.service';
 import { LeaveLimitSummaryComponent } from '@app/module/leave-management/leave-limit-summary/leave-limit-summary.component';
 import { AdjustLeaveLimitComponent } from '@app/module/leave-management/adjust-leave-limit/adjust-leave-limit.component';
-import { UserLeaveApplicationComponent } from './user-leave-application/user-leave-application.component';
+import { UserLeaveApplicationComponent } from '@app/module/leave-management/user-leave-application/user-leave-application.component';
+import { ApproveLeaveApplicationComponent } from '@app/module/leave-management/approve-leave-application/approve-leave-application.component';
+import { LeaveApproveService } from '@app/module/leave-management/leave-approve.service';
+import { LeaveApprovalConfirmComponent } from '@app/module/leave-management/approve-leave-application/leave-approval-confirm/leave-approval-confirm.component';
+import { LeaveBalanceComponent } from '@app/module/leave-management/leave-balance/leave-balance.component';
+import { LeaveApplicationListComponent } from '@app/module/leave-management/leave-application-list/leave-application-list.component';
+import { AllApplicationListComponent } from '@app/module/leave-management/all-application-list/all-application-list.component';
+import { DirectLeaveDeductionComponent, DropDownOption } from '@app/module/leave-management/direct-leave-deduction/direct-leave-deduction.component';
 @NgModule({
   declarations: [
     LeaveLimitSummaryComponent,
     AdjustLeaveLimitComponent,
-    UserLeaveApplicationComponent
+    UserLeaveApplicationComponent,
+    ApproveLeaveApplicationComponent,
+    LeaveApprovalConfirmComponent,
+    LeaveBalanceComponent,
+    LeaveApplicationListComponent,
+    AllApplicationListComponent,
+    DirectLeaveDeductionComponent,
+    DropDownOption
   ],
   imports: [
     BrowserAnimationsModule,
@@ -36,7 +50,8 @@ import { UserLeaveApplicationComponent } from './user-leave-application/user-lea
     RoleCheck,
     PreventUnauthenticated,
     DialogService,
-    LeaveLimitService
+    LeaveLimitService,
+    LeaveApproveService
   ],
   exports: [
     LeaveLimitSummaryComponent,
@@ -54,6 +69,26 @@ export const LeaveManagementRoutes: Routes = [
   {
     path: 'user-leave-application', component: UserLeaveApplicationComponent,
     canActivate: [RoleCheck], data: { authorizedRoles: ['0002','0003'] }
+  },
+  {
+    path: 'approve-leave-application', component: ApproveLeaveApplicationComponent,
+    canActivate: [RoleCheck], data: { authorizedRoles: ['0001', '0002'] }
+  },
+  {
+    path: 'leave-balance', component: LeaveBalanceComponent,
+    canActivate: [RoleCheck], data: { authorizedRoles: ['0001', '0002', '0003'] }
+  },
+  {
+    path: 'leave-application-list', component: LeaveApplicationListComponent,
+    canActivate: [RoleCheck], data: { authorizedRoles: ['0001', '0002', '0003'] }
+  },
+  {
+    path: 'all-application-list', component: AllApplicationListComponent,
+    canActivate: [RoleCheck], data: { authorizedRoles: ['0000'] }
+  },
+  {
+    path: 'direct-leave-deduction', component: DirectLeaveDeductionComponent,
+    canActivate: [RoleCheck], data: { authorizedRoles: ['0000'] }
   }
 
 ]

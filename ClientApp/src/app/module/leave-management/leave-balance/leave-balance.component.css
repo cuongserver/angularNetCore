@@ -1,0 +1,119 @@
+
+
+/*sort*/
+th[sortable] {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+  th[sortable].desc:before, th[sortable].asc:before {
+    content: '';
+    display: inline-block;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAmxJREFUeAHtmksrRVEUx72fH8CIGQNJkpGUUmakDEiZSJRIZsRQmCkTJRmZmJgQE0kpX0D5DJKJgff7v+ru2u3O3vvc67TOvsdatdrnnP1Y///v7HvvubdbUiIhBISAEBACQkAICAEhIAQ4CXSh2DnyDfmCPEG2Iv9F9MPlM/LHyAecdyMzHYNwR3fdNK/OH9HXl1UCozD24TCvILxizEDWIEzA0FcM8woCgRrJCoS5PIwrANQSMAJX1LEI9bqpQo4JYNFFKRSvIgsxHDVnqZgIkPnNBM0rIGtYk9YOOsqgbgepRCfdbmFtqhFkVEDVPjJp0+Z6e6hRHhqBKgg6ZDCvYBygVmUoEGoh5JTRvIJwhJo1aUOoh4CLPMyvxxi7EWOMgnCGsXXI1GIXlZUYX7ucU+kbR8NW8lh3O7cue0Pk32MKndfUxQFAwxdirk3fHappAnc0oqDPzDfGTBrCfHP04dM4oTV8cxr0SVzH9FF07xD3ib6xCDE+M+aUcVygtWzzbtGX2rPBrEUYfecfQkaFzYi6HjVnGBdtL7epqAlc1+jRdAap74RrnPc4BCijttY2tRcdN0g17w7HqZrXhdJTYAuS3hd8z+vKgK3V1zWPae0mZDMykadBn1hTQBLnZNwVrJpSe/NwEeDsEwCctEOsJTsgxLvCqUl2ACftEGvJDgjxrnBqkh3ASTvEWrIDQrwrnJpkB3DSDrGW7IAQ7wqnJtkBnLRztejXXVu4+mxz/nQ9jR1w5VB86ejLTFcnnDwhzV+F6T+CHZlx6THSjn76eyyBIOPHyDakhBAQAkJACAgBISAEhIAQYCLwC8JxpAmsEGt6AAAAAElFTkSuQmCC') no-repeat;
+    background-size: 1em;
+    width: 1em;
+    height: 1em;
+    margin-left: -1em;
+  }
+
+  th[sortable].desc:before {
+    transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+/*sort*/
+
+.command-bar {
+  white-space: nowrap;
+  flex-wrap: wrap;
+}
+
+.search-bar {
+  border-bottom: solid 0.5px springgreen;
+}
+
+.filter-button {
+  display: inline;
+  color: springgreen;
+}
+
+.search-term {
+  height: 20px;
+}
+
+  .search-term select, .search-term input {
+    height: 100%;
+  }
+
+.quick-navigate {
+  height: 20px;
+}
+
+  .quick-navigate input, .quick-navigate span {
+    height: 100%;
+  }
+
+.data-display-section {
+  overflow-x: auto;
+}
+
+.component-container.edit-mode {
+  height: 0;
+  overflow: hidden;
+}
+
+.table-line-command:hover {
+  text-shadow: 0 0 17px rgb(233,143,0);
+  color: rgb(233,143,0);
+}
+/*bootstrap override*/
+.table {
+  color: springgreen;
+  background: #444243;
+}
+
+  .table th, .table td {
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+.page-link:hover {
+  color: red;
+  z-index: 2;
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  padding: .5rem .75rem;
+  margin-left: -1px;
+  line-height: 1;
+  color: springgreen;
+  background-color: #000;
+  border: 1px solid springgreen;
+}
+
+.page-item.active .page-link {
+  z-index: 1;
+  box-shadow: 0px 0px 2px 3px springgreen inset;
+  background-color: black;
+  border-color: springgreen;
+}
+
+.form-control {
+  width: 30px;
+}
+/*bootstrap override*/
+
+.after-process {
+  display: block;
+  border: 2px ridge #ffbf00;
+  color: #ffe300;
+  transform: rotate(-5deg);
+}
+
+  .after-process.negative {
+    border: 2px ridge #f00;
+    color: #f00;
+  }

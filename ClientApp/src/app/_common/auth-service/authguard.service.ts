@@ -10,8 +10,8 @@ import { Subscription, Observable } from "rxjs";
 export class PreventUnauthenticated implements CanActivate {
 
   subscriber: Subscription
-  constructor(private jwtHelper: JwtHelperService, private router: Router, private dialogService: DialogService,
-    private dialog: MatDialog) {
+  constructor(public jwtHelper: JwtHelperService, public router: Router, public dialogService: DialogService,
+    public dialog: MatDialog) {
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
     let token = this.jwtHelper.tokenGetter();
@@ -28,9 +28,9 @@ export class PreventUnauthenticated implements CanActivate {
 @Injectable()
 export class RoleCheck implements CanActivate {
 
-  private subscriber: Subscription
-  constructor(private jwtHelper: JwtHelperService, private router: Router, private dialogService: DialogService,
-    private dialog: MatDialog) {
+  public subscriber: Subscription
+  constructor(public jwtHelper: JwtHelperService, public router: Router, public dialogService: DialogService,
+    public dialog: MatDialog) {
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
     let roles: Array<string> = route.data["authorizedRoles"];
@@ -49,7 +49,7 @@ export class RoleCheck implements CanActivate {
     }
   }
 
-  private sendMessage() {
+  public sendMessage() {
     this.subscriber = this.dialogService.getMessage().subscribe((message) => {
       this.subscriber.unsubscribe();
       DialogController.show(this.dialog, message.text, message.extraInfo, '', '',
@@ -63,7 +63,7 @@ export class RoleCheck implements CanActivate {
 
 @Injectable()
 export class PreventBackToLoginPageAfterLogin implements CanActivate {
-  constructor(private jwtHelper: JwtHelperService, private router: Router) {
+  constructor(public jwtHelper: JwtHelperService, public router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {

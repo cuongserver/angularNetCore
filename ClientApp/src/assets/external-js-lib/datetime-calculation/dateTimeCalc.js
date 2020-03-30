@@ -286,7 +286,7 @@ function leaveInMin(startTimeString, endTimeString) {
     var cl2 = t2.split(" ")[1];
 
     var diff = timeStringToMinute(t2) - timeStringToMinute(t1);
-    if (diff < 0) return 0;
+    if (diff <= 0) return 0;
 
     if (dd1 == dd2) {
         if (isDayOff(t1)) return 0;
@@ -305,13 +305,15 @@ function leaveInMin(startTimeString, endTimeString) {
         switch (true) {
             case (leaveE <= minS): leaveE = minS; break;
             case (leaveE >= minE): leaveE = minE; break;
-            case (leaveE >= minLS && leaveE <= minLE): leaveE = minLS; break;
+          case (leaveE >= minLS && leaveE <= minLE): leaveE = minLS; break;
         }
-
-        switch (true) {
-            case (leaveS >= minS && leaveS <= minLS && leaveE >= minS && leaveE <= minLS): return leaveE - leaveS;
-            case (leaveS >= minLE && leaveS <= minE && leaveE >= minLE && leaveE <= minE): return leaveE - leaveS;
-            case (leaveS >= minS && leaveS <= minLE && leaveE >= minLE && leaveE <= minE): return minLS - leaveS + leaveE - minLE;
+        
+      switch (true) {
+        case (leaveE >= minLS && leaveE <= minLE && leaveS >= minLS && leaveS <= minLE): return 0;
+        case (leaveS >= minS && leaveS <= minLS && leaveE >= minS && leaveE <= minLS): return leaveE - leaveS;
+        case (leaveS >= minLE && leaveS <= minE && leaveE >= minLE && leaveE <= minE): return leaveE - leaveS;
+        case (leaveS >= minS && leaveS <= minLE && leaveE >= minLE && leaveE <= minE): return minLS - leaveS + leaveE - minLE;
+        
         }
     };
     //---------

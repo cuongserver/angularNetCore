@@ -109,7 +109,7 @@
       {{'submitLeaveAppStatus.' + message | translate: {trackingRef: extraInfo} }}
     </div>
   </div>
-  <div class="message" *ngIf="message == '004'+ 'submitLeaveApp'">
+  <div class="message" *ngIf="message == '002'+ 'submitLeaveApp'">
     <div>
       {{'submitLeaveAppStatus.' + message | translate: {trackingRef: extraInfo} }}
     </div>
@@ -117,6 +117,39 @@
 
 
   <!--dialog phần nộp đơn (hết)-->
+  <!-- dialog phần duyệt đơn -->
+  <div class="message" *ngIf="message == '000'+ 'approval'">
+    <div>
+      {{'approvalStatus.' + message | translate: {trackingRef: extraInfo} }}
+    </div>
+  </div>
+  <div class="message" *ngIf="message == '002'+ 'approval'">
+    <div>
+      {{'approvalStatus.' + message | translate: {trackingRef: extraInfo} }}
+    </div>
+  </div>
+
+
+  <!--dialog phần duyệt đơn (hết)-->
+  <!-- dialog phần trừ phép -->
+  <div class="message" *ngIf="message == '000'+ 'directLeaveDeduction'">
+    <div>
+      {{'directLeaveDeduction.' + message | translate: {trackingRef: extraInfo} }}
+    </div>
+  </div>
+  <div class="message" *ngIf="message == '001'+ 'directLeaveDeduction'">
+    <div>
+      {{'directLeaveDeduction.' + message | translate}}
+    </div>
+  </div>
+  <div class="message" *ngIf="message == '002'+ 'directLeaveDeduction'">
+    <div>
+      {{'directLeaveDeduction.' + message | translate}}
+    </div>
+  </div>
+
+
+  <!--dialog phần trừ phép (hết)-->
   <div class="info" *ngIf="information !== ''">
     <p>{{information}}</p>
   </div>

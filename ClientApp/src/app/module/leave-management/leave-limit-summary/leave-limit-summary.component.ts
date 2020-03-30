@@ -13,6 +13,7 @@ import { LoaderService } from '@app/_common/loader/loader.service';
 import { NgbdSortableHeader, rotate, compare, SortDirection, SortEvent } from '@app/module/shared-module/sortable-header.module'
 import { LeaveLimitService } from '@app/module/leave-management/leave-limit.service';
 
+import { apiLink, domain } from '@app/_common/const/apilink'
 @Component({
   selector: 'app-leave-limit-summary',
   templateUrl: './leave-limit-summary.component.html',
@@ -21,10 +22,10 @@ import { LeaveLimitService } from '@app/module/leave-management/leave-limit.serv
 })
 /** LeaveLimitSummary component*/
 export class LeaveLimitSummaryComponent implements OnDestroy{
-  private transitionState: string = 'in';
-  private leavecodes: string[];
-  private summary: Array<LeaveBalance> = new Array<LeaveBalance>();
-  private summaryOriginal: Array<LeaveBalance> = new Array<LeaveBalance>();
+  public transitionState: string = 'in';
+  public leavecodes: string[];
+  public summary: Array<LeaveBalance> = new Array<LeaveBalance>();
+  public summaryOriginal: Array<LeaveBalance> = new Array<LeaveBalance>();
 
   sortPriority: number = 0;
 
@@ -47,12 +48,12 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
   pageSizeOptions = [3, 6, 9];
   filters: Array<Filter> = new Array<Filter>();
   editMode: boolean;
-  private dataLoading = new Subject<any>();
-  private subscription1: Subscription; private subscription2: Subscription;
-  private subscription3: Subscription; private subscription4: Subscription;
+  public dataLoading = new Subject<any>();
+  public subscription1: Subscription; public subscription2: Subscription;
+  public subscription3: Subscription; public subscription4: Subscription;
 
-  constructor(private http: HttpClient, private infoservice: LeaveLimitService, private translate: TranslateService,
-    private jsonToCsv: JsonToCsvService) {
+  constructor(public http: HttpClient, public infoservice: LeaveLimitService, public translate: TranslateService,
+    public jsonToCsv: JsonToCsvService) {
     this.pageSize = this.pageSizeOptions[0]; this.requestPage = 1;
     this.navigateToPage = 1;
     this.getData(this.pageSize, this.requestPage);
@@ -66,7 +67,7 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     if (this.subscription4) this.subscription4.unsubscribe();
   }
 
-  private onSort({ column, direction, hostObject }: SortEvent): void {
+  public onSort({ column, direction, hostObject }: SortEvent): void {
     this.sortPriority += 1;
     hostObject.priority = this.sortPriority;
     this.summary = [...this.summary].sort((a, b) => {
@@ -75,7 +76,7 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     });
   }
 
-  private initialSort(): void {
+  public initialSort(): void {
     let x = [...this.headers].sort((a, b) => {
       return compare(a['priority'], b['priority'])
     })
@@ -90,7 +91,7 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     });
   }
 
-  private clearSort(): void {
+  public clearSort(): void {
     this.headers.forEach(header => {
       header.direction = '';
       header.priority = 0;
@@ -99,7 +100,7 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     this.sortPriority = 0;
   }
 
-  private loadPage(page: number): void {
+  public loadPage(page: number): void {
     let x: Subscription = this.dataLoading.asObservable().subscribe(() => {
       this.initialSort();
       x.unsubscribe();
@@ -107,7 +108,7 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     this.requestPage = page;
     this.getData(this.pageSize, this.requestPage);
   }
-  private buildPager(collectionSize: number, pageSize: number): void {
+  public buildPager(collectionSize: number, pageSize: number): void {
     while (this.pager.length > 0) {
       this.pager.pop();
     }
@@ -134,7 +135,7 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     this.lowerItem = (this.activePage - 1) * pageSize + 1
     this.upperItem = Math.min(this.activePage * pageSize, this.collectionSize);
   }
-  private getData(pageSize: number, requestPage: number): void{
+  public getData(pageSize: number, requestPage: number): void{
     var z = this.filters.length;
     if (z > 0) {
       for (var y = z - 1; y > -1; y -= 1) {
@@ -150,7 +151,7 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     }
 
     let data = JSON.stringify(x);
-    this.http.post('/LeaveManagement/LeaveLimitSummary', data, res.moduleHttpOptions).subscribe(
+    this.http.post(apiLink + '/LeaveManagement/LeaveLimitSummary', data, res.moduleHttpOptions).subscribe(
       response => {
         let result = JSON.parse(JSON.stringify(response));
         this.collectionSize = result['collectionSize'];
@@ -199,7 +200,7 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     )
   }
 
-  private refresh(): void {
+  public refresh(): void {
     let x: Subscription = this.dataLoading.asObservable().subscribe(() => {
       this.initialSort();
       x.unsubscribe();
@@ -207,7 +208,7 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     this.getData(this.pageSize, this.requestPage);
   }
 
-  private navigate(quickNavigateToPage: any): void {
+  public navigate(quickNavigateToPage: any): void {
     if (!Number.isInteger(+quickNavigateToPage)) {
       this.navigateToPage = 1;
       return;
@@ -221,7 +222,7 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     this.loadPage(+quickNavigateToPage);
   }
 
-  private changePageSize(newPageSize: number): void {
+  public changePageSize(newPageSize: number): void {
     if (this.pageSize == newPageSize) return;
     let x: Subscription = this.dataLoading.asObservable().subscribe(() => {
       this.initialSort();
@@ -332,7 +333,7 @@ export class LeaveLimitSummaryComponent implements OnDestroy{
     }
 
     let data = JSON.stringify(x);
-    this.http.post('/LeaveManagement/LeaveLimitSummaryDownLoad', data, res.moduleHttpOptions).subscribe(
+    this.http.post(apiLink + '/LeaveManagement/LeaveLimitSummaryDownLoad', data, res.moduleHttpOptions).subscribe(
       response => {
         //let result = JSON.parse(JSON.stringify(response));
         //this.collectionSize = result['collectionSize'];

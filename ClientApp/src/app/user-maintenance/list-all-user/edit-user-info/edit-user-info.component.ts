@@ -9,6 +9,7 @@ import { DialogService, DialogController, MessageBoxStyle, MessageBoxButton } fr
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderService } from '../../../_common/loader/loader.service';
 import { Subscription } from 'rxjs';
+import { apiLink } from '../../../_common/const/apilink';
 @Component({
     selector: 'app-edit-user-info',
     templateUrl: './edit-user-info.component.html',
@@ -17,12 +18,12 @@ import { Subscription } from 'rxjs';
 /** EditUserInfo component*/
 export class EditUserInfoComponent implements OnDestroy{
 /** EditUserInfo ctor */
-  private user: User;
-  private index: number;
-  private x: Subscription;
+  public user: User;
+  public index: number;
+  public x: Subscription;
 
-  private thisForm: FormGroup
-  private KVpair: { [key: string]: any } = {
+  public thisForm: FormGroup
+  public KVpair: { [key: string]: any } = {
     //userNameV: [Validators.pattern(/^[a-zA-Z0-9]{6,20}$/i), Validators.required],
     userFullNameV: [Validators.pattern(/^[a-zA-Z0-9 ]{1,20}$/i), Validators.required],
     //userPassV: [Validators.pattern(/^[a-zA-Z0-9]{6,20}$/i), Validators.required],
@@ -41,15 +42,15 @@ export class EditUserInfoComponent implements OnDestroy{
     userFailedLoginCountS: false
     //userNameDbExist: false
   };
-  private subscription1: Subscription;
-  private subscription2: Subscription;
-  private titleCodeList: string[];
-  private deptCodeList: string[];
+  public subscription1: Subscription;
+  public subscription2: Subscription;
+  public titleCodeList: string[];
+  public deptCodeList: string[];
 
-  constructor(private infoservice: UserInfoService, private formBuilder: FormBuilder, private http: HttpClient,
-    private router: Router, private jwtHelper: JwtHelperService,
-    private dialogService: DialogService,
-    private dialog: MatDialog, private loader: LoaderService) {
+  constructor(public infoservice: UserInfoService, public formBuilder: FormBuilder, public http: HttpClient,
+    public router: Router, public jwtHelper: JwtHelperService,
+    public dialogService: DialogService,
+    public dialog: MatDialog, public loader: LoaderService) {
 
     this.thisForm = this.formBuilder.group({
       userFullName: ['', this.KVpair['userFullNameV']],
@@ -61,7 +62,7 @@ export class EditUserInfoComponent implements OnDestroy{
     });
 
     this.x = this.infoservice.getOpenMessage().subscribe(data => {
-      this.http.get('/User/TitleAndDeptList').subscribe(
+      this.http.get(apiLink + '/User/TitleAndDeptList').subscribe(
         response => {
           let result = JSON.parse(JSON.stringify(response));
           this.titleCodeList = result['titleCodeList'];
@@ -130,7 +131,7 @@ export class EditUserInfoComponent implements OnDestroy{
 
     let data = JSON.stringify(_obj);
     this.setEventListenerAfterSubmit();
-    this.http.post('/User/EditUserInfo', data, httpOptions).subscribe(
+    this.http.post(apiLink + '/User/EditUserInfo', data, httpOptions).subscribe(
       response => {
         let result = JSON.parse(JSON.stringify(response));
         let message1 = result['status'];

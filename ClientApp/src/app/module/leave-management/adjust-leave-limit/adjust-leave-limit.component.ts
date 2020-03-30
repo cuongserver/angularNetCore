@@ -10,7 +10,7 @@ import { LoaderService } from '@app/_common/loader/loader.service';
 import { Subscription } from 'rxjs';
 import { LeaveLimitService } from '@app/module/leave-management/leave-limit.service';
 import { LeaveBalance, LeaveType, User } from '../leave-limit-summary/leave-limit-summary.component';
-
+import { apiLink, domain } from '@app/_common/const/apilink'
 @Component({
   selector: 'app-adjust-leave-limit',
   templateUrl: './adjust-leave-limit.component.html',
@@ -19,14 +19,14 @@ import { LeaveBalance, LeaveType, User } from '../leave-limit-summary/leave-limi
 /** EditUserInfo component*/
 export class AdjustLeaveLimitComponent implements OnDestroy {
   /** EditUserInfo ctor */
-  //private user: User;
-  private index: number;
-  private x: Subscription;
-  private detail: LeaveBalance;
+  //public user: User;
+  public index: number;
+  public x: Subscription;
+  public detail: LeaveBalance;
 
 
-  private thisForm: FormGroup
-  private KVpair: { [key: string]: any } = {
+  public thisForm: FormGroup
+  public KVpair: { [key: string]: any } = {
     //userNameV: [Validators.pattern(/^[a-zA-Z0-9]{6,20}$/i), Validators.required],
     //userFullNameV: [Validators.pattern(/^[a-zA-Z0-9 ]{1,20}$/i), Validators.required],
     limitV: [Validators.pattern(/(^[1-9]$|[1-9][0-9]+$|^$)/m)],
@@ -44,16 +44,16 @@ export class AdjustLeaveLimitComponent implements OnDestroy {
     //userFailedLoginCountS: false
     //userNameDbExist: false
   };
-  private limitS: boolean[] = []
-  private subscription1: Subscription;
-  private subscription2: Subscription;
-  //private titleCodeList: string[];
-  //private deptCodeList: string[];
+  public limitS: boolean[] = []
+  public subscription1: Subscription;
+  public subscription2: Subscription;
+  //public titleCodeList: string[];
+  //public deptCodeList: string[];
 
-  constructor(private infoservice: LeaveLimitService, private formBuilder: FormBuilder, private http: HttpClient,
-    private router: Router, private jwtHelper: JwtHelperService,
-    private dialogService: DialogService,
-    private dialog: MatDialog, private loader: LoaderService) {
+  constructor(public infoservice: LeaveLimitService, public formBuilder: FormBuilder, public http: HttpClient,
+    public router: Router, public jwtHelper: JwtHelperService,
+    public dialogService: DialogService,
+    public dialog: MatDialog, public loader: LoaderService) {
 
     this.thisForm = this.formBuilder.group({
       leaveTypes: this.formBuilder.array([])
@@ -158,7 +158,7 @@ export class AdjustLeaveLimitComponent implements OnDestroy {
 
     let data = JSON.stringify(obj);
     this.setEventListenerAfterSubmit();
-    this.http.post('/LeaveManagement/AdjustLimit', data, httpOptions).subscribe(
+    this.http.post(apiLink + '/LeaveManagement/AdjustLimit', data, httpOptions).subscribe(
       response => {
         let result = JSON.parse(JSON.stringify(response));
         let message1 = result['status'];
@@ -193,35 +193,6 @@ export class AdjustLeaveLimitComponent implements OnDestroy {
     });
   }
 
-  //getModelError(key: string): boolean {
-  //  let ctls = this.thisForm.controls;
-  //  //if (key == 'userName' + 'Required') return ctls['userName']?.errors?.required && this.KVpair['userName' + 'S']
-  //  //if (key == 'userName' + 'Pattern') return !ctls['userName']?.errors?.required && this.KVpair['userName' + 'S'] && ctls['userName']?.errors?.pattern
-  //  //if (key == 'userName' + 'DbExist') return !ctls['userName']?.errors?.required && this.KVpair['userName' + 'S']
-  //  //  && !ctls['userName']?.errors?.pattern && this.KVpair['userName' + 'DbExist']
-  //  //if (key == 'userFullName' + 'Required') return ctls['userFullName']?.errors?.required && this.KVpair['userFullName' + 'S']
-  //  //if (key == 'userFullName' + 'Pattern') return !ctls['userFullName']?.errors?.required && this.KVpair['userFullName' + 'S'] && ctls['userFullName']?.errors?.pattern
-
-  //  if (key == 'userPass' + 'Required') return ctls['userPass']?.errors?.required && this.KVpair['userPass' + 'S']
-  //  if (key == 'userPass' + 'Pattern') return !ctls['userPass']?.errors?.required && this.KVpair['userPass' + 'S'] && ctls['userPass']?.errors?.pattern
-
-  //  if (key == 'userPassConfirm' + 'Required') return ctls['userPassConfirm']?.errors?.required && this.KVpair['userPassConfirm' + 'S']
-  //    && !this.thisForm?.errors?.passwordMisMatch
-  //  if (key == 'userPassConfirm' + 'Pattern') return !ctls['userPassConfirm']?.errors?.required && this.KVpair['userPassConfirm' + 'S']
-  //    && ctls['userPassConfirm']?.errors?.pattern && !this.thisForm?.errors?.passwordMisMatch
-  //  if (key == 'userPassConfirm' + 'Mismatch') return this.KVpair['userPassConfirm' + 'S'] && this.thisForm?.errors?.passwordMisMatch
-
-  //  //if (key == 'userDeptCode' + 'Required') return ctls['userDeptCode']?.errors?.required && this.KVpair['userDeptCode' + 'S']
-  //  //if (key == 'userTitleCode' + 'Required') return ctls['userTitleCode']?.errors?.required && this.KVpair['userTitleCode' + 'S']
-
-  //  //if (key == 'userEmail' + 'Required') return ctls['userEmail']?.errors?.required && this.KVpair['userEmail' + 'S']
-  //  //if (key == 'userEmail' + 'Pattern') return !ctls['userEmail']?.errors?.required && this.KVpair['userEmail' + 'S'] && ctls['userEmail']?.errors?.pattern
-
-  //  //if (key == 'userFailedLoginCount' + 'Required') return ctls['userFailedLoginCount']?.errors?.required && this.KVpair['userFailedLoginCount' + 'S']
-  //  //if (key == 'userFailedLoginCount' + 'Pattern') return !ctls['userFailedLoginCount']?.errors?.required && this.KVpair['userFailedLoginCount' + 'S']
-  //  //  && ctls['userFailedLoginCount']?.errors?.pattern
-
-  //}
   getModelError(key: string, index: number) {
     let ctls = this.leaveTypesCollection.controls[index] as FormGroup;
     if (key == 'limit' + 'Pattern') return ctls.controls['limit']?.errors?.pattern && this.limitS[index];

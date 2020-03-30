@@ -21,7 +21,6 @@ export class JsonToCsvService {
 
   ConvertToCSV(objArray, headerList: string[]) {
     let array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-    console.log(array);
     let str = '';
     let row = ''; for (let index in headerList) {
       row += '\"' + headerList[index] + '\"' + ','
