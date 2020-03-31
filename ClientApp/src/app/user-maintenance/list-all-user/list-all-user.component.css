@@ -29,6 +29,8 @@ th[sortable] {
 
 .search-bar {
   border-bottom: solid 0.5px springgreen;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .filter-button {

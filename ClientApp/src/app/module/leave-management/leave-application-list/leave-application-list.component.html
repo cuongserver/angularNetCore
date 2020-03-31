@@ -79,6 +79,14 @@
         </option>
       </select>
     </div>
+
+    <div class="quick-navigate flex-m fs-07-rem m-l-5 m-t-3 m-b-3">
+      <div class="font-b">{{'commonCaptions.goToPage' | translate}}</div>: &nbsp;
+      <input class="form-control fs-08-rem p-l-2 p-r-2" [(ngModel)]="navigateToPage" />&nbsp;
+      <div class="font-b fs-08-rem">/ {{pageCount}}</div>&nbsp;
+      <div class="btn btn-success p-l-10 p-r-10 p-t-0 p-b-0 fs-07-rem" (click)="navigate(navigateToPage)"><i class="fas fa-arrow-right"></i></div>
+    </div>
+
   </div>
   <div class="data-display-section">
 
