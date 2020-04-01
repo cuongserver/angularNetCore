@@ -27,10 +27,12 @@ namespace AngularNETcore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+            services.AddMvc();
             services.AddControllersWithViews();
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("SecuritySettings").GetSection("Secret").Value);
-
             services.AddSingleton<IJwtService, JwtService>();
+            services.AddScoped<IViewRenderService, ViewRenderService>();
+            services.AddScoped<IEmailSender, EmailSender>();            
             services.ConfigureJwtValidationProcess(Configuration);
             services.AddSession();
             services.AddControllers().AddNewtonsoftJson();

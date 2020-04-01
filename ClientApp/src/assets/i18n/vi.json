@@ -12,7 +12,8 @@
     "userNameBlankValidation": "Tài khoản không được để trống",
     "userPassBlankValidation": "Mật khẩu không được để trống",
     "userNameRegexValidation": "Tên tài khoản chỉ bao gồm số và chữ số, độ dài từ {{minlength}} đến {{maxlength}} kí tự",
-    "userPassRegexValidation": "Mật khẩu chỉ bao gồm số và chữ số, độ dài tối đa {{maxlength}} kí tự"
+    "userPassRegexValidation": "Mật khẩu chỉ bao gồm số và chữ số, độ dài tối đa {{maxlength}} kí tự",
+    "restorePassword": "Khôi phục mật khẩu"
   },
 
   "dashboard": {
@@ -128,7 +129,8 @@
     "trueFalse": {
       "commontrue": "Có",
       "commonfalse": "Không"
-    }
+    },
+    "goBack": "Quay ra"
 
   },
   "responseErrors": {
@@ -233,5 +235,9 @@
     "000directLeaveDeduction": "Thành công, số hiệu theo dõi là {{trackingRef}}",
     "001directLeaveDeduction": "Không tìm được tài khoản",
     "002directLeaveDeduction": "Không đủ phép tồn"
+  },
+  "restorePassword": {
+    "000restorePassword": "Mật khẩu mới đã được gửi tới {{email}}",
+    "002restorePassword": "Tài khoản này không tồn tại"
   }
 }

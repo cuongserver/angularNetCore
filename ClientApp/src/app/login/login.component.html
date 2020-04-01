@@ -2,7 +2,7 @@
   <div class="login-container p-b-30 p-t-30 p-l-15 p-r-15">
     <div class="login-backdrop"></div>
 
-    <div class="login-form-outer p-b-30 p-t-30">
+    <div class="login-form-outer p-b-30 p-t-30" *ngIf="!restorePasswordMode">
       <form class="login-form-inner" [formGroup] ="thisForm" (ngSubmit)="login()">
         <span class="login-form-title p-b-30">
           {{'login.pageTitle' | translate}}
@@ -47,11 +47,43 @@
         </div>
 
         <div class="login-form-link-outer p-t-25">
-          <a [routerLink]="['/dashboard']" class="login-form-link hov-pointer" >
+          <a href="#" (click)="openRestorePassword()" class="login-form-link hov-pointer" >
             {{'login.accountRecoveryLink' | translate}}
           </a>
         </div>
       </form>
+    </div>
+
+    <div class="login-form-outer p-b-30 p-t-30" *ngIf="restorePasswordMode">
+      <span class="login-form-title p-b-30">
+        {{'login.restorePassword' | translate}}
+      </span>
+      <div class="login-form-input-outer m-b-10">
+        <!--<div *ngIf="f.userName.invalid && KVpair['userNameSubmitted']" class="login-error p-l-7 p-r-7" (click)="clearAllValidationError('userName')">
+      <div *ngIf="f.userName.errors.required" class="p-t-3 p-b-3 p-r-3 p-l-3">
+        {{'login.userNameBlankValidation' | translate}}
+      </div>
+      <div *ngIf="f.userName.errors.pattern && !f.userName.errors.required" class="p-t-3 p-b-3 p-r-3 p-l-3">
+        {{'login.userNameRegexValidation' | translate: {minlength: '6', maxlength: '20'} }}
+      </div>
+    </div>-->
+        <input autocomplete="off" class="login-form-textbox" type="text" placeholder="{{'login.usernameTxtPlaceholder' | translate}}" [(ngModel)]="userNameToRestore">
+        <span class="login-form-decor01"></span>
+        <span class="login-form-decor02">
+          <i class="fas fa-user"></i>
+        </span>
+      </div>
+      <div class="login-form-btn-outer p-t-10">
+        <button class="login-form-btn" (click)="restorePassword()">
+          {{'commonCaptions.submit' | translate}}
+        </button>
+      </div>
+      <div class="login-form-link-outer p-t-25">
+        <a href="#" (click)="closeRestorePassword()" class="login-form-link hov-pointer">
+          {{'commonCaptions.goBack' | translate}}
+        </a>
+      </div>
+
     </div>
     <div class="login-form-footer login-form-link-outer">
       <span class="login-form-link">

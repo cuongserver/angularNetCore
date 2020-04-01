@@ -35,8 +35,10 @@ namespace AngularNETcore.Controllers
         private readonly long DefaultRequestPage;
         private IJwtService jwtService;
         private UserDataAccessLayer dal;
-        public UserController(IConfiguration _config, IJwtService _jwtService)
+        private IEmailSender sender;
+        public UserController(IConfiguration _config, IJwtService _jwtService, IEmailSender _sender)
         {
+            sender = _sender;
             ConnectionString = _config.GetSection("ConnectionStrings").GetSection(Connection.ConnectionName).Value;
             DefautltPageSize = Convert.ToInt64(_config.GetSection("DbPaging").GetSection("DefaultPageSize").Value);
             DefaultRequestPage = Convert.ToInt64(_config.GetSection("DbPaging").GetSection("DefaultRequestPage").Value);
@@ -224,19 +226,29 @@ namespace AngularNETcore.Controllers
             }
             return Ok(_obj);
         }
+        [HttpPost("restorepassword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RestorePassword(User model)
+        {
+            var _obj = await dal.RestorePassword(model);
+            string[] OkStatusList = { "000", "002" };
+            if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            if (_obj.status == "002") return Ok(_obj);
+            _ = sender.SendRestorePasswordEmailAsync(_obj.user);
+            _obj.user.userEmail = AngularNETcore.Common.Utility.MaskEmail(_obj.user.userEmail);
+            _obj.user.userPass = "";
+            return Ok(_obj);
+            
+        }
+
     }
 
     public static class Connection
     {
         //public static string ConnectionName = "Db2";
-        public static string ConnectionName = "Db1";
+        public static string ConnectionName = "Db3";
     }
 
-    public static class AuthourizationLevel
-    {
-        public static string Admin = "0000";
-        public static string User = "0003";
-    }
 
 }
     

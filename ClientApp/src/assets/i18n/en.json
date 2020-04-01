@@ -12,7 +12,8 @@
     "userNameBlankValidation": "Username must not be blank",
     "userPassBlankValidation": "Password must not be blank",
     "userNameRegexValidation": "Username consists letters and digits only, with length from {{minlength}} to {{maxlength}} characters",
-    "userPassRegexValidation": "Password consists letters and digits only, maximum length is {{maxlength}} characters"
+    "userPassRegexValidation": "Password consists letters and digits only, maximum length is {{maxlength}} characters",
+    "restorePassword": "Restore Password"
   },
 
   "dashboard": {
@@ -128,7 +129,8 @@
     "trueFalse": {
       "commontrue": "Yes",
       "commonfalse": "No"
-    }
+    },
+    "goBack": "Go Back"
 
 
   },
@@ -235,6 +237,10 @@
     "000directLeaveDeduction": "Successful, tracking ID is {{trackingRef}}",
     "001directLeaveDeduction": "Username not found",
     "002directLeaveDeduction": "Not enough leave balance"
+  },
+  "restorePassword": {
+    "000restorePassword": "New password has been sent to email address {{email}}",
+    "002restorePassword": "This username does not exists"
   }
 
 }

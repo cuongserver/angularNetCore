@@ -32,7 +32,20 @@
       {{'responseErrors.401expired' | translate}}
     </div>
   </div>
+  <!-- dialog phần restore mật khẩu -->
+  <div class="message" *ngIf="message =='000' + 'restorePassword'">
+    <div>
+      {{'restorePassword.' + message | translate: {email: extraInfo} }}
+    </div>
+  </div>
 
+  <div class="message" *ngIf="message =='002' + 'restorePassword'">
+    <div>
+      {{'restorePassword.' + message | translate}}
+    </div>
+  </div>
+
+  <!-- dialog phần restore mật khẩu (hết)-->
   <!-- dialog phần đổi mật khẩu -->
   <div class="message" *ngIf="message =='000changepassword' || message =='001changepassword' || message =='002changepassword'">
     <div>

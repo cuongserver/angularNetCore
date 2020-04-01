@@ -627,6 +627,66 @@ namespace AngularNETcore.DataAccessLayer
             return _obj;
         }
 
+        public async Task<UserInformation> RestorePassword(User model)
+        {
+            UserInformation _obj = new UserInformation();
+            using (SqlConnection con = SqlCon())
+            {
+                SqlCommand cmd = SqlCmd(con);
+                cmd.CommandText = "RestorePassword";
+                cmd.Parameters.AddWithValue("@userName", model.userName);
+
+                SqlParameter prm1 = new SqlParameter
+                {
+                    ParameterName = "@status",
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 50,
+                    Direction = ParameterDirection.Output
+                };
+                SqlParameter prm2 = new SqlParameter
+                {
+                    ParameterName = "@message",
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 50,
+                    Direction = ParameterDirection.Output
+                };
+                SqlParameter prm3 = new SqlParameter
+                {
+                    ParameterName = "@message2",
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 50,
+                    Direction = ParameterDirection.Output
+                };
+
+                cmd.Parameters.Add(prm1);
+                cmd.Parameters.Add(prm2);
+                cmd.Parameters.Add(prm3);
+                try
+                {
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    _obj.status = (string)prm1.Value;
+                    _obj.user = new User
+                    {
+                        userName = model.userName,
+                        userPass = (prm2.Value as string) ?? String.Empty,
+                        userEmail = (prm3.Value as string) ?? String.Empty
+                    };
+
+                }
+                catch (SqlException ex)
+                {
+                    _obj.status = ex.Number.ToString();
+                    _obj.message = ex.Message;
+                }
+                finally
+                {
+                    if (con.State == System.Data.ConnectionState.Open) con.Close();
+                    cmd.Dispose();
+                }
+            }
+            return _obj;
+        }
 
 
 

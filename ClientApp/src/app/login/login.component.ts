@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RootComponent } from '@app/app.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -24,8 +24,11 @@ import { apiLink } from '@app/_common/const/apilink'
 })
 /** login component*/
 
-export class LoginComponent extends RootComponent implements OnInit {
+export class LoginComponent extends RootComponent implements OnInit, OnDestroy {
   thisForm: FormGroup;
+  restorePasswordMode: boolean = false;
+  userNameToRestore: string = '';
+  
   public httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
@@ -55,6 +58,18 @@ export class LoginComponent extends RootComponent implements OnInit {
 
   }
 
+  ngOnDestroy(): void {
+    if (this.subscriber) this.subscriber.unsubscribe();
+    if (this.subscriber2) this.subscriber2.unsubscribe();
+  }
+
+  openRestorePassword(): void {
+    this.restorePasswordMode = true;
+  }
+
+  closeRestorePassword(): void {
+    this.restorePasswordMode = false;
+  }
   subscribeAfterLogin(): void {
     this.subscriber = this.dialogService.getMessage().subscribe(message => {
       this.subscriber2 = this.loader.loaderDeactivated.subscribe(() => {
@@ -112,5 +127,33 @@ export class LoginComponent extends RootComponent implements OnInit {
         this.subscriber.unsubscribe();
       }
     );
+  }
+
+  restorePassword() {
+    this.subscribeAfterLogin();
+    let obj = {
+      userName: this.userNameToRestore
+    }
+    let data = JSON.stringify(obj);
+    this.http.post(apiLink + '/User/RestorePassword', data, this.httpOptions).subscribe(
+      response => {
+        let result = JSON.parse(JSON.stringify(response));
+        let message1 = result['status'];
+        let extraInfo = result['user']['userEmail'];
+        if (message1 == '000') {
+          this.userNameToRestore = '';
+          this.dialogService.sendMessage('000' + 'restorePassword', extraInfo);
+        }
+
+        if (message1 == '002') {
+          this.dialogService.sendMessage('002' + 'restorePassword', '');
+        }
+
+      },
+      error => {
+        this.subscriber.unsubscribe();
+      }
+    )
+
   }
 }
