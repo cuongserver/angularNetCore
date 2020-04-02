@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mail;
-using RazorEngine;
-using RazorEngine.Templating;
 using AngularNETcore.Models;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Diagnostics;
-using RazorEngine.Configuration;
-using RazorEngine.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
@@ -72,7 +68,7 @@ namespace AngularNETcore.Common
         private async Task<string> draftRestorePasswordMail(User model)
         {
             string staticContentDirectory = environment.WebRootPath;
-            string path = "~/wwwroot/Template/Email/RestorePassword.cshtml";
+            string path = "~/Views/Template/Email/RestorePassword.cshtml";
             return await render.RenderToStringAsync(path, model);
         }
 

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -8,9 +7,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using System.Text;
 using AngularNETcore.Common;
+using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using Microsoft.AspNetCore.HttpOverrides;
-
+using Microsoft.AspNetCore.ResponseCompression;
 //using AngularNETcore.Common;
 namespace AngularNETcore
 {
@@ -28,6 +29,13 @@ namespace AngularNETcore
         {
             services.AddCors();
             services.AddMvc();
+            services.AddResponseCompression( options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] {"image/svg+xml", "font/ttf", "font/eot", "font/opentype", "application/x-font-ttf" });
+            });
             services.AddControllersWithViews();
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("SecuritySettings").GetSection("Secret").Value);
             services.AddSingleton<IJwtService, JwtService>();
@@ -54,6 +62,7 @@ namespace AngularNETcore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseResponseCompression();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

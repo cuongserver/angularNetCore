@@ -10,10 +10,11 @@
 
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
+	  <PreserveCompilationContext>true</PreserveCompilationContext>
+	  <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentEmail.Razor" Version="2.7.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.2" />
@@ -22,7 +23,6 @@
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.1" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="1.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
-    <PackageReference Include="RazorEngine.NetCore" Version="2.2.6" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,12 +42,19 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\assets\external-js-lib\" />
-    <Folder Include="Test\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Template\Email\" />
+  </ItemGroup>
+
+
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\module\system-setting\module-resource.ts" />
   </ItemGroup>
+
+
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
@@ -76,7 +83,12 @@
       </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
-
+	<Target Name="MyCopyStep" AfterTargets="AfterPublish">
+		<ItemGroup>
+			<MyDistFiles Include="Views\**" />
+		</ItemGroup>
+		<Copy SourceFiles="@(MyDistFiles)" DestinationFiles="@(MyDistFiles->'$(PublishDir)\Views\%(RecursiveDir)%(Filename)%(Extension)')"/>
+	</Target>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>React</TypeScriptJSXEmit>

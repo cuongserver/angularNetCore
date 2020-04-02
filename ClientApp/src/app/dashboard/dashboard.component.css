@@ -27,8 +27,9 @@
   padding: 0px 15px;
   background-color: black;
   color: springgreen;
-  font-family: Montserrat-Bold, sans-serif;
+  font-family: Montserrat-Regular, sans-serif;
   z-index: 100;
+  font-weight: bold;
 }
 
 .dashboard-user-fullname-display {
