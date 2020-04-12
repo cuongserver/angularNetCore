@@ -47,8 +47,8 @@ import { ChangeUserPasswordComponent } from './user-maintenance/list-all-user/ch
 import { SystemSettingModule } from '@app/module/system-setting/system-setting.module'
 import { LeaveManagementModule } from '@app/module/leave-management/leave-management.module'
 import { SortableHeaderModule } from '@app/module/shared-module/sortable-header.module'
+import { apiLink, domain } from '@app/_common/const/apilink'
 
-import {apiLink, domain} from '@app/_common/const/apilink'
 
 @NgModule({
   declarations: [

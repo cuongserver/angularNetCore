@@ -1,0 +1,151 @@
+<div class="dt-container dt-dialog" datetime-picker (hideDropDown)="hideDropdown($event)" [ngClass]="{'dt-hide': !show}">
+    
+  <div class="inner-wrapper">
+    <div class="calendar-section">
+      <div class="text-section">
+        <!--<input class="datetime-text" [(ngModel)]="timeString">-->
+        <div class="output">&nbsp;&nbsp;{{timeString}}</div>
+        <div class="fas fa-check dt-button" (click)="emitOutput()"></div>
+        <div class="fas fa-times-circle dt-button" (click)="close()"></div>
+      </div>
+      <div class="monthyear-section flex-m">
+        <div class="previous hov-pointer" (click)="prevMonth()">
+          <span class="fas fa-angle-left"></span>
+        </div>
+        <div class="month flex-m">
+          <div class="dropdown">
+            <div class="dropdown-current hov-pointer" dropdown>
+              <div class="text-wrapper flex-m" (click)="toggleDropDownMonth()" dropdown>
+                <div class="text" dropdown>
+                  {{languagePack[language]['monthName'][cMonth]}}
+                </div>
+                <div class="fas fa-sort" dropdown>
+
+                </div>
+              </div>
+            </div>
+            <div class="dropdown-container" *ngIf="dropdownOpenMonth">
+              <div class="option hov-pointer" *ngFor="let item of languagePack[language]['monthName']; index as i" (click)="setMonth(i)">
+                <span>{{item}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="year flex-m">
+          <div class="dropdown">
+            <div class="dropdown-current hov-pointer" dropdown>
+              <div class="text-wrapper flex-m" (click)="toggleDropDownYear()" dropdown>
+                <div class="text" dropdown>
+                  {{cYear}}
+                </div>
+                <div class="fas fa-sort" dropdown>
+
+                </div>
+              </div>
+            </div>
+            <div class="dropdown-container thin-scrollbar" *ngIf="dropdownOpenYear" dropdown>
+              <div class="option hov-pointer" *ngFor="let item of yearSpan" (click)="setYear(item + cYear)">
+                <span>{{item + cYear}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="next hov-pointer" (click)="nextMonth()">
+          <span class="fas fa-angle-right"></span>
+        </div>
+      </div>
+      <div class="calendar-grid">
+        <div class="calendar" [ngClass]="{'time-picker-hidden': !timePickerExcluded}">
+          <table>
+            <thead>
+              <tr>
+                <th *ngFor="let item of languagePack[language]['weekDay']">{{item}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="hov-pointer" *ngFor="let index of gridPosition[0]"
+                    [ngClass]="{'not-current-month': dayArray[index].month != cMonth,
+                          'chosen-day': dayArray[index].month == cMonth &&
+                          dayArray[index].day == cDay && dayArray[index].year == cYear}" (click)="setCalendarDate(index)">
+                  {{dayArray[index].day}}
+                </td>
+              </tr>
+              <tr>
+                <td class="hov-pointer" *ngFor="let index of gridPosition[1]"
+                    [ngClass]="{'not-current-month': dayArray[index].month != cMonth,
+                          'chosen-day': dayArray[index].month == cMonth &&
+                          dayArray[index].day == cDay && dayArray[index].year == cYear}" (click)="setCalendarDate(index)">
+                  {{dayArray[index].day}}
+                </td>
+              </tr>
+              <tr>
+                <td class="hov-pointer" *ngFor="let index of gridPosition[2]"
+                    [ngClass]="{'not-current-month': dayArray[index].month != cMonth,
+                          'chosen-day': dayArray[index].month == cMonth &&
+                          dayArray[index].day == cDay && dayArray[index].year == cYear}" (click)="setCalendarDate(index)">
+                  {{dayArray[index].day}}
+                </td>
+              </tr>
+              <tr>
+                <td class="hov-pointer" *ngFor="let index of gridPosition[3]"
+                    [ngClass]="{'not-current-month': dayArray[index].month != cMonth,
+                          'chosen-day': dayArray[index].month == cMonth &&
+                          dayArray[index].day == cDay && dayArray[index].year == cYear}" (click)="setCalendarDate(index)">
+                  {{dayArray[index].day}}
+                </td>
+              </tr>
+              <tr>
+                <td class="hov-pointer" *ngFor="let index of gridPosition[4]"
+                    [ngClass]="{'not-current-month': dayArray[index].month != cMonth,
+                          'chosen-day': dayArray[index].month == cMonth &&
+                          dayArray[index].day == cDay && dayArray[index].year == cYear}" (click)="setCalendarDate(index)">
+                  {{dayArray[index].day}}
+                </td>
+              </tr>
+              <tr>
+                <td class="hov-pointer" *ngFor="let index of gridPosition[5]"
+                    [ngClass]="{'not-current-month': dayArray[index].month != cMonth,
+                          'chosen-day': dayArray[index].month == cMonth &&
+                          dayArray[index].day == cDay && dayArray[index].year == cYear}" (click)="setCalendarDate(index)">
+                  {{dayArray[index].day}}
+                </td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+        <div class="timepicker" [ngClass]="{'time-picker-show': timePickerExcluded}">
+          <div class="timepicker-container">
+            <div class="timepicker-outer">
+              <div class="hour">
+                <div class="caption">{{languagePack[language]['hour']}}</div>
+                <div class="fas fa-angle-up hov-pointer increase" (click)="asjustHour(1)"></div>
+                <input [(ngModel)]="cHour" (keypress)="checkKey('cHour')" (keyup)="validate('cHour')"
+                       (paste)="validatePaste('cHour')" (focusout)="cHourChange()" />
+                <div class="fas fa-angle-down hov-pointer decrease" (click)="asjustHour(-1)"></div>
+              </div>
+              <div class="minute">
+                <div class="caption">{{languagePack[language]['minute']}}</div>
+                <div class="fas fa-angle-up hov-pointer increase" (click)="asjustMin(10)"></div>
+                <input [(ngModel)]="cMinute" (keypress)="checkKey('cMinute')" (keyup)="validate('cMinute')"
+                       (paste)="validatePaste('cMinute')" (focusout)="cMinuteChange()" />
+                <div class="fas fa-angle-down hov-pointer decrease" (click)="asjustMin(-10)"></div>
+              </div>
+            </div>
+            <div class="preset-zone">
+              <div class="caption">{{languagePack[language]['timePreset']}}</div>
+              <div class="timepicker-preset thin-scrollbar">
+                <div class="option2 hov-pointer" *ngFor="let item of timePreset" (click)="setTime(item)">
+                  {{item}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div> 
+</div>

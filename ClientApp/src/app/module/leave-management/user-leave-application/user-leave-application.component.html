@@ -147,8 +147,13 @@
       <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('fromTime' + 'Pattern')">
         {{'validationErrors.invalidTimeFormat' | translate}}
       </div>
-      <input datetimepicker="lower" class="textbox sizefull bo-r-5" autocomplete="off" [(ngModel)]="app.fromTime">
-      <span class="fas fa-calendar-alt icon"></span>
+      <div class="dt-wrapper">
+        <input class="textbox sizefull bo-r-5" autocomplete="off" [(ngModel)]="app.fromTime">
+        <app-datetimepicker #dt1 [language]="pageLang" [timePickerExcluded]="false"
+                            [initialTime]="app.fromTime"
+                            [show]="datetimePickerOpen1"></app-datetimepicker>
+      </div>
+      <span class="fas fa-calendar-alt icon" (click)="showDatePicker1()"></span>
     </div>
   </div>
 
@@ -163,14 +168,18 @@
       <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('toTime' + 'Pattern')">
         {{'validationErrors.invalidTimeFormat' | translate}}
       </div>
-      <input datetimepicker="upper" class="textbox sizefull bo-r-5" autocomplete="off" [(ngModel)]="app.toTime">
-      <span class="fas fa-calendar-alt icon"></span>
+      <div class="dt-wrapper">
+        <input class="textbox sizefull bo-r-5" autocomplete="off" [(ngModel)]="app.toTime">
+        <app-datetimepicker #dt2 [language]="pageLang" [timePickerExcluded]="false"
+                            [initialTime]="app.toTime"
+                            [show]="datetimePickerOpen2"></app-datetimepicker>
+      </div>
+      <span class="fas fa-calendar-alt icon" (click)="showDatePicker2()"></span>
     </div>
   </div>
-
-  <div class="textbox-section m-t-5 m-b-5" *ngIf="app.timeConsumed && app.timeConsumed > 0">
+  <div class="textbox-section m-t-5 m-b-5" *ngIf="timeConsumed && timeConsumed > 0">
     <div class="field-caption">
-      <span>{{'commonCaptions.timeConsumed' | translate : {timeConsumed: app.timeConsumed} }}</span>
+      <span>{{'commonCaptions.timeConsumed' | translate : {timeConsumed: timeConsumed} }}</span>
     </div>
   </div>
 

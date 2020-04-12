@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import {TranslationModule} from '@app/module/shared-module/translation.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DatetimepickerModule } from '@app/module/shared-module/datetime-picker-module/datetimepicker-module.module'
 import { DialogService } from '@app/_common/dialog/dialog.component';
 
 @NgModule({
@@ -25,7 +26,8 @@ import { DialogService } from '@app/_common/dialog/dialog.component';
     BrowserAnimationsModule,
     HttpClientModule,
     TranslationModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule, ReactiveFormsModule,
+    DatetimepickerModule
   ],
   providers: [
     PreventBackToLoginPageAfterLogin,

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import * as res from '@app/module/system-setting/module-resource';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -7,7 +7,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { DialogService, DialogController, MessageBoxButton, MessageBoxStyle } from '@app/_common/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderService } from '@app/_common/loader/loader.service';
-declare var $: any
+import { DatetimepickerComponent } from '@app/module/shared-module/datetime-picker-module/datetimepicker/datetimepicker.component';
+
+//declare var $: any
 
 import { apiLink, domain } from '@app/_common/const/apilink'
 @Component({
@@ -22,6 +24,8 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
   public dataLoading = new Subject<any>();
   public subscription1: Subscription; public subscription2: Subscription;
   public subscription3: Subscription; public subscription4: Subscription;
+
+  public sub: Array<Subscription> = new Array<Subscription>();
   public submitSuccess: boolean = false;
   public thisForm: FormGroup;
   public userName: string;
@@ -50,17 +54,20 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
     approverUserFullName: ''
   }
 
-
+  regex: RegExp = new RegExp("^((\\d\\d\\d\\d)\\-([0]{0,1}[1-9]|1[012])\\-([1-9]|([012][0-9])|(3[01])))\\s(([0-1]?[0-9]|2?[0-3]):([0-5]\\d))$");
+  
   public KVpair: { [key: string]: any } = {
     leaveCodeV: [Validators.required],
-    fromTimeV: [Validators.required, Validators.pattern("^((\\d\\d\\d\\d)\\-([0]{0,1}[1-9]|1[012])\\-([1-9]|([012][0-9])|(3[01])))\\s(([0-1]?[0-9]|2?[0-3]):([0-5]\\d))$")],
-    toTimeV: [Validators.required, Validators.pattern("^((\\d\\d\\d\\d)\\-([0]{0,1}[1-9]|1[012])\\-([1-9]|([012][0-9])|(3[01])))\\s(([0-1]?[0-9]|2?[0-3]):([0-5]\\d))$")],
+    fromTimeV: [Validators.required, Validators.pattern(this.regex)],
+    toTimeV: [Validators.required, Validators.pattern(this.regex)],
 
     leaveCodeS: false,
     fromTimeS: false,
     toTimeS: false
   };
 
+  datetimePickerOpen1: boolean = false;
+  datetimePickerOpen2: boolean = false;
 
   constructor(public http: HttpClient, public formBuilder: FormBuilder, public jwtService: JwtHelperService,
     public dialogService: DialogService, public dialog: MatDialog, public loader: LoaderService) {
@@ -82,8 +89,7 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
         this.leaveCodes = result['leaveCodes'];
         this.holidays = result['holidays'] as Holiday[];
         this.sysParams = result['sysParams'];
-        this.initDatetimePicker();
-        
+        this.initLeaveTimeCalculator();        
       },
       error => {
 
@@ -92,7 +98,12 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
 
   }
 
-  public initLeaveTimeCalculator(): void {
+  @ViewChild('dt1') dt1: DatetimepickerComponent;
+  @ViewChild('dt2') dt2: DatetimepickerComponent;
+
+
+
+  public initLeaveTimeCalculator(): void {    
     checkInTime = this.sysParams.find(x => x.paramKey == 'StartTime').paramValue;
     checkOutTime = this.sysParams.find(x => x.paramKey == 'EndTime').paramValue
     breakStartTime = this.sysParams.find(x => x.paramKey == 'BreakStart').paramValue
@@ -104,56 +115,48 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
     let myArray2: string[] = [];
     this.holidays.forEach(x => myArray2.push(x.holidayDate));
     publicDayOff = myArray2;
-
-    $('input[datetimepicker="lower"], input[datetimepicker="upper"]').on("change", () => {
-      var startTime = $('input[datetimepicker="lower"]').eq(0).val();
-      var endTime = $('input[datetimepicker="upper"]').eq(0).val();
-      if (startTime == null || startTime == undefined || startTime == '') {
-        this.app.timeConsumed = 0;
-        //$('#hourRequired-container').addClass('disp-none');
-        return;
-      };
-      if (endTime == null || endTime == undefined || endTime == '') {
-        this.app.timeConsumed = 0;
-        //$('#hourRequired-container').addClass('disp-none');
-        return;
-      };
-      if (startTime != currentStartTime || endTime != currentEndTime) {
-        currentStartTime = startTime;
-        currentEndTime = endTime;
-        var leaveDura = Math.ceil(leaveInMin(startTime, endTime) / 60);
-        this.app.timeConsumed = leaveDura;
-        //if (leaveDura == 0) $('#hourRequired-container').addClass('disp-none');
-        //if (leaveDura != 0) $('#hourRequired-container').removeClass('disp-none');
-      };
-    });
   }
+
+  get timeConsumed() {
+    var startTime = this.app.fromTime;
+    var endTime = this.app.toTime;
+    if (!this.testRegex()) {
+      this.app.timeConsumed = 0;
+      return this.app.timeConsumed;
+    };
+    if (startTime != currentStartTime || endTime != currentEndTime) {
+      currentStartTime = startTime;
+      currentEndTime = endTime;
+      var leaveDura = Math.ceil(leaveInMin(startTime, endTime) / 60);
+      this.app.timeConsumed = leaveDura;
+    }
+    return this.app.timeConsumed
+  }
+
+  testRegex(): boolean {
+    const regex = this.regex
+    return regex.test(this.app.fromTime) && this.regex.test(this.app.toTime);
+  }
+
   ngAfterViewInit() {
-    
+    this.sub.push(this.dt1.timeValue.subscribe(timeValue => {
+      this.app.fromTime = timeValue
+    }));
+    this.sub.push(this.dt1.closeDateTimePicker.subscribe(closeSignal => {
+      this.datetimePickerOpen1 = closeSignal;
+    }));
+    this.sub.push(this.dt2.timeValue.subscribe(timeValue => {
+      this.app.toTime = timeValue
+    }));
+    this.sub.push(this.dt2.closeDateTimePicker.subscribe(closeSignal => {
+      this.datetimePickerOpen2 = closeSignal;
+    }));
   }
-  public initDatetimePicker(): void {
 
-    $('input[datetimepicker]').datetimepicker({
-      theme: 'dark',
-      timepicker: true,
-      format: 'Y-m-d H:i',
-      mask: true,
-      todayButton: false,
-      allowTimes: ['08:30', '09:30', '10:30', '11:30', '12:30', '13:30', '14:30', '15:30', '16:30', '17:30'],
-      onShow: (ct, $i) => {
-        let langOptions: string[] = (['vi', 'en']);
-        let cachedLang = localStorage.getItem('pageLanguage');
-        let x: string = langOptions.includes(cachedLang) && cachedLang !== null ? cachedLang : 'vi';
-        $.datetimepicker.setLocale(x);
-      }
-    });
-    this.initLeaveTimeCalculator();
-  }
   ngOnDestroy() {
-    $('input[datetimepicker]').datetimepicker('destroy')
-    $('input[datetimepicker="lower"], input[datetimepicker="upper"]').unbind();
     if (this.subscription1) this.subscription1.unsubscribe();
-    if (this.subscription2) this.subscription1.unsubscribe();
+    if (this.subscription2) this.subscription2.unsubscribe();
+    this.sub.forEach(x => x.unsubscribe());
   }
 
   public resetValidity(fieldName: string): void {
@@ -211,8 +214,8 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
     return this.thisForm.controls
   }
   public syncData(): void {
-    this.app.fromTime = $('input[datetimepicker="lower"]').eq(0).val();
-    this.app.toTime = $('input[datetimepicker="upper"]').eq(0).val();
+    //this.app.fromTime = $('input[datetimepicker="lower"]').eq(0).val();
+    //this.app.toTime = $('input[datetimepicker="upper"]').eq(0).val();
     this.ctls['leaveCode'].setValue(this.app.leaveCode);
     this.ctls['fromTime'].setValue(this.app.fromTime);
     this.ctls['toTime'].setValue(this.app.toTime);
@@ -246,6 +249,20 @@ export class UserLeaveApplicationComponent implements OnDestroy, AfterViewInit {
       error => {
       }
     )
+  }
+
+  get pageLang() {
+    return localStorage.getItem('pageLanguage')
+  }
+
+  showDatePicker1(): void {
+    this.datetimePickerOpen1 = !this.datetimePickerOpen1;
+    if (this.datetimePickerOpen2) this.datetimePickerOpen2 = false;
+  }
+
+  showDatePicker2(): void {
+    this.datetimePickerOpen2 = !this.datetimePickerOpen2;
+    if (this.datetimePickerOpen1) this.datetimePickerOpen1 = false;
   }
 
 }

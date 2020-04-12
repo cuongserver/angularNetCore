@@ -1,0 +1,323 @@
+
+input{
+    box-sizing: border-box;
+}
+.dt-container{
+    position: absolute;
+    z-index: 8;
+
+}
+
+
+/*.dt-container.dt-dialog{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index:2000;
+}*/
+
+@media (max-height: 700px) {
+  .dt-container.dt-dialog {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    margin: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    overflow: auto;
+    overscroll-behavior: contain;
+    -ms-scroll-chaining: none;
+    min-height: 320px;
+  }
+
+  .inner-wrapper {
+    height: 100%;    
+    display: flex;
+    width: 100vw;
+    min-width: 320px;
+    align-items: center;
+    justify-content: center;
+    overflow-y: scroll;
+  }
+}
+
+@media (max-height: 300px) {
+
+  .inner-wrapper {
+    height: 100%;
+    min-height: calc( 850px - 2*(100vh - 50px));
+    display: flex;
+    width: 100vw;
+    min-width: 320px;
+    align-items: center;
+    justify-content: center;
+    overflow-y: scroll;
+  }
+}
+
+.dt-container.dt-hide{
+    display: none;
+}
+.dt-container.dt-dialog .calendar-section{
+    box-shadow: 0px 0px 8px;
+}
+
+.dt-container table {
+  table-layout: fixed;
+  text-align: center;
+  font-size: 0.8rem;
+  background: rgba(0,0,0,0.9);
+  width: 100%;
+}
+
+.calendar-section {
+  max-width: 300px;
+}
+.not-current-month{
+    opacity: 0.7;
+    color: darkgreen
+}
+.dt-container table{
+    border-collapse:initial;
+}
+.dt-container table td, .dt-container table th {
+  padding: 0px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+}
+
+.dt-container table td:not(.chosen-day):hover{
+    background: #b90d4d;
+    color: black;
+}
+
+.dt-container table thead{
+    color: #db3300
+}
+
+.dt-container table tr{
+    height: 30px;
+}
+
+.dt-container table tbody{
+    color: springgreen
+}
+
+.dt-container table td.chosen-day{
+    border: 1px solid #b90d4d;
+    color: #b90d4d;
+    border-radius: 6px;
+}
+
+.monthyear-section{
+    height: 40px;
+    background: rgba(0,0,0,0.9);
+    border-bottom: 0.2px solid saddlebrown;
+}
+
+.month, .year{
+    width: 35%;
+    color: #b90d4d;
+}
+
+.dropdown{
+    position: relative;
+    width: auto;
+}
+
+.previous, .next{
+    color: springgreen;
+    font-size: 2rem;
+    width: 10%;
+    text-align: center;
+}
+
+.previous:hover, .next:hover, .increase:hover, .decrease:hover{
+    color: #b90d4d;
+}
+
+.flex-m{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown-current{
+    position: relative;
+    border: 1px solid #b90d4d;
+    border-radius: 5px;
+}
+
+.dropdown-current:hover {
+}
+
+.dropdown-container{
+    color: #db3300;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+    background: #242424;
+    text-align: center;
+    padding-bottom: 5px;
+    box-shadow: 0px 0px 5px springgreen;
+    border-radius: 5px;
+}
+.month .text{
+    width: 90px;
+    text-align: center;
+}
+
+.option:hover{
+    background: black;
+    font-size: 1.1rem;
+}
+.year .text{
+    width: 70px;
+    text-align: center;
+}
+.year .dropdown-container{
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+
+.calendar-grid {
+  display: table;
+  width: 100%;
+}
+
+.calendar-grid .calendar {
+  
+}
+
+.calendar-grid .timepicker{
+    display: table-cell;
+    width: 25%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    text-align:center;
+    border-left: 0.2px solid saddlebrown;
+    padding: 0px 10px;
+    color: springgreen;
+}
+
+.timepicker input {
+  box-sizing: border-box;
+  width: 30px;
+  border: 1px solid #b90d4d;
+  border-radius: 5px;
+  text-align: center;
+  background: black;
+  color: springgreen;
+  font-size: 0.7rem;
+}
+
+.hov-pointer:hover{
+  cursor: pointer;
+}
+
+.timepicker-outer{
+    display: flex;
+}
+
+.caption {
+  color: #db3300;
+  font-size: 0.7rem;
+}
+
+.hour{
+    margin-right: 5px
+}
+
+.timepicker-preset {
+  height: 98px;
+  overflow-y: auto;
+  margin: 3px 3px 0px 3px;
+  border-radius: 5px;
+  color: #db3300;
+  font-size: 0.7rem;
+  background: #242424;
+  text-align: left;
+  padding: 3px;
+  box-shadow: 0px 0px 5px springgreen;
+}
+
+.timepicker-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+  top: -10px;
+  
+  color: springgreen;
+}
+.preset-zone{
+    margin-top: 13px;
+}
+
+.option2:hover {
+  background: black;
+  font-size: 0.8rem;
+}
+
+.thin-scrollbar {
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 10px;
+}
+.time-picker-show{
+    display: none !important;
+}
+
+.time-picker-hidden{
+    width: 100% !important
+}
+
+.text-section {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  background: rgba(0,0,0,0.9);
+  border-bottom: 0.2px solid saddlebrown;
+  color: #db3300
+}
+.dt-button {
+  margin: 0px 3px;
+  padding: 0px 10px;
+  border: 1px solid #db3300;
+  border-radius: 5px;
+}
+
+  .dt-button:hover {
+    text-shadow: 0px 0px 5px springgreen;
+    border-color: springgreen;
+  }
+.output{
+    margin-right: auto;
+}

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Diagnostics;
 using AngularNETcore.Common;
-
+using Newtonsoft.Json;
 namespace AngularNETcore.DataAccessLayer
 {
     public class LeaveManagementDataAccessLayer : DataAccessLayerBase
@@ -483,7 +483,6 @@ namespace AngularNETcore.DataAccessLayer
                 {
                     con.Open();
                     da.Fill(dt);
-                    
                     foreach(DataRow dr in dt.Rows)
                     {
                         LeaveType leave = new LeaveType();
@@ -511,7 +510,6 @@ namespace AngularNETcore.DataAccessLayer
                     cmd.Dispose();
                 }
             }
-
             return _obj;
         }
 

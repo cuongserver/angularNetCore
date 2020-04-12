@@ -94,3 +94,8 @@ b {
 .criteria-unmatched{
     display: none;
 }
+
+.dt-wrapper {
+  width: 100%;
+  height: inherit;
+}

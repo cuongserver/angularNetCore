@@ -55,8 +55,6 @@ export class DashboardComponent extends RootComponent {
     });
   }
 
-
-
   public hideLanguageSwitcher(event: EventEmitter<any>) {
     this.languageDropdownShowed = false;
   }

@@ -18,7 +18,7 @@ using System.Text;
 using AngularNETcore.Common;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.Reflection;
+using Newtonsoft.Json;
 using System.IO;
 using System.Threading;
 
@@ -160,6 +160,7 @@ namespace AngularNETcore.Controllers
             var _obj = await dal.ShowLeaveBalance(model);
             string[] OkStatusList = { "000" };
             if (!OkStatusList.Contains(_obj.status)) return BadRequest(_obj);
+            //Debug.WriteLine(JsonConvert.SerializeObject(_obj.leaveTypes));
             return Ok(_obj);
         }
 

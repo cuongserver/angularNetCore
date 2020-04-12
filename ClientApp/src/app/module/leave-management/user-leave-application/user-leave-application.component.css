@@ -53,3 +53,8 @@ b {
     resize: none;
     height: 100px;
 }
+
+.dt-wrapper {
+  width: 100%;
+  height: inherit;
+}

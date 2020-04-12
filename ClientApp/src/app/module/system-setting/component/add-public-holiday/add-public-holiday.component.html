@@ -12,10 +12,17 @@
         <div class="error-message bo-r-5 p-l-5 p-r-5" *ngIf="getModelError('holidayDate' + 'Pattern')">
           {{'validationErrors.invalidDateFormat' | translate}}
         </div>
-        <input datetimepicker class="textbox sizefull bo-r-5" autocomplete="off" formControlName="holidayDate">
-        <span class="fas fa-calendar-alt icon"></span>
+        <div class="dt-wrapper">
+          <input datetimepicker class="textbox sizefull bo-r-5" autocomplete="off" formControlName="holidayDate">
+          <app-datetimepicker #dt1 [language]="pageLang" [timePickerExcluded]="true"
+                              [initialTime]="thisForm.controls['holidayDate'].value"
+                              [show]="datetimePickerOpen"></app-datetimepicker>
+        </div>
+        <span class="fas fa-calendar-alt icon" (click)="showDatePicker()"></span>
       </div>
     </div>
+
+
     <div class="textbox-section m-t-5 m-b-5">
       <div class="field-caption">
         <span>{{'commonCaptions.descriptionCommon' | translate}}</span>

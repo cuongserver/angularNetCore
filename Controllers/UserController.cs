@@ -245,8 +245,8 @@ namespace AngularNETcore.Controllers
 
     public static class Connection
     {
-        //public static string ConnectionName = "Db2";
-        public static string ConnectionName = "Db3";
+        public static string ConnectionName = "Db2";
+        //public static string ConnectionName = "Db3";
     }
 
 

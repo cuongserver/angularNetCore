@@ -26,12 +26,9 @@
             "styles": [
               "src/custom-theme.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/initial-loader.css",
-              "src/assets/external-js-lib/jquery-datetime-picker/jquery.datetimepicker.min.css"
+              "src/initial-loader.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "src/assets/external-js-lib/jquery-datetime-picker/jquery.datetimepicker.full.min.js",
               "src/assets/external-js-lib/datetime-calculation/dateTimeCalc.js"
             ]
           },
