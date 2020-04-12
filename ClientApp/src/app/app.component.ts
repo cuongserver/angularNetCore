@@ -31,6 +31,7 @@ export class RootComponent {
   constructor(public translate: TranslateService) {
     this._defaultLanguage = this.getCachedLanguage();
     translate.setDefaultLang(this._defaultLanguage);
+    localStorage.setItem("pageLanguage", this._defaultLanguage);
   }
 
   switchToLanguage(language: string) {

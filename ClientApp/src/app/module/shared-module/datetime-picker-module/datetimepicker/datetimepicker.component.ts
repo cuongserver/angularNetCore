@@ -25,8 +25,8 @@ export class HideDropDownWhenClickOtherDirective {
   styleUrls: ['./datetimepicker.component.css', './font-awesome-5.2.1-base64.css']
 })
 export class DatetimepickerComponent implements OnInit, OnChanges {
-  @Input() language: string;
-  languagePack: {[key: string]: any} = {
+  @Input() public language: string;
+  public languagePack: {[key: string]: any} = {
     vi: {
       weekDay: ['Th2', 'Th3', 'Th4', 'Th5', 'Th6', 'Th7', 'ChN'],
       monthName: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
@@ -45,14 +45,14 @@ export class DatetimepickerComponent implements OnInit, OnChanges {
     }
   };
 
-  @Input() show: boolean;
-  @Input() timePickerExcluded: boolean;
-  @Input() initialTime: string;
-  @Output() timeValue: EventEmitter<string> = new EventEmitter<string>();
-  @Output() closeDateTimePicker: EventEmitter<boolean> = new EventEmitter<boolean>();
-  timePreset = ['08:30', '09:30', '10:30', '11:30', '12:30', '13:30', '14:30', '15:30', '16:30', '17:30'];
-  dayArray: Array<iDate> = new Array<iDate>();
-  gridPosition: Array<any> = [
+  @Input() public show: boolean;
+  @Input() public timePickerExcluded: boolean;
+  @Input() public initialTime: string;
+  @Output() public timeValue: EventEmitter<string> = new EventEmitter<string>();
+  @Output() public closeDateTimePicker: EventEmitter<boolean> = new EventEmitter<boolean>();
+  public timePreset = ['08:30', '09:30', '10:30', '11:30', '12:30', '13:30', '14:30', '15:30', '16:30', '17:30'];
+  public dayArray: Array<iDate> = new Array<iDate>();
+  public gridPosition: Array<any> = [
     [0,1,2,3,4,5,6],
     [7,8,9,10,11,12,13],
     [14,15,16,17,18,19,20],
@@ -60,10 +60,10 @@ export class DatetimepickerComponent implements OnInit, OnChanges {
     [28,29,30,31,32,33,34],
     [35,36,37,38,39,40,41]
   ]
-  yearSpan: Array<number> = new Array<number>();
-  dropdownOpenYear: boolean = false;
-  dropdownOpenMonth: boolean = false;
-  timeString: string;
+  public yearSpan: Array<number> = new Array<number>();
+  public dropdownOpenYear: boolean = false;
+  public dropdownOpenMonth: boolean = false;
+  public timeString: string;
   // c: current
   cDay: number;
   cMonth: number;
@@ -80,7 +80,9 @@ export class DatetimepickerComponent implements OnInit, OnChanges {
     for (let i = -10; i < 11; i += 1) {
       this.yearSpan.push(i);
     }
-    
+    if (['vi', 'en'].indexOf(this.language) < 0) {
+      this.language = 'vi'
+    }
     this.cDay = (new Date()).getDate();
     this.cMonth = (new Date()).getMonth();
     this.cYear = (new Date()).getFullYear();

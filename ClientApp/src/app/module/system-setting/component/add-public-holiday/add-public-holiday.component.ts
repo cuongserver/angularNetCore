@@ -12,10 +12,6 @@ import {DatetimepickerComponent} from '@app/module/shared-module/datetime-picker
 import { apiLink, domain } from '@app/_common/const/apilink'
 
 
-//để sử dụng được jquery + plugin, khai báo như bên dưới
-//declare var $: any
-
-
 
 @Component({
   selector: 'app-add-public-holiday',
@@ -52,28 +48,13 @@ export class AddPublicHolidayComponent implements OnDestroy, AfterViewInit{
       description: ['']
     });
   }
-  @ViewChild('dt1', { read: false, static: true }) dt1: DatetimepickerComponent;
+
+  @ViewChild('dt1') dt1: DatetimepickerComponent;
 
   ngAfterViewInit() {
-    //$('input[datetimepicker]').datetimepicker({
-    //  theme: 'dark',
-    //  timepicker: false,
-    //  format: 'Y-m-d',
-    //  mask: true,
-    //  todayButton: false,
-    //  defaultTime: "00:00",
-    //  onShow: (ct, $i) => {
-    //    let langOptions: string[] = (['vi', 'en']);
-    //    let cachedLang = localStorage.getItem('pageLanguage');
-    //    let x: string = langOptions.includes(cachedLang) && cachedLang !== null ? cachedLang : 'vi';
-    //    $.datetimepicker.setLocale(x);
-    //  }
-    //});
-
     this.subscription3 = this.dt1.timeValue.subscribe(timeValue => {
       let ctls = this.thisForm.controls;
-      ctls['holidayDate'].setValue(timeValue);
-      
+      ctls['holidayDate'].setValue(timeValue);      
     })
     this.subscription4 = this.dt1.closeDateTimePicker.subscribe(closeSignal => {
       this.datetimePickerOpen = closeSignal;
